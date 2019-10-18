@@ -1,0 +1,27 @@
+<app-tag [tagName]="'javascript'"></app-tag>
+
+<h2>List posts</h2>
+
+<br>
+<a
+  mat-raised-button
+  [routerLink]="'/create'"
+  color="accent">Create post </a>
+<br>
+<br>
+
+<div *ngFor="let post of posts" class="post-box mb-15">
+  <h3 class="post-title">{{ post.title }}</h3>
+  <p>
+    {{ post.content }}
+  </p>
+  <a
+    mat-raised-button
+    [routerLink]="'/edit/' + post._id"
+    color="accent">Edit </a> &nbsp;
+  <a
+    mat-raised-button
+    (click)="deletePost(post._id)"
+    color="accent">Delete </a>
+</div>
+

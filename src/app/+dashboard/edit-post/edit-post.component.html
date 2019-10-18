@@ -1,0 +1,35 @@
+<h2>Edit post</h2>
+
+<form novalidate [formGroup]="editPostForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      name="title"
+      formControlName="title"
+      ngModel
+      required
+      minlength="3"
+      placeholder="title">
+    <mat-error>Please enter title</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+          <textarea
+            matInput
+            cols="30" rows="10"
+            name="content"
+            formControlName="content"
+            required
+            placeholder="content"></textarea>
+    <mat-error>Please enter Content</mat-error>
+  </mat-form-field>
+  <input
+    type="hidden"
+    name="id"
+    formControlName="id"
+  >
+  <button
+    mat-raised-button
+    color="accent"
+    type="submit">Save PostModel </button>
+</form>

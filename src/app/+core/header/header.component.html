@@ -1,0 +1,22 @@
+<header>
+  <mat-toolbar color="primary" class="space-between">
+    <div class="logo">ErrorBank.cc</div>
+    <div>
+      <mat-form-field class="main-search" floatLabel="never">
+        <input matInput placeholder="Search">
+      </mat-form-field>
+    </div>
+    <div class="user-details">
+
+      <button mat-button [matMenuTriggerFor]="beforeMenu" class="sandwich">
+        <span class="sandwich-bar"></span>
+        <span class="sandwich-bar"></span>
+        <span class="sandwich-bar"></span>
+      </button>
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <button mat-menu-item><a href="#">Your posts</a></button>
+        <button mat-menu-item><a href="#">Your favorites</a></button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</header>
