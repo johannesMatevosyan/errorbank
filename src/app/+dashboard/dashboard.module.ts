@@ -16,11 +16,12 @@ import { DashboardComponent } from '@app/+dashboard/dashboard.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { ListPostsComponent } from './list-errors/list-posts.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
+import { ViewPostComponent } from './view-post/view-post.component';
 
 
 
 @NgModule({
-  declarations: [DashboardComponent, CreatePostComponent, ListPostsComponent, EditPostComponent],
+  declarations: [DashboardComponent, CreatePostComponent, ListPostsComponent, EditPostComponent, ViewPostComponent],
   imports: [
     CommonModule,
     SharedModule,

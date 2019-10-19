@@ -4,6 +4,7 @@ import { DashboardComponent } from '@app/+dashboard/dashboard.component';
 import { CreatePostComponent } from '@app/+dashboard/create-post/create-post.component';
 import { ListPostsComponent } from '@app/+dashboard/list-errors/list-posts.component';
 import {EditPostComponent} from "@app/+dashboard/edit-post/edit-post.component";
+import {ViewPostComponent} from "@app/+dashboard/view-post/view-post.component";
 
 
 
@@ -22,6 +23,10 @@ const routes: Routes = [{
     {
       path: 'edit/:id',
       component: EditPostComponent
+    },
+    {
+      path: 'view/:id',
+      component: ViewPostComponent
     }
   ]
 }];

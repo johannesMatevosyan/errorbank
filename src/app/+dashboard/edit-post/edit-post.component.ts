@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {PostService} from '@app/+dashboard/services/post.service';
 import {Subscription} from 'rxjs/index';
@@ -9,7 +9,7 @@ import {ActivatedRoute} from "@angular/router";
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.css']
 })
-export class EditPostComponent implements OnInit {
+export class EditPostComponent implements OnInit, OnDestroy {
   editPostForm: FormGroup;
   subscription: Subscription;
   post;
@@ -25,8 +25,6 @@ export class EditPostComponent implements OnInit {
     this.activatedRoute.params.subscribe(paramsId => {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postsSubject.subscribe(response => {
-        console.log('editable paramsId.id ', paramsId.id);
-        console.log('editable post ', response);
         this.post = response;
         this.editPostForm.controls['id'].setValue(paramsId.id ? paramsId.id : '');
         this.editPostForm.controls['title'].setValue(this.post.title ? this.post.title : '');
@@ -41,11 +39,11 @@ export class EditPostComponent implements OnInit {
       return false;
     }
     const postId = this.editPostForm.controls['id'].value;
-    const post = {
-      title: this.editPostForm.controls['title'].value,
-      content: this.editPostForm.controls['content'].value,
-    }
     this.postService.updatePostById(postId, this.editPostForm.value);
   }
 
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
+  }
 }
