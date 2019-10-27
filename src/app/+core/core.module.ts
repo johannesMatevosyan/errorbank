@@ -14,11 +14,12 @@ import { FooterComponent } from '@app/+core/footer/footer.component';
 import { SidebarComponent } from '@app/+core/sidebar/sidebar.component';
 import { MainFilterComponent } from '@app/+core/main-filter/main-filter.component';
 import { ProfileDropdownComponent } from '@app/+core/profile-dropdown/profile-dropdown.component';
+import { RelatedPostsComponent } from './sidebar/related-posts/related-posts.component';
 
 
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent],
+  declarations: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent, RelatedPostsComponent],
   imports: [
     CommonModule,
     MatInputModule,

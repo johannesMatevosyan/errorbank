@@ -10,6 +10,9 @@ import { PostService } from '@app/+dashboard/services/post.service';
   styleUrls: ['./create-post.component.css']
 })
 export class CreatePostComponent implements OnInit, OnDestroy {
+  tagArray = [];
+  tag:string;
+  string;
   createPostForm: FormGroup;
   subscription: Subscription;
 
@@ -19,7 +22,19 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     this.createPostForm = this.fb.group({
       title: [''],
       content: [''],
+      tags: [''],
     });
+  }
+
+  addPost(event) {
+    this.string = event.target.value.replace(/\s/g, "");
+    if(event.key === ',') {
+      this.tagArray = this.string.split(',');
+      this.tag = this.tagArray[this.tagArray.length-1];
+      this.tagArray = [];
+      this.string = '';
+
+    }
   }
 
   onSubmit() {

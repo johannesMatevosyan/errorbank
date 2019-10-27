@@ -1,5 +1,6 @@
 <h2>Create post</h2>
 
+<br>
 <form novalidate [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <input
@@ -24,8 +25,26 @@
     <mat-error>Please enter Content</mat-error>
   </mat-form-field>
 
+  <section>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="tags"
+        ngModel
+        formControlName="tags"
+        (keydown)="addPost($event)"
+        placeholder="tags">
+    </mat-form-field>
+
+  </section>
+
+  <section class="tag-list">
+    <app-tag [tagName]="tag"></app-tag>
+  </section>
+
   <button
     mat-raised-button
     color="accent"
-    type="submit">Save PostModel </button>
+    type="submit">Save Post </button>
 </form>
