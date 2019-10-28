@@ -31,17 +31,17 @@
         matInput
         type="text"
         name="tags"
-        ngModel
-        formControlName="tags"
         autocomplete="off"
-        (keyup)="addPost($event)"
+        (keyup)="addTag($event)"
         placeholder="tags">
     </mat-form-field>
 
   </section>
 
   <section class="tag-list">
-    <app-tag [tagName]="tag"></app-tag>
+    <app-tag
+      [tagName]="tag"
+      (filteredTags)="onRemoveTags($event)"></app-tag>
   </section>
 
   <button

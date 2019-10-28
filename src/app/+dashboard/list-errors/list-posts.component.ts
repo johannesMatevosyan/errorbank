@@ -20,10 +20,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // editPostById(id) {
-  //   this.postService.getPostById(id);
-  // }
-
   deletePost(id) {
     this.postService.delete(id);
   }

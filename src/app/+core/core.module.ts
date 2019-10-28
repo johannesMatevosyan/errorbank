@@ -15,13 +15,16 @@ import { SidebarComponent } from '@app/+core/sidebar/sidebar.component';
 import { MainFilterComponent } from '@app/+core/main-filter/main-filter.component';
 import { ProfileDropdownComponent } from '@app/+core/profile-dropdown/profile-dropdown.component';
 import { RelatedPostsComponent } from './sidebar/related-posts/related-posts.component';
+import { LatestPostsComponent } from './sidebar/latest-posts/latest-posts.component';
+import {CoreRoutingModule} from "@app/+core/core-routing.module";
 
 
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent, RelatedPostsComponent],
+  declarations: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent, RelatedPostsComponent, LatestPostsComponent],
   imports: [
     CommonModule,
+    CoreRoutingModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,

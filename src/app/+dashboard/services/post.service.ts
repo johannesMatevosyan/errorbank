@@ -16,7 +16,6 @@ export class PostService {
     this.http.get<{posts: PostModel[]}>('http://localhost:3000/posts/get-all')
       .subscribe((responseData) => {
         this.posts = responseData.posts.slice(0);
-        console.log('All posts  ', this.posts);
         this.postsSubject.next(responseData.posts);
       });
   }
@@ -55,4 +54,5 @@ export class PostService {
         this.postsSubject.next(updatedPosts);
       });
   }
+
 }

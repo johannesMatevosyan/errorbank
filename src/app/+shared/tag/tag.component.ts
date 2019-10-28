@@ -7,7 +7,7 @@ import {Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter
 })
 export class TagComponent implements OnInit, OnChanges {
   @Input() tagName;
-  @Output() outputFilteredTags = new EventEmitter<Array<string>>();
+  @Output() filteredTags = new EventEmitter<Array<object>>();
   tags = [];
   constructor() { }
 
@@ -17,10 +17,10 @@ export class TagComponent implements OnInit, OnChanges {
     if(this.tagName){
       this.tags.push(this.tagName);
     }
-
+console.log('this.tags', this.tags);
   }
   removeTag(tagName:string) {
     this.tags = this.tags.filter(item => item !== tagName);
-    this.outputFilteredTags.emit(this.tags);
+    this.filteredTags.emit(this.tags);
   }
 }

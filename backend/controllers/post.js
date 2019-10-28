@@ -5,6 +5,7 @@ exports.createPost = (req, res, next) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
+    date: req.body.date,
   });
   post.save().then(createdPost => {
     console.log('createdPost : ', createdPost);
@@ -58,9 +59,18 @@ exports.editPostById = (req, res, next) => {
 
 exports.deletePostById = (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then(post => {
-    console.log('deleteOne ', post);
     res.status(200).json({ // retrieve all posts from db
       message: `Post with id:${req.params.id} deleted successfully!`,
+    });
+  });
+
+};
+
+exports.getPostsByDate = (req, res, next) => {
+  Post.find({}, {title : 1 }).sort({date: -1}).limit(5).then(post => {
+    res.status(200).json({ // retrieve all posts from db by date
+      message: 'Posts got by date successfully!',
+      posts: post
     });
   });
 

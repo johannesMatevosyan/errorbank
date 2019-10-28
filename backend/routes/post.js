@@ -8,6 +8,8 @@ router.post('/create', postsController.createPost);
 
 router.get('/get-all', postsController.getPosts);
 
+router.get('/get-by-date', postsController.getPostsByDate);
+
 router.get('/get-id/:id', postsController.getPostById);
 
 router.post('/update/:id', postsController.editPostById);
