@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-tag',
@@ -7,19 +7,20 @@ import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core'
 })
 export class TagComponent implements OnInit, OnChanges {
   @Input() tagName;
+  @Output() outputFilteredTags = new EventEmitter<Array<string>>();
   tags = [];
   constructor() { }
 
   ngOnInit() {
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(' >>>>>>>> tagName ', this.tagName);
     if(this.tagName){
       this.tags.push(this.tagName);
     }
 
   }
-  removeTag(tagName) {
-    console.log(' >>>>>>>> tagName ', tagName);
+  removeTag(tagName:string) {
+    this.tags = this.tags.filter(item => item !== tagName);
+    this.outputFilteredTags.emit(this.tags);
   }
 }

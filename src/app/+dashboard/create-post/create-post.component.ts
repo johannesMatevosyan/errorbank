@@ -29,8 +29,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   addPost(event) {
     this.string = event.target.value.replace(/\s/g, "");
     if(event.key === ',') {
-      this.tagArray = this.string.split(',');
+      this.tagArray.push(this.string.replace(/,/g, ''));
       this.tag = this.tagArray[this.tagArray.length-1];
+      event.target.value = '';
       this.tagArray = [];
       this.string = '';
 
