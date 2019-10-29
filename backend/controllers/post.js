@@ -1,14 +1,12 @@
 const Post = require('../models/post');
 
 exports.createPost = (req, res, next) => {
-  console.log('req.body ', req.body);
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
     date: req.body.date,
   });
   post.save().then(createdPost => {
-    console.log('createdPost : ', createdPost);
     res.status(201).json({
       message: 'Post added successfully',
       postId: createdPost._id,
@@ -20,7 +18,6 @@ exports.createPost = (req, res, next) => {
 
 exports.getPosts = (req, res, next) => {
   Post.find().then(documents => {
-    console.log('documents', documents);
     res.status(200).json({ // retrieve all posts from db
       message: 'Posts fetched successfully!',
       posts: documents
@@ -31,7 +28,6 @@ exports.getPosts = (req, res, next) => {
 
 exports.getPostById = (req, res, next) => {
   Post.findOne({ _id: req.params.id }).then(post => {
-    console.log('findOne', post);
     res.status(200).json({
       message: `Post with id:${req.params.id} fetched successfully!`,
       post: post

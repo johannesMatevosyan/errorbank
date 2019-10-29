@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
-import {PostService} from "@app/+dashboard/services/post.service";
+import {PostService} from "@app/+dashboard/_services/post.service";
 import {Subscription} from "rxjs/index";
 import {PostModel} from "@models/post.model";
 

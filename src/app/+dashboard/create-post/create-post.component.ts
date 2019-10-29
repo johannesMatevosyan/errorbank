@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { PostModel } from '@models/post.model';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { PostService } from '@app/+dashboard/services/post.service';
+import { PostService } from '@app/+dashboard/_services/post.service';
 import { CurrentDate } from '@utils/current-date';
 
 @Component({

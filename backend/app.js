@@ -18,8 +18,10 @@ app.use((req, res, next) => {
 
 // Routing files
 const postRoutes = require('./routes/post');
+const authRoutes = require('./routes/auth');
 
 app.use("/posts", postRoutes);
+app.use("/user", authRoutes);
 
 
 mongoose.connect(
