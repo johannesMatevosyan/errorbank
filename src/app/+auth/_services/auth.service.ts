@@ -21,7 +21,7 @@ export class AuthService {
 
   getGithubUser(user) {
     let data = {code: user};
-    this.http.post('http://localhost:3000/+user/signin/callback', data)
+    this.http.post('http://localhost:3000/user/signin/callback', data)
       .subscribe((responseData) => {
         console.log('responseData access_token ', responseData['access_token']);
         if (responseData['access_token']) {
@@ -32,7 +32,7 @@ export class AuthService {
 
   sendToken(accessToken = null) {
     let data = {token: accessToken};
-    this.http.post('http://localhost:3000/+user/github/token', data)
+    this.http.post('http://localhost:3000/user/github/token', data)
       .subscribe((user) => {
         console.log('token response ', user);
         if (user && user['name']) {
@@ -57,7 +57,7 @@ export class AuthService {
 
           this.router.navigate(['get-all']);
         } else {
-          console.error("Undefined +user");
+          console.error("Undefined user");
         }
       });
   }
@@ -68,42 +68,42 @@ export class AuthService {
   }
 
   saveUserInfo(user) {
-    this.http.post('http://localhost:3000/+user/save-+user-info', user)
+    this.http.post('http://localhost:3000/user/save-user-info', user)
       .subscribe(response => {
         console.log('saveUserInfo : ', response);
       });
   }
 
   getAllUsersInfo() {
-    this.http.get('http://localhost:3000/+user/list-info')
+    this.http.get('http://localhost:3000/user/list-info')
       .subscribe(response => {
         console.log('getAllUsersInfo : ', response);
       });
   }
 
   getUserInfoById(userId) {
-    this.http.get('http://localhost:3000/+user/info/' + userId)
+    this.http.get('http://localhost:3000/user/info/' + userId)
       .subscribe(response => {
         console.log('getUserInfoById : ', response);
       });
   }
 
   saveUser(user){
-    this.http.post('http://localhost:3000/+user/save-+user', user)
+    this.http.post('http://localhost:3000/user/save-user', user)
       .subscribe(response => {
         console.log('saveUser : ', response);
       });
   }
 
   getAllUsers(){
-    this.http.get('http://localhost:3000/+user/list-info')
+    this.http.get('http://localhost:3000/user/list-info')
       .subscribe(response => {
         console.log('getAllUsers : ', response);
       });
   }
 
   getUserById(userId){
-    this.http.get('http://localhost:3000/+user/list-info')
+    this.http.get('http://localhost:3000/user/list-info')
       .subscribe(response => {
         console.log('getAllUsers : ', response);
       });

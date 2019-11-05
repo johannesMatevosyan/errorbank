@@ -12,7 +12,7 @@
       <a *ngIf="!userIsAuthenticated"
          mat-raised-button
          href="https://github.com/login/oauth/authorize?client_id=8eee574d84d9fd8f73bd"
-         color="accent">SignIn with Github</a>
+         color="accent"> SignIn with Github </a>
 
       <ng-container *ngIf="userIsAuthenticated">
         <div class="profile-info">
@@ -28,8 +28,8 @@
           <span class="sandwich-bar"></span>
         </button>
         <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <button mat-menu-item><a href="#">Your posts</a></button>
-          <button mat-menu-item><a href="#">Your favorites</a></button>
+          <button mat-menu-item><a routerLink="/user/posts">Your posts</a></button>
+          <button mat-menu-item><a routerLink="/user/favorite-posts">Your favorites</a></button>
           <button mat-menu-item (click)="onLogout()">Log Out</button>
         </mat-menu>
       </ng-container>
