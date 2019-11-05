@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
-const Post = require('./models/post');
 const app = express();
 const MONGODB_URI = 'mongodb://localhost:27017/error-bank';
 
@@ -18,7 +17,7 @@ app.use((req, res, next) => {
 
 // Routing files
 const postRoutes = require('./routes/post');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/user');
 
 app.use("/posts", postRoutes);
 app.use("/user", authRoutes);

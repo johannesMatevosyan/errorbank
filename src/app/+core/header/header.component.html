@@ -6,23 +6,34 @@
         <input matInput placeholder="Search">
       </mat-form-field>
 &nbsp;&nbsp;
-      <a
-        mat-raised-button
-        href="https://github.com/login/oauth/authorize?client_id=8eee574d84d9fd8f73bd"
-        color="accent">SignIn with Github</a>
-
     </div>
     <div class="user-details">
 
-      <button mat-button [matMenuTriggerFor]="beforeMenu" class="sandwich">
-        <span class="sandwich-bar"></span>
-        <span class="sandwich-bar"></span>
-        <span class="sandwich-bar"></span>
-      </button>
-      <mat-menu #beforeMenu="matMenu" xPosition="before">
-        <button mat-menu-item><a href="#">Your posts</a></button>
-        <button mat-menu-item><a href="#">Your favorites</a></button>
-      </mat-menu>
+      <a *ngIf="!userIsAuthenticated"
+         mat-raised-button
+         href="https://github.com/login/oauth/authorize?client_id=8eee574d84d9fd8f73bd"
+         color="accent">SignIn with Github</a>
+
+      <ng-container *ngIf="userIsAuthenticated">
+        <div class="profile-info">
+          <div class="profile-name">{{ profile.name }}</div>
+          <div class="profile-image">
+            <img src="https://avatars0.githubusercontent.com/u/{{ profile.id}}" alt="{{ profile.name }}">
+          </div>
+
+        </div>
+        <button mat-button [matMenuTriggerFor]="beforeMenu" class="sandwich">
+          <span class="sandwich-bar"></span>
+          <span class="sandwich-bar"></span>
+          <span class="sandwich-bar"></span>
+        </button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <button mat-menu-item><a href="#">Your posts</a></button>
+          <button mat-menu-item><a href="#">Your favorites</a></button>
+          <button mat-menu-item (click)="onLogout()">Log Out</button>
+        </mat-menu>
+      </ng-container>
+
     </div>
   </mat-toolbar>
 </header>

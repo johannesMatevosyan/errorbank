@@ -40,7 +40,6 @@ export class PostService {
     console.log('update : ', data);
     this.http.post<{post: PostModel[]}>('http://localhost:3000/posts/update/' + postId, data)
       .subscribe((responseData) => {
-        console.log('updated responseData ', responseData);
         this.postsSubject.next(responseData.post);
       });
   }
