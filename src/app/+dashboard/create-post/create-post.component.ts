@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { PostService } from '@app/+dashboard/_services/post.service';
 import { CurrentDate } from '@utils/current-date';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-post',
@@ -18,7 +19,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   createPostForm: FormGroup;
   subscription: Subscription;
 
-  constructor(private fb: FormBuilder, private postService: PostService) { }
+  constructor(private fb: FormBuilder, private postService: PostService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.createPostForm = this.fb.group({
@@ -55,11 +56,10 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('this.createPostForm.value ', this.createPostForm.value);
 
+    this.toastr.success('AAAAAAAAAAAAa!', 'Toastr fun!');
     let cd = new CurrentDate();
 
-    console.log('cd.getCurrentDate() ', cd.getCurrentDate());
     this.createPostForm.controls['date'].setValue(cd.getCurrentDate());
     if (this.createPostForm.invalid) {
       return false;

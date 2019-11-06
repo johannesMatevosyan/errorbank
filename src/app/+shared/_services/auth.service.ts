@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PostModel } from '@models/post.model';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Router } from "@angular/router";
@@ -9,11 +8,21 @@ import { Router } from "@angular/router";
 })
 export class AuthService {
   data: any;
+  token: string;
+  isAuthenticated: boolean = false;
   dataStorage = new BehaviorSubject<any>(this.data);
   authStatusListener = new Subject<boolean>();
   // dataStorage = this.items.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }
+
+  getToken() {
+    return this.token;
+  }
+
+  getIsAuth() {
+    return this.isAuthenticated;
+  }
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
@@ -50,6 +59,7 @@ export class AuthService {
           };
           this.saveUserInfo(userInfo);
           this.saveUser(githubUser);
+          this.isAuthenticated = true;
           this.authStatusListener.next(true);
           // this.saveAuthData(token, userId);
           this.dataStorage.next(githubUser);

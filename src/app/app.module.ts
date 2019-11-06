@@ -14,6 +14,7 @@ import {
 } from '@angular/material';
 import { CoreModule } from '@app/+core/core.module';
 import { DashboardModule } from '@app/+dashboard/dashboard.module';
+import { ToastrModule } from "ngx-toastr";
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { DashboardModule } from '@app/+dashboard/dashboard.module';
   ],
   imports: [
     BrowserModule,
+    ToastrModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
