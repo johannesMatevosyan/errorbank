@@ -1,12 +1,36 @@
 const express = require('express');
-
+const multer = require('multer');
 const postsController = require('../controllers/post');
-
 const router = express.Router();
 
-router.post('/create', postsController.createPost);
+const MIME_TYPE_MAP = {
+  'image/png': 'png',
+  'image/jpeg': 'jpeg',
+  'image/jpg': 'jpg',
+};
 
-router.get('/get-all', postsController.getPosts);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const isValid = MIME_TYPE_MAP[file.mimetype];
+    let error = new Error("Invalid mime type");
+    if (isValid) {
+      error = null;
+    }
+    cb(error, "backend/images");
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname.split(".")[0]
+      .toLowerCase()
+      .split(" ")
+      .join("-");
+    const ext = MIME_TYPE_MAP[file.mimetype];
+    cb(null, name + "-" + Date.now() + "." + ext);
+  }
+});
+
+router.post('/create', multer({storage: storage}).single('image'), postsController.createPost);
+
+router.get('/get-all', postsController.getAllPosts);
 
 router.get('/get-by-date', postsController.getPostsByDate);
 

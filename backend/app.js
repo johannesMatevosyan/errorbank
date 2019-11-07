@@ -1,11 +1,10 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const app = express();
 const MONGODB_URI = 'mongodb://localhost:27017/error-bank';
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -15,9 +14,15 @@ app.use((req, res, next) => {
   next();
 });
 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/images', express.static(path.join('backend/images')));
+
 // Routing files
 const postRoutes = require('./routes/post');
 const authRoutes = require('./routes/user');
+
 
 app.use("/posts", postRoutes);
 app.use("/user", authRoutes);

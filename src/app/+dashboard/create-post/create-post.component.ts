@@ -19,6 +19,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   string;
   createPostForm: FormGroup;
   subscription: Subscription;
+  imagePreview: string;
 
   constructor(private fb: FormBuilder, private postService: PostService, private toastr: ToastrService) { }
 
@@ -26,6 +27,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     this.createPostForm = this.fb.group({
       title: [''],
       content: [''],
+      image: [''],
       date: [''],
       tagsArray: this.fb.array([]),
     });
@@ -51,6 +53,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     }
   }
+
   onRemoveTags(filteredArrayOfTags){
     this.addDynamicElement.clear();
     filteredArrayOfTags.forEach(tag => {
@@ -58,7 +61,19 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     });
   }
 
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.createPostForm.patchValue({image: file});
+    this.createPostForm.get('image').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
   onSubmit() {
+    console.log('this.createPostForm.value : ', this.createPostForm.value);
     this.toastr.success('AAAAAAAAA!', 'Toastr fun!');
     let cd = new CurrentDate();
 
