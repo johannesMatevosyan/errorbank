@@ -23,8 +23,8 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.subscription = this.postService.postsSubject.subscribe(response => {
 console.log('response', response);
         this.result = response;
-        this.post.title = this.result.title ? this.result.title : '';
-        this.post.content = this.result.content ? this.result.content : '';
+        this.post = response;
+
       });
     });
 

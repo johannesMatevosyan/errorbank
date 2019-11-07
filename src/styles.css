@@ -99,11 +99,17 @@ textarea{
   width: 25px;
   margin-bottom: 3px;
 }
-.post-title{
+.post-title {
   color: #07C;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.2;
+  margin-bottom: 10px;
+}
+.post-content{
+  color: #333333;
+  font-style: italic;
+  margin-bottom: 10px;
 }
 .tag-list {
   margin-top: 5px;

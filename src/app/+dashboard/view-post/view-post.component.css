@@ -1,0 +1,9 @@
+.post-box-view{
+  background-color: #ddd;
+  padding: 15px;
+}
+.post-box-view img {
+  display: block;
+  width: 100%;
+  border: 1px solid #333333;
+}
