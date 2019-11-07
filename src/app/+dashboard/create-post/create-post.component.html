@@ -40,7 +40,8 @@
 
   <section class="tag-list">
     <app-tag
-      [tagName]="tag"
+      [tagsArray]="clonedTagsArray"
+      [removable]="true"
       (filteredTags)="onRemoveTags($event)"></app-tag>
   </section>
 

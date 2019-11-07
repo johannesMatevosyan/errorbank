@@ -6,7 +6,8 @@ import {Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter
   styleUrls: ['./tag.component.css']
 })
 export class TagComponent implements OnInit, OnChanges {
-  @Input() tagName;
+  @Input() tagsArray;
+  @Input() removable : boolean;
   @Output() filteredTags = new EventEmitter<Array<object>>();
   tags = [];
   constructor() { }
@@ -14,13 +15,13 @@ export class TagComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
   ngOnChanges(changes: SimpleChanges) {
-    if(this.tagName){
-      this.tags.push(this.tagName);
-    }
-console.log('this.tags', this.tags);
   }
-  removeTag(tagName:string) {
-    this.tags = this.tags.filter(item => item !== tagName);
-    this.filteredTags.emit(this.tags);
+  removeTag(tag: any) {
+    console.log('tag : ', tag);
+    console.log('removeTag this.tagsArray : ', this.tagsArray);
+
+    this.tagsArray = this.tagsArray.filter(item => item.name !== tag.name);
+    console.log('removeTag FINAL : ',   this.tagsArray);
+    this.filteredTags.emit(this.tagsArray);
   }
 }

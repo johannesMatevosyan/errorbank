@@ -1,6 +1,6 @@
-<ng-container *ngIf="tags.length > 0">
-  <span *ngFor="let tag of tags;" class="tag" mat-button>
-    <span class="tag-text">{{ tag.id }} &nbsp; {{ tag.name }}</span>
-    <span class="remove-tag" (click)="removeTag(tag)">x</span></span>
+<ng-container *ngIf="tagsArray.length > 0">
+  <span *ngFor="let tag of tagsArray; let i = index;" class="tag" mat-button>
+    <span class="tag-text">{{ tag.name }}</span>
+    <span class="remove-tag" *ngIf="removable" (click)="removeTag(tag)">x</span></span>
 </ng-container>
 

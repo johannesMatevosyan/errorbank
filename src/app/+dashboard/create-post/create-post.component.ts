@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CreatePostComponent implements OnInit, OnDestroy {
   tagsList = [];
+  clonedTagsArray = [];
   selectedTagsArray: FormArray;
   tag:string;
   string;
@@ -39,8 +40,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     if(event.key === ',') {
       let trim = this.string.replace(/,/g, '');
       this.tagsList.push({name: trim});
+      this.clonedTagsArray.push({name: trim});
       this.addDynamicElement.push(this.fb.control({
-        'tagname' : trim
+        'name' : trim
       }));
       this.tag = this.tagsList[this.tagsList.length-1];
       event.target.value = '';
@@ -49,15 +51,15 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     }
   }
-  onRemoveTags(event){
-    console.log('onRemoveTags  : ', event);
-    console.log('this.addDynamicElement : ', this.addDynamicElement);
-
+  onRemoveTags(filteredArrayOfTags){
+    this.addDynamicElement.clear();
+    filteredArrayOfTags.forEach(tag => {
+      this.addDynamicElement.push(this.fb.group({name: tag.name}))
+    });
   }
 
   onSubmit() {
-
-    this.toastr.success('AAAAAAAAAAAAa!', 'Toastr fun!');
+    this.toastr.success('AAAAAAAAA!', 'Toastr fun!');
     let cd = new CurrentDate();
 
     this.createPostForm.controls['date'].setValue(cd.getCurrentDate());
@@ -67,6 +69,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     this.postService.create(this.createPostForm.value);
   }
+
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();

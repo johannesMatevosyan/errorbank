@@ -1,10 +1,12 @@
 const Post = require('../models/post');
 
 exports.createPost = (req, res, next) => {
+  console.log('req bpdy', req.body);
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
     date: req.body.date,
+    tags: req.body.tagsArray,
   });
   post.save().then(createdPost => {
     res.status(201).json({

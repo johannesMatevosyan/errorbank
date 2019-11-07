@@ -24,6 +24,7 @@ export class PostService {
 
     this.http.post<PostModel[]>('http://localhost:3000/posts/create', post)
       .subscribe((responseData) => {
+        console.log('responseData ', responseData);
         this.posts.push(post);
         this.postsSubject.next(responseData);
       });

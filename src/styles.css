@@ -105,6 +105,15 @@ textarea{
   font-weight: 400;
   line-height: 1.2;
 }
+.tag-list {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.tag-list-title {
+  font-size: 13px;
+  font-style: italic;
+  margin-bottom: 3px;
+}
 .tag-list .tag:not(:first-child) {
   margin-left: 7px;
 }
@@ -114,4 +123,53 @@ footer {
   background-color: #ddd;
   border-top: 1px solid #bbb;
   text-align: center;
+}
+.text-left{
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+.text-xl-left {
+  text-align: left;
+}
+
+.text-xl-right {
+  text-align: right;
+}
+
+@media screen and (min-width: 1200px) {
+  .text-lg-left {
+    text-align: left;
+  }
+  .text-lg-right {
+    text-align: right;
+  }
+
+}
+
+@media screen and (min-width: 992px) {
+  .text-md-left {
+    text-align: left;
+  }
+  .text-md-right {
+    text-align: right;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .text-sm-left {
+    text-align: left;
+  }
+  .text-sm-right {
+    text-align: right;
+  }
+}
+
+@media screen and (min-width: 576px) {
+
 }
