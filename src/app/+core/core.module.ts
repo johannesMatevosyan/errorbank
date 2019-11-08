@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from '@app/+shared/shared.module';
 import {
   MatInputModule,
   MatCardModule,
@@ -16,7 +17,7 @@ import { MainFilterComponent } from '@app/+core/main-filter/main-filter.componen
 import { ProfileDropdownComponent } from '@app/+core/profile-dropdown/profile-dropdown.component';
 import { RelatedPostsComponent } from './sidebar/related-posts/related-posts.component';
 import { LatestPostsComponent } from './sidebar/latest-posts/latest-posts.component';
-import {CoreRoutingModule} from "@app/+core/core-routing.module";
+import { CoreRoutingModule } from "@app/+core/core-routing.module";
 
 
 
@@ -24,6 +25,7 @@ import {CoreRoutingModule} from "@app/+core/core-routing.module";
   declarations: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent, RelatedPostsComponent, LatestPostsComponent],
   imports: [
     CommonModule,
+    SharedModule,
     CoreRoutingModule,
     MatInputModule,
     MatCardModule,

@@ -1,28 +1,33 @@
-<h2>List posts</h2>
-
 <a mat-raised-button [routerLink]="'/create'" color="accent">Create post </a>
 
 <br>
 <br>
+<ng-container *ngIf="posts.length > 0">
 
-<div *ngFor="let post of posts" class="post-box mb-15">
+  <div *ngFor="let post of posts" class="post-box mb-15">
 
-  <h5> Date {{post.date.split(' ')[0]}}</h5>
-  <h3 class="post-title">
-    <a [routerLink]="'/view/' + post._id">{{ post.title }}</a>
-  </h3>
-  <p>
-    {{ post.content }}
-  </p>
-  <div class="tag-list" *ngIf="post.tags.length > 0">
-    <h3 class="tag-list-title">Tags </h3>
-    <app-tag [tagsArray]="post.tags" [removable]="false"></app-tag>
+    <h5> Date {{post.date.split(' ')[0]}}</h5>
+    <h3 class="post-title">
+      <a [routerLink]="'/view/' + post._id">{{ post.title }}</a>
+    </h3>
+    <p>
+      {{ post.content }}
+    </p>
+    <div class="tag-list" *ngIf="post.tags.length > 0">
+      <h3 class="tag-list-title">Tags </h3>
+      <app-tag [tagsArray]="post.tags" [removable]="false"></app-tag>
+    </div>
+
+    <div class="text-md-right">
+      <a mat-raised-button [routerLink]="'/edit/' + post._id" color="primary">Edit </a>
+      <a mat-raised-button (click)="deletePost(post._id)" color="accent">Delete </a>
+    </div>
+
   </div>
 
-  <div class="text-md-right">
-    <a mat-raised-button [routerLink]="'/edit/' + post._id" color="primary">Edit </a>
-    <a mat-raised-button (click)="deletePost(post._id)" color="accent">Delete </a>
-  </div>
+</ng-container>
+<ng-container *ngIf="posts.length === 0">
+  <h1 class="mat-subheading-1 accent-color">No results!</h1>
+</ng-container>
 
-</div>
 

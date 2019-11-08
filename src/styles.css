@@ -72,6 +72,9 @@ mat-form-field,
 textarea{
   width: 100%;
 }
+.accent-color {
+  background-color: #c62828;
+}
 .pl-15{
   padding-left: 15px;
 }
@@ -85,7 +88,9 @@ textarea{
 .p-15{
   padding: 15px;
 }
-
+.relative{
+  position: relative;
+}
 .space-between{
   justify-content: space-between;
 }
@@ -120,6 +125,31 @@ textarea{
   font-style: italic;
   margin-bottom: 3px;
 }
+
+.search-form input {
+  width: 100%;
+  display: block;
+  border: 1px solid red;
+  height: 34px;
+}
+.search-form .search-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #212121;
+  color: #ffffff;
+  border: 1px solid #212121;
+  border-radius: 0px;
+  font-size: 14px;
+  height: 34px;
+  width: 34px;
+  border: 1px solid red;
+  cursor: pointer;
+}
+
 .tag-list .tag:not(:first-child) {
   margin-left: 7px;
 }

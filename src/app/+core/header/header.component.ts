@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "@app/+shared/_services/auth.service";
-import {Subscription} from "rxjs/index";
+import { AuthService } from "@app/+shared/_services/auth.service";
+import { Subscription } from "rxjs/index";
+import { SearchFilterService } from "@app/+shared/_services/search-filter.service";
 
 @Component({
   selector: 'app-header',
@@ -8,13 +9,13 @@ import {Subscription} from "rxjs/index";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  message: string;
   profile: any;
   userIsAuthenticated = false;
   subscription: Subscription;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private searchFilterService: SearchFilterService) {}
 
   ngOnInit() {
-    console.log('localStorage in HEADER ', localStorage);
     this.subscription = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
@@ -26,8 +27,15 @@ export class HeaderComponent implements OnInit {
       console.log('this.profile ************ ', this.profile);
       console.log(localStorage.getItem("user"));
     });
+
+    this.searchFilterService.searchKey.subscribe(message => {
+      this.message = message;
+    })
   }
 
+  search(item) {
+    this.searchFilterService.changeSearch(item)
+  }
   onLogout() {
 
   }

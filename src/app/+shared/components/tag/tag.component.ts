@@ -17,8 +17,6 @@ export class TagComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
   }
   removeTag(tag: any) {
-    console.log('tag : ', tag);
-    console.log('removeTag this.tagsArray : ', this.tagsArray);
 
     this.tagsArray = this.tagsArray.filter(item => item.name !== tag.name);
     console.log('removeTag FINAL : ',   this.tagsArray);

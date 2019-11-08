@@ -15,15 +15,12 @@ export class PostService {
   getAll() {
     this.http.get<{posts: PostModel[]}>('http://localhost:3000/posts/get-all')
       .subscribe((responseData) => {
-        console.log('00000 responseData 000000 ', responseData);
         this.posts = responseData.posts.slice(0);
-        console.log('00000000000 ', this.posts);
         this.postsSubject.next(responseData.posts);
       });
   }
 
   create(post) {
-console.log('post : ', post);
 
     const postData = new FormData();
     postData.append('title', post.title);
@@ -32,12 +29,8 @@ console.log('post : ', post);
     postData.append('date', post.date);
     postData.append('tagsArray', JSON.stringify(post.tagsArray));
 
-
-    console.log('postData : ', postData);
-
     this.http.post<PostModel[]>('http://localhost:3000/posts/create', postData)
       .subscribe((responseData) => {
-        console.log('responseData ', responseData);
         this.posts.push(post);
         this.postsSubject.next(responseData);
       });

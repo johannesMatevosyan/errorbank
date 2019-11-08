@@ -73,7 +73,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('this.createPostForm.value : ', this.createPostForm.value);
     this.toastr.success('AAAAAAAAA!', 'Toastr fun!');
     let cd = new CurrentDate();
 

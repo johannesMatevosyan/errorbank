@@ -68,7 +68,6 @@ exports.saveUserInfo = (req, res, next) => {
         message: 'Cannot save user info'
       });
     }else{
-      console.log('user : ', user);
       res.status(201).json({
         message: 'User info saved successfully',
         user: user
@@ -99,7 +98,6 @@ exports.getUserInfoById = (req, res, next) => {
 
 exports.saveUser = (req, res, next) => {
   const query = { userId: req.body.id };
-  const data = { userId: req.body.id };
   let fetchedUser;
   const user = {
     userId: req.body.id,
@@ -108,12 +106,10 @@ exports.saveUser = (req, res, next) => {
   };
   User.findOneAndUpdate(query, user, { upsert: true }, (err, user) => {
     if (err){
-      console.log('err', err);
       return res.status(401).json({
         message: 'Cannot save user'
       });
     }else{
-      console.log("score succeded");
       res.status(201).json({
         message: 'User saved successfully',
         user: user

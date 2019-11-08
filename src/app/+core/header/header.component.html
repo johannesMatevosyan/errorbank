@@ -1,9 +1,18 @@
 <header>
   <mat-toolbar color="primary" class="space-between">
-    <div class="logo"><a href="/get-all">ErrorBank.cc</a></div>
-    <div>
+    <div class="logo">
+      <a href="/get-all">ErrorBank.cc</a>
+    </div>
+    <div class="search-block">
+
       <mat-form-field class="main-search" floatLabel="never">
-        <input matInput placeholder="Search">
+        <div class="relative search-form">
+          <input matInput type="text" placeholder="Search" #searchItem>
+          <button class="search-icon" (click)="search(searchItem.value)">
+            <i class="material-icons">search</i>
+          </button>
+        </div>
+
       </mat-form-field>
 &nbsp;&nbsp;
     </div>

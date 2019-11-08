@@ -22,10 +22,12 @@ app.use('/images', express.static(path.join('backend/images')));
 // Routing files
 const postRoutes = require('./routes/post');
 const authRoutes = require('./routes/user');
+const searchRoutes = require('./routes/search');
 
 
 app.use("/posts", postRoutes);
 app.use("/user", authRoutes);
+app.use("/search", searchRoutes);
 
 
 mongoose.connect(

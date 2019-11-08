@@ -1,3 +1,16 @@
+.logo {
+  width: 15%;
+  border: 1px solid #ffffff;
+}
+.search-block {
+  width: 40%;
+  border: 1px solid #ffffff;
+}
+.user-details {
+  width: 25%;
+  border: 1px solid #ffffff;
+}
+
 .logo a {
   color: #ffffff;
   font-weight: bold;

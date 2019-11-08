@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {PostService} from "@app/+dashboard/_services/post.service";
 import {Subscription} from "rxjs/index";
@@ -11,7 +10,6 @@ import {PostModel} from "@models/post.model";
   styleUrls: ['./view-post.component.css']
 })
 export class ViewPostComponent implements OnInit, OnDestroy {
-  editPostForm: FormGroup;
   subscription: Subscription;
   post;
   result;
@@ -21,7 +19,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(paramsId => {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postsSubject.subscribe(response => {
-console.log('response', response);
         this.result = response;
         this.post = response;
 
