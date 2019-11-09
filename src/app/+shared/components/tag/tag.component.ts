@@ -13,8 +13,10 @@ export class TagComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
+    console.log('ngOnInit ', this.tagsArray);
   }
   ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnChanges ', this.tagsArray);
   }
   removeTag(tag: any) {
 

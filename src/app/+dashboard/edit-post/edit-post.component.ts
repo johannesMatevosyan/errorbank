@@ -50,13 +50,14 @@ export class EditPostComponent implements OnInit, OnDestroy {
         this.editPostForm.controls['title'].setValue(this.post.title ? this.post.title : '');
         this.editPostForm.controls['content'].setValue(this.post.content ? this.post.content : '');
         this.editPostForm.controls['created'].setValue(this.post.created ? this.post.created : '');
+        this.clonedTagsArray = this.post.tags;
         this.imagePreview = this.post.imagePath ? this.post.imagePath : '';
         this.created = this.post.created;
-        let tags = this.post.tags.map(item => {
+        let filterTagsArray = this.post.tags.map(item => {
           return {name: item.name};
         });
-        console.log('tags : ', tags);
-        this.editPostForm.setControl('tagsArray', this.fb.array(tags || []));
+        console.log('filterTagsArray : ', filterTagsArray);
+        this.editPostForm.setControl('tagsArray', this.fb.array(filterTagsArray || []));
       });
     });
   }
@@ -71,6 +72,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         'name' : trim
       }));
       this.tag = this.tagsList[this.tagsList.length-1];
+      console.log('this.tag ', this.tag);
       event.target.value = '';
       this.tagsList = [];
       this.string = '';
