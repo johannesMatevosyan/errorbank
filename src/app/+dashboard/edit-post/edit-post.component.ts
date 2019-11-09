@@ -44,7 +44,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(paramsId => {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postsSubject.subscribe(response => {
-        console.log('response ', response);
         this.post = response;
         this.editPostForm.controls['id'].setValue(paramsId.id ? paramsId.id : '');
         this.editPostForm.controls['title'].setValue(this.post.title ? this.post.title : '');
@@ -56,7 +55,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
         let filterTagsArray = this.post.tags.map(item => {
           return {name: item.name};
         });
-        console.log('filterTagsArray : ', filterTagsArray);
         this.editPostForm.setControl('tagsArray', this.fb.array(filterTagsArray || []));
       });
     });
@@ -72,11 +70,17 @@ export class EditPostComponent implements OnInit, OnDestroy {
         'name' : trim
       }));
       this.tag = this.tagsList[this.tagsList.length-1];
-      console.log('this.tag ', this.tag);
       event.target.value = '';
       this.tagsList = [];
       this.string = '';
     }
+  }
+
+  onRemoveTags(filteredArrayOfTags){
+    this.tagsFormArray.clear();
+    filteredArrayOfTags.forEach(tag => {
+      this.tagsFormArray.push(this.fb.group({name: tag.name}))
+    });
   }
 
   onImagePicked(event: Event) {
@@ -98,7 +102,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
     let cd = new CurrentDate();
     const postId = this.editPostForm.controls['id'].value;
     this.editPostForm.controls['updated'].setValue(cd.getCurrentDate());
-    console.log('this.editPostForm.value : ', this.editPostForm.value);
     this.postService.updatePostById(postId, this.editPostForm.value);
   }
 
