@@ -12,14 +12,13 @@ import {PostModel} from "@models/post.model";
 export class ViewPostComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   post;
-  result;
   constructor(private postService: PostService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(paramsId => {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postsSubject.subscribe(response => {
-        this.result = response;
+        console.log('response ', response);
         this.post = response;
 
       });

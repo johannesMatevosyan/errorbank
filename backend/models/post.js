@@ -8,7 +8,8 @@ const postSchema = mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   imagePath: { type: String, required: false },
-  date: { type: String, required: true },
+  created: { type: String, required: true },
+  updated: { type: String, required: false },
   tags: [tagsSchema],
 });
 

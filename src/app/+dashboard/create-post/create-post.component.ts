@@ -15,7 +15,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   tagsList = [];
   clonedTagsArray = [];
   selectedTagsArray: FormArray;
-  tag:string;
+  tag: string;
   string;
   createPostForm: FormGroup;
   subscription: Subscription;
@@ -28,11 +28,13 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       title: [''],
       content: [''],
       image: [''],
-      date: [''],
+      created: [''],
+      updated: ['null'],
       tagsArray: this.fb.array([]),
     });
     this.selectedTagsArray = this.createPostForm.get('tagsArray') as FormArray;
   }
+
   get addDynamicElement() {
     return this.createPostForm.get('tagsArray') as FormArray
   }
@@ -50,7 +52,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       event.target.value = '';
       this.tagsList = [];
       this.string = '';
-
     }
   }
 
@@ -76,7 +77,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     this.toastr.success('AAAAAAAAA!', 'Toastr fun!');
     let cd = new CurrentDate();
 
-    this.createPostForm.controls['date'].setValue(cd.getCurrentDate());
+    this.createPostForm.controls['created'].setValue(cd.getCurrentDate());
     if (this.createPostForm.invalid) {
       return false;
     }

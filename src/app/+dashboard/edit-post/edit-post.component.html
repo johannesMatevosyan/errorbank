@@ -1,28 +1,61 @@
 <h2>Edit post</h2>
 
 <form novalidate [formGroup]="editPostForm" (ngSubmit)="onSubmit()">
-  <mat-form-field>
-    <input
-      matInput
-      type="text"
-      name="title"
-      formControlName="title"
-      ngModel
-      required
-      minlength="3"
-      placeholder="title">
-    <mat-error>Please enter title</mat-error>
-  </mat-form-field>
-  <mat-form-field>
-          <textarea
-            matInput
-            cols="30" rows="10"
-            name="content"
-            formControlName="content"
-            required
-            placeholder="content"></textarea>
-    <mat-error>Please enter Content</mat-error>
-  </mat-form-field>
+
+  <section class="post-box-view">
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="title"
+        formControlName="title"
+        ngModel
+        required
+        minlength="3"
+        placeholder="title">
+      <mat-error>Please enter title</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+            <textarea
+              matInput
+              cols="30" rows="10"
+              name="content"
+              formControlName="content"
+              required
+              placeholder="content"></textarea>
+      <mat-error>Please enter Content</mat-error>
+    </mat-form-field>
+
+    <div>
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="filePicker.click()">Pick Image </button>
+      <input type="file" #filePicker (change)="onImagePicked($event)">
+    </div>
+    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview !== null && editPostForm.get('image').valid">
+      <img [src]="imagePreview" [alt]="editPostForm.value.title">
+    </div>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="tags"
+        autocomplete="off"
+        (keyup)="addTag($event)"
+        placeholder="tags">
+    </mat-form-field>
+
+    <div class="tag-list">
+      <h5 class="tag-list-title">tags</h5>
+      <app-tag [tagsArray]="post?.tags" [removable]="true"></app-tag>
+    </div>
+
+  </section>
+
   <input
     type="hidden"
     name="id"

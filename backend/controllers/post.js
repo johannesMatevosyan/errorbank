@@ -6,7 +6,8 @@ exports.createPost = (req, res, next) => {
     title: req.body.title,
     content: req.body.content,
     imagePath: url + '/images/' + req.file.filename,
-    date: req.body.date,
+    created: req.body.created,
+    updated: req.body.updated,
     tags: JSON.parse(req.body.tagsArray),
   });
   post.save().then(createdPost => {
@@ -30,7 +31,9 @@ exports.getAllPosts = (req, res, next) => {
 };
 
 exports.getPostById = (req, res, next) => {
+  console.log('req.params.id : ', req.params.id);
   Post.findOne({ _id: req.params.id }).then(post => {
+    console.log('req.params post : ', post);
     res.status(200).json({
       message: `Post with id:${req.params.id} fetched successfully!`,
       post: post
@@ -39,17 +42,26 @@ exports.getPostById = (req, res, next) => {
 
 };
 
-exports.editPostById = (req, res, next) => {
-  const updatedTitle = req.body.title;
-  const updatedContent = req.body.content;
+
+exports.updatePostById = (req, res, next) => {
+  let imagePath = req.body.imagePath;
+  if (req.file) {
+    const url = req.protocol + '://' + req.get('host');
+    imagePath = url + '/images/' + req.file.filename;
+    console.log('imagePath : ', imagePath);
+  }
   Post.findById({ _id: req.params.id })
     .then(post => {
-      post.title = updatedTitle;
-      post.content = updatedContent;
+        post.title = req.body.title;
+        post.content = req.body.content;
+        post.imagePath = imagePath;
+        post.created = req.body.created;
+        post.updated = req.body.updated;
+        post.tags = JSON.parse(req.body.tagsArray);
       return post.save();
-  }).then(result => {
+    }).then(result => {
     res.status(200).json({
-      message: `Post with id:${req.params.id} updated successfully!`,
+      message: `Post with id:${req.params.id} updated successfully! `,
       post: result
     });
   });
@@ -58,7 +70,7 @@ exports.editPostById = (req, res, next) => {
 
 exports.deletePostById = (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then(post => {
-    res.status(200).json({ // retrieve all posts from db
+    res.status(200).json({
       message: `Post with id:${req.params.id} deleted successfully!`,
     });
   });

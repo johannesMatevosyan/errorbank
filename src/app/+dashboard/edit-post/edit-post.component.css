@@ -1,0 +1,19 @@
+.post-box-view{
+  background-color: #ddd;
+  padding: 15px;
+}
+.post-box-view img {
+  display: block;
+  width: 100%;
+  border: 1px solid #333333;
+}
+input[type=file] {
+  visibility: hidden;
+}
+.image-preview {
+  height: 5rem;
+  margin: 1rem 0;
+}
+.image-preview img {
+  height: 100%;
+}

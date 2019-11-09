@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PostModel } from '@models/post.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class PostService {
   posts = [];
   postsSubject = new Subject<PostModel[]>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getAll() {
     this.http.get<{posts: PostModel[]}>('http://localhost:3000/posts/get-all')
@@ -26,7 +27,8 @@ export class PostService {
     postData.append('title', post.title);
     postData.append('content', post.content);
     postData.append('image', post.image);
-    postData.append('date', post.date);
+    postData.append('created', post.created);
+    postData.append('updated', post.updated);
     postData.append('tagsArray', JSON.stringify(post.tagsArray));
 
     this.http.post<PostModel[]>('http://localhost:3000/posts/create', postData)
@@ -43,11 +45,20 @@ export class PostService {
       });
   }
 
-  updatePostById(postId, data) {
-    console.log('update : ', data);
-    this.http.post<{post: PostModel[]}>('http://localhost:3000/posts/update/' + postId, data)
+  updatePostById(postId, post) {
+    console.log('update : ', post);
+
+    const postData = new FormData();
+    postData.append('title', post.title);
+    postData.append('content', post.content);
+    postData.append('image', post.image);
+    postData.append('created', post.created);
+    postData.append('updated', post.updated);
+    postData.append('tagsArray', JSON.stringify(post.tagsArray));
+
+    this.http.put<{post: PostModel[]}>('http://localhost:3000/posts/update/' + postId, postData)
       .subscribe((responseData) => {
-        this.postsSubject.next(responseData.post);
+        this.router.navigate(['/get-all']);
       });
   }
 

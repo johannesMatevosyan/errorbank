@@ -36,7 +36,7 @@ router.get('/get-by-date', postsController.getPostsByDate);
 
 router.get('/get-id/:id', postsController.getPostById);
 
-router.post('/update/:id', postsController.editPostById);
+router.put('/update/:id', multer({storage: storage}).single('image'), postsController.updatePostById);
 
 router.delete('/delete/:id', postsController.deletePostById);
 

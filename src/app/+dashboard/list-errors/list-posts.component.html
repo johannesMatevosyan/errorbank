@@ -6,7 +6,7 @@
 
   <div *ngFor="let post of posts" class="post-box mb-15">
 
-    <h5> Date {{post.date.split(' ')[0]}}</h5>
+    <h5> Date {{post.created.split(' ')[0]}}</h5>
     <h3 class="post-title">
       <a [routerLink]="'/view/' + post._id">{{ post.title }}</a>
     </h3>
