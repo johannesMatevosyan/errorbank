@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {PostService} from '@app/+dashboard/_services/post.service';
+import { PostService } from '@app/+dashboard/_services/post.service';
+import { PageEvent } from '@angular/material';
 import {PostModel} from "@models/post.model";
 import {Subscription} from "rxjs/index";
 import {SearchFilterService} from "@app/+shared/_services/search-filter.service";
@@ -10,14 +11,17 @@ import {SearchFilterService} from "@app/+shared/_services/search-filter.service"
   styleUrls: ['./list-posts.component.css']
 })
 export class ListPostsComponent implements OnInit, OnDestroy {
-
+  totalPosts = 10;
+  postsPerPage = 2;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5, 10];
   posts: PostModel[] = [];
   subscription: Subscription;
-  constructor(private postService: PostService, private searchFilterService: SearchFilterService) { }
+  constructor(private postsService: PostService, private searchFilterService: SearchFilterService) { }
 
   ngOnInit() {
-    this.postService.getAll();
-    this.subscription = this.postService.postsSubject.subscribe(response => {
+    this.postsService.getAll(this.postsPerPage, this.currentPage);
+    this.subscription = this.postsService.postsSubject.subscribe(response => {
       this.posts = response;
     });
     this.subscription = this.searchFilterService.searchKey.subscribe(response => {
@@ -26,7 +30,13 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   }
 
   deletePost(id) {
-    this.postService.delete(id);
+    this.postsService.delete(id);
+  }
+
+  onChangedPage(pageData: PageEvent) {
+    this.currentPage = pageData.pageIndex + 1;
+    this.postsPerPage = pageData.pageSize;
+    this.postsService.getAll(this.postsPerPage, this.currentPage);
   }
 
   ngOnDestroy() {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PostModel } from '@models/post.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {Router} from "@angular/router";
 
 @Injectable({
@@ -13,11 +14,31 @@ export class PostService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getAll() {
-    this.http.get<{posts: PostModel[]}>('http://localhost:3000/posts/get-all')
-      .subscribe((responseData) => {
-        this.posts = responseData.posts.slice(0);
-        this.postsSubject.next(responseData.posts);
+  getAll(postsPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
+    this.http.get<{posts: PostModel[]; maxPosts: number}>('http://localhost:3000/posts/get-all' + queryParams)
+      .pipe(
+        map(postData => {
+          return {
+            posts: postData.posts.map(post => {
+              console.log('post : ', post);
+              return {
+                id: post._id,
+                title: post.title,
+                content: post.content,
+                imagePath: post.imagePath,
+                created: post.created,
+              };
+            }),
+            maxPosts: postData.maxPosts
+          };
+        })
+      )
+      .subscribe((transformedPostData) => {
+
+        console.log('transformedPostData ', transformedPostData);
+        this.posts = transformedPostData.posts.slice(0);
+        this.postsSubject.next(transformedPostData.posts);
       });
   }
 

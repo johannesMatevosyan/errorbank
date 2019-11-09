@@ -8,6 +8,7 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
+  MatPaginatorModule,
   MatIconModule
 } from '@angular/material';
 import { DashboardRoutingModule } from '@app/+dashboard/dashboard-routing.module';
@@ -34,6 +35,7 @@ import { ViewPostComponent } from './view-post/view-post.component';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatPaginatorModule,
     MatIconModule
   ],
   exports: [DashboardComponent, CreatePostComponent, ListPostsComponent]

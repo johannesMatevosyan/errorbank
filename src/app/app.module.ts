@@ -10,6 +10,7 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
+  MatPaginatorModule,
   MatIconModule
 } from '@angular/material';
 import { CoreModule } from '@app/+core/core.module';
@@ -34,6 +35,7 @@ import { ToastrModule } from "ngx-toastr";
     MatToolbarModule,
     MatExpansionModule,
     MatIconModule,
+    MatPaginatorModule,
     DashboardModule
   ],
   providers: [],
