@@ -1,6 +1,7 @@
 const Post = require('../models/post');
 
 exports.createPost = (req, res, next) => {
+  console.log('req.userData ', req.userData);
   const url = req.protocol + '://' + req.get('host');
   const post = new Post({
     title: req.body.title,
@@ -9,6 +10,7 @@ exports.createPost = (req, res, next) => {
     created: req.body.created,
     updated: req.body.updated,
     tags: JSON.parse(req.body.tagsArray),
+    author: req.userData.userId
   });
   post.save().then(createdPost => {
     res.status(201).json({
@@ -70,6 +72,7 @@ exports.updatePostById = (req, res, next) => {
         post.created = req.body.created;
         post.updated = req.body.updated;
         post.tags = JSON.parse(req.body.tagsArray);
+        post.author = req.userData.userId;
       return post.save();
     }).then(result => {
     res.status(200).json({
@@ -81,7 +84,7 @@ exports.updatePostById = (req, res, next) => {
 };
 
 exports.deletePostById = (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id }).then(post => {
+  Post.deleteOne({ _id: req.params.id, author: req.userData.userId }).then(post => {
     res.status(200).json({
       message: `Post with id:${req.params.id} deleted successfully!`,
     });

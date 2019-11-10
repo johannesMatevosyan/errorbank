@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css']
 })
-export class CreatePostComponent implements OnInit, OnDestroy {
+export class CreatePostComponent implements OnInit {
   tagsList = [];
   clonedTagsArray = [];
   selectedTagsArray: FormArray;
@@ -83,11 +83,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     }
 
     this.postService.create(this.createPostForm.value);
-  }
-
-  ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
   }
 
 }

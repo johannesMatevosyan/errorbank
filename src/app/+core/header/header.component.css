@@ -1,14 +1,13 @@
 .logo {
   width: 15%;
-  border: 1px solid #ffffff;
 }
 .search-block {
   width: 40%;
-  border: 1px solid #ffffff;
+  padding-top: 32px;
 }
 .user-details {
   width: 25%;
-  border: 1px solid #ffffff;
+  text-align: right;
 }
 
 .logo a {
@@ -22,6 +21,12 @@
 .profile-info {
   display: inline-flex;
   align-items: center;
+  vertical-align: middle;
+}
+.sandwich-box {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
 }
 .profile-name {
   font-size: 13px;

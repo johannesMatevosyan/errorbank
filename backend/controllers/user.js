@@ -49,10 +49,42 @@ exports.githubUser = (req, res, next) => {
     });
 };
 
+exports.getJWTToken = (req, res, next) => {
+
+  let ID = req.body.id.toString();
+  User.findOne({ userId: ID })
+    .then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: 'User not found',
+        });
+      }
+
+      const token = jwt.sign({ // create token based on input
+          id: user._id,
+          login: user.login
+        }, 'secret_this_should_be_longer',
+        {expiresIn: '1h'}
+      );
+
+      res.status(201).json({
+        message: 'User created!',
+        token: token,
+        expiresIn: 3600,
+        userId:  user._id
+      });
+    })
+    .catch(err => {
+      return res.status(401).json({
+        message: 'Auth Failed'
+      });
+    });
+
+};
+
 
 exports.saveUserInfo = (req, res, next) => {
   const query = { userId: req.body.id };
-  const data = { userId: req.body.id };
   let fetchedUser;
   const userInfo = {
     userId: req.body.id,

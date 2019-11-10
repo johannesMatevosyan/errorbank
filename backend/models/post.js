@@ -11,6 +11,7 @@ const postSchema = mongoose.Schema({
   created: { type: String, required: true },
   updated: { type: String, required: false },
   tags: [tagsSchema],
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
 module.exports = mongoose.model('Post', postSchema);

@@ -9,6 +9,8 @@ router.post('/signin/callback', authController.githubSignIn);
 
 router.post('/github/token', authController.githubUser);
 
+router.post('/get-jwt-token', authController.getJWTToken);
+
 router.post('/save-user-info', authController.saveUserInfo); // +
 
 router.get('/list-info', authController.getAllUsersInfo);

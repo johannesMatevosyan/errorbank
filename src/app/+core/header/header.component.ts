@@ -9,23 +9,25 @@ import { SearchFilterService } from "@app/+shared/_services/search-filter.servic
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  clientId: string = '8eee574d84d9fd8f73bd';
   message: string;
   profile: any;
   userIsAuthenticated = false;
-  subscription: Subscription;
+  authListenerSubs: Subscription;
   constructor(private authService: AuthService, private searchFilterService: SearchFilterService) {}
 
   ngOnInit() {
-    this.subscription = this.authService
+    console.log('********* HeaderComponent ************ ');
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
+        console.log('********* isAuthenticated ************ ', isAuthenticated);
         this.userIsAuthenticated = isAuthenticated;
       });
-    this.subscription = this.authService.dataStorage.subscribe(items =>  {
+    console.log('********* this.userIsAuthenticated ************ ', this.userIsAuthenticated);
+    this.authListenerSubs = this.authService.dataStorage.subscribe(items =>  {
       this.profile = items;
-      console.log('this.profile  items ************ ', items);
-      console.log('this.profile ************ ', this.profile);
-      console.log(localStorage.getItem("user"));
     });
 
     this.searchFilterService.searchKey.subscribe(message => {
@@ -37,7 +39,8 @@ export class HeaderComponent implements OnInit {
     this.searchFilterService.changeSearch(item)
   }
   onLogout() {
-
+    console.log('onLogout');
+    this.authService.logout();
   }
 
 }

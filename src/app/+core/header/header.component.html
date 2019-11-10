@@ -1,46 +1,48 @@
 <header>
   <mat-toolbar color="primary" class="space-between">
     <div class="logo">
-      <a href="/get-all">ErrorBank.cc</a>
+      <a routerLink="/get-all">ErrorBank.cc</a>
     </div>
     <div class="search-block">
 
-      <mat-form-field class="main-search" floatLabel="never">
-        <div class="relative search-form">
-          <input matInput type="text" placeholder="Search" #searchItem>
-          <button class="search-icon" (click)="search(searchItem.value)">
-            <i class="material-icons">search</i>
-          </button>
-        </div>
-
-      </mat-form-field>
+      <div class="relative search-form">
+        <input matInput type="text" placeholder="Search" #searchItem>
+        <button class="search-icon" (click)="search(searchItem.value)">
+          <i class="material-icons">search</i>
+        </button>
+      </div>
 &nbsp;&nbsp;
     </div>
     <div class="user-details">
 
       <a *ngIf="!userIsAuthenticated"
          mat-raised-button
-         href="https://github.com/login/oauth/authorize?client_id=8eee574d84d9fd8f73bd"
+         href="https://github.com/login/oauth/authorize?client_id={{ clientId }}"
          color="accent"> SignIn with Github </a>
 
       <ng-container *ngIf="userIsAuthenticated">
         <div class="profile-info">
+
           <div class="profile-name">{{ profile.name }}</div>
           <div class="profile-image">
             <img src="https://avatars0.githubusercontent.com/u/{{ profile.id}}" alt="{{ profile.name }}">
           </div>
 
         </div>
-        <button mat-button [matMenuTriggerFor]="beforeMenu" class="sandwich">
-          <span class="sandwich-bar"></span>
-          <span class="sandwich-bar"></span>
-          <span class="sandwich-bar"></span>
-        </button>
-        <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <button mat-menu-item><a routerLink="/user/posts">Your posts</a></button>
-          <button mat-menu-item><a routerLink="/user/favorite-posts">Your favorites</a></button>
-          <button mat-menu-item (click)="onLogout()">Log Out</button>
-        </mat-menu>
+        <div class="sandwich-box">
+
+          <button mat-button [matMenuTriggerFor]="beforeMenu" class="sandwich">
+            <span class="sandwich-bar"></span>
+            <span class="sandwich-bar"></span>
+            <span class="sandwich-bar"></span>
+          </button>
+          <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <button mat-menu-item><a routerLink="/user/posts">Your posts</a></button>
+            <button mat-menu-item><a routerLink="/user/favorite-posts">Your favorites</a></button>
+            <button mat-menu-item (click)="onLogout()">Log Out</button>
+          </mat-menu>
+
+        </div>
       </ng-container>
 
     </div>

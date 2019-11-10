@@ -8,7 +8,7 @@
 
     <h5> Date {{post.created.split(' ')[0]}}</h5>
     <h3 class="post-title">
-      <a [routerLink]="'/view/' + post._id">{{ post.title }}</a>
+      <a [routerLink]="'/view/' + post.id">{{ post.title }}</a>
     </h3>
     <p>
       {{ post.content }}
@@ -19,8 +19,8 @@
     </div>
 
     <div class="text-md-right">
-      <a mat-raised-button [routerLink]="'/edit/' + post._id" color="primary">Edit </a>
-      <a mat-raised-button (click)="deletePost(post._id)" color="accent">Delete </a>
+      <a mat-raised-button [routerLink]="'/edit/' + post.id" color="primary">Edit</a>
+      <a mat-raised-button (click)="deletePost(post.id)" color="accent">Delete </a>
     </div>
 
   </div>

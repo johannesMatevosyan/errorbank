@@ -12,7 +12,6 @@ export class AuthService {
   isAuthenticated: boolean = false;
   dataStorage = new BehaviorSubject<any>(this.data);
   authStatusListener = new Subject<boolean>();
-  // dataStorage = this.items.asObservable();
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -32,7 +31,7 @@ export class AuthService {
     let data = {code: user};
     this.http.post('http://localhost:3000/user/signin/callback', data)
       .subscribe((responseData) => {
-        console.log('responseData access_token ', responseData['access_token']);
+        console.log(' ***** responseData access_token ', responseData['access_token']);
         if (responseData['access_token']) {
           this.sendToken(responseData['access_token']);
         }
@@ -59,12 +58,10 @@ export class AuthService {
           };
           this.saveUserInfo(userInfo);
           this.saveUser(githubUser);
-          this.isAuthenticated = true;
-          this.authStatusListener.next(true);
-          // this.saveAuthData(token, userId);
+          // this.isAuthenticated = true;
+          // this.authStatusListener.next(true);
+          this.getJwtToken(user['id'], user['login']);
           this.dataStorage.next(githubUser);
-          localStorage.setItem('user', JSON.stringify(githubUser));
-
           this.router.navigate(['get-all']);
         } else {
           console.error("Undefined user");
@@ -72,9 +69,23 @@ export class AuthService {
       });
   }
 
-  saveAuthData(token: string, userId: string) {
-    localStorage.setItem("token", token);
-    localStorage.setItem("userId", userId);
+  getJwtToken(userId: string, userLogin: string) {
+    let user = {id: userId, login: userLogin}
+    this.http.post('http://localhost:3000/user/get-jwt-token', user)
+      .subscribe(response => {
+        console.log(' getJwtToken ** : ', response);
+        if (response['token']) {
+          this.isAuthenticated = true;
+          this.authStatusListener.next(true);
+          this.token = response['token'];
+          localStorage.setItem("token", response['token']);
+          localStorage.setItem("userId", response['userId']);
+          localStorage.setItem("login", userLogin);
+          localStorage.setItem("expiration", response['expiresIn']);
+        }
+
+      });
+
   }
 
   saveUserInfo(user) {
@@ -87,7 +98,7 @@ export class AuthService {
   getAllUsersInfo() {
     this.http.get('http://localhost:3000/user/list-info')
       .subscribe(response => {
-        console.log('getAllUsersInfo : ', response);
+        console.log('getAllUsersInfo  : ', response);
       });
   }
 
@@ -119,8 +130,20 @@ export class AuthService {
       });
   }
 
-  signOut() {
-    localStorage.clear();
+  logout() {
+    this.token = null;
+    this.isAuthenticated = false;
     this.authStatusListener.next(false);
+    // clearTimeout(this.tokenTimer);
+    // this.userId = null;
+    this.clearAuthData();
+    this.router.navigate(['/get-all']);
+  }
+
+  private clearAuthData() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiration");
+    localStorage.removeItem("login");
+    localStorage.removeItem("userId");
   }
 }
