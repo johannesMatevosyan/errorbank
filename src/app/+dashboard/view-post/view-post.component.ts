@@ -15,15 +15,16 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   constructor(private postService: PostService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.getSinglePost();
+  }
+
+  getSinglePost() {
     this.activatedRoute.params.subscribe(paramsId => {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postsSubject.subscribe(response => {
-        console.log('response ', response);
         this.post = response;
-
       });
     });
-
   }
 
   ngOnDestroy() {

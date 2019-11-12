@@ -17,29 +17,28 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private searchFilterService: SearchFilterService) {}
 
   ngOnInit() {
-    console.log('********* HeaderComponent ************ ');
-    this.userIsAuthenticated = this.authService.getIsAuth();
-    this.authListenerSubs = this.authService
-      .getAuthStatusListener()
-      .subscribe(isAuthenticated => {
-        console.log('********* isAuthenticated ************ ', isAuthenticated);
-        this.userIsAuthenticated = isAuthenticated;
-      });
-    console.log('********* this.userIsAuthenticated ************ ', this.userIsAuthenticated);
+    this.checkAuthenticationStatus();
     this.authListenerSubs = this.authService.dataStorage.subscribe(items =>  {
       this.profile = items;
     });
-
     this.searchFilterService.searchKey.subscribe(message => {
       this.message = message;
     })
+  }
+
+  checkAuthenticationStatus() {
+    console.log('HEADER ');
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authListenerSubs = this.authService.getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+      });
   }
 
   search(item) {
     this.searchFilterService.changeSearch(item)
   }
   onLogout() {
-    console.log('onLogout');
     this.authService.logout();
   }
 

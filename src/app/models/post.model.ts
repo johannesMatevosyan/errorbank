@@ -5,5 +5,6 @@ export interface PostModel {
   imagePath: string;
   created: string;
   updated?: string;
+  authorId?: string;
   maxPosts?: number;
 }

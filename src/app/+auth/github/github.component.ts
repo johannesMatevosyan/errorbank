@@ -14,7 +14,6 @@ export class GithubComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       let code = params['code'];
-      console.log('code : ', code); // Print the parameter to the console.
       this.authService.getGithubUser(code);
     });
   }

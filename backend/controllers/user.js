@@ -99,7 +99,7 @@ exports.saveUserInfo = (req, res, next) => {
       return res.status(401).json({
         message: 'Cannot save user info'
       });
-    }else{
+    } else {
       res.status(201).json({
         message: 'User info saved successfully',
         user: user

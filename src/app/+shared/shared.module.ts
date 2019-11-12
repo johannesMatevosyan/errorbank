@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/+shared/interceptors/auth.interceptor';
 import { PaginationComponent } from '@app/+shared/components/pagination/pagination.component';
 import { PostInfoComponent } from '@app/+shared/components/post-info/post-info.component';

@@ -10,15 +10,20 @@ exports.createPost = (req, res, next) => {
     created: req.body.created,
     updated: req.body.updated,
     tags: JSON.parse(req.body.tagsArray),
-    author: req.userData.userId
+    authorId: req.userData.userId
   });
-  post.save().then(createdPost => {
-    res.status(201).json({
-      message: 'Post added successfully',
-      postId: createdPost._id,
-      post: createdPost
+  post.save()
+    .then(createdPost => {
+      res.status(201).json({
+        message: 'Post added successfully',
+        postId: createdPost._id,
+        post: createdPost
+      });
+    }).catch(err => {
+      return res.status(401).json({
+        message: 'Cannot add post : ' + err
+      });
     });
-  });
 
 };
 
@@ -32,7 +37,21 @@ exports.getAllPosts = (req, res, next) => {
   }
   postQuery
     .then(documents => {
+
+      // const result = documents.map(postEx => ({
+      //   return {
+      //     title: postEx.title,
+      //     content: postEx.content,
+      //     imagePath: url + '/images/' + postEx.file.filename,
+      //     created: postEx.created,
+      //     updated: postEx.updated,
+      //     tags: JSON.parse(req.body.tagsArray),
+      //     authorId: postEx.userId
+      //   }
+      // }));
+
       fetchedPosts = documents;
+      console.log('documents : ', documents);
       return Post.count();
   }).then(count => {
     res.status(200).json({ // retrieve all posts from db
@@ -45,9 +64,7 @@ exports.getAllPosts = (req, res, next) => {
 };
 
 exports.getPostById = (req, res, next) => {
-  console.log('req.params.id : ', req.params.id);
   Post.findOne({ _id: req.params.id }).then(post => {
-    console.log('req.params post : ', post);
     res.status(200).json({
       message: `Post with id:${req.params.id} fetched successfully!`,
       post: post
@@ -62,7 +79,6 @@ exports.updatePostById = (req, res, next) => {
   if (req.file) {
     const url = req.protocol + '://' + req.get('host');
     imagePath = url + '/images/' + req.file.filename;
-    console.log('imagePath : ', imagePath);
   }
   Post.findById({ _id: req.params.id })
     .then(post => {
@@ -72,7 +88,7 @@ exports.updatePostById = (req, res, next) => {
         post.created = req.body.created;
         post.updated = req.body.updated;
         post.tags = JSON.parse(req.body.tagsArray);
-        post.author = req.userData.userId;
+        post.authorId = req.userData.userId;
       return post.save();
     }).then(result => {
     res.status(200).json({
@@ -84,7 +100,7 @@ exports.updatePostById = (req, res, next) => {
 };
 
 exports.deletePostById = (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id, author: req.userData.userId }).then(post => {
+  Post.deleteOne({ _id: req.params.id, authorId: req.userData.userId }).then(post => {
     res.status(200).json({
       message: `Post with id:${req.params.id} deleted successfully!`,
     });

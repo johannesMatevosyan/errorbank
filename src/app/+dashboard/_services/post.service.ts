@@ -21,13 +21,14 @@ export class PostService {
         map(postData => {
           return {
             posts: postData.posts.map(post => {
-              console.log('post : ', post);
+              console.log('post :: ', post);
               return {
                 id: post._id,
                 title: post.title,
                 content: post.content,
                 imagePath: post.imagePath,
                 created: post.created,
+                authorId: post.authorId,
               };
             }),
             maxPosts: postData.maxPosts
@@ -36,7 +37,7 @@ export class PostService {
       )
       .subscribe((transformedPostData) => {
 
-        console.log('transformedPostData ', transformedPostData);
+        console.log('transformedPostData >> ', transformedPostData);
         this.posts = transformedPostData.posts.slice(0);
         this.postsSubject.next(transformedPostData.posts);
       });

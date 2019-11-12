@@ -8,9 +8,12 @@ import { Router } from "@angular/router";
 })
 export class AuthService {
   data: any;
+  tokenTimer: any;
   token: string;
+  zzzzzz: boolean = false;
   isAuthenticated: boolean = false;
-  dataStorage = new BehaviorSubject<any>(this.data);
+  checkLateAuthentication = new BehaviorSubject<any>(this.data);
+  dataStorage = new BehaviorSubject<any>(this.zzzzzz);
   authStatusListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -27,11 +30,14 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
+  getObs() {
+    return this.checkLateAuthentication.asObservable();
+  }
+
   getGithubUser(user) {
     let data = {code: user};
     this.http.post('http://localhost:3000/user/signin/callback', data)
       .subscribe((responseData) => {
-        console.log(' ***** responseData access_token ', responseData['access_token']);
         if (responseData['access_token']) {
           this.sendToken(responseData['access_token']);
         }
@@ -42,7 +48,6 @@ export class AuthService {
     let data = {token: accessToken};
     this.http.post('http://localhost:3000/user/github/token', data)
       .subscribe((user) => {
-        console.log('token response ', user);
         if (user && user['name']) {
           const userInfo = {
             'id': user['id'],
@@ -58,10 +63,9 @@ export class AuthService {
           };
           this.saveUserInfo(userInfo);
           this.saveUser(githubUser);
-          // this.isAuthenticated = true;
-          // this.authStatusListener.next(true);
           this.getJwtToken(user['id'], user['login']);
           this.dataStorage.next(githubUser);
+          this.checkLateAuthentication.next(true);
           this.router.navigate(['get-all']);
         } else {
           console.error("Undefined user");
@@ -70,71 +74,73 @@ export class AuthService {
   }
 
   getJwtToken(userId: string, userLogin: string) {
-    let user = {id: userId, login: userLogin}
+    let user = {id: userId, login: userLogin};
     this.http.post('http://localhost:3000/user/get-jwt-token', user)
       .subscribe(response => {
-        console.log(' getJwtToken ** : ', response);
         if (response['token']) {
           this.isAuthenticated = true;
+          this.checkLateAuthentication.next(true);
           this.authStatusListener.next(true);
           this.token = response['token'];
           localStorage.setItem("token", response['token']);
           localStorage.setItem("userId", response['userId']);
           localStorage.setItem("login", userLogin);
           localStorage.setItem("expiration", response['expiresIn']);
+
+          const expiresInDuration = response['expiresIn'];
+          this.setAuthTimer(expiresInDuration);
         }
 
       });
 
   }
 
+  private setAuthTimer(duration: number) {
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, duration * 1000);
+  }
+
   saveUserInfo(user) {
     this.http.post('http://localhost:3000/user/save-user-info', user)
-      .subscribe(response => {
-        console.log('saveUserInfo : ', response);
-      });
+      .subscribe(response => {});
   }
 
   getAllUsersInfo() {
     this.http.get('http://localhost:3000/user/list-info')
       .subscribe(response => {
-        console.log('getAllUsersInfo  : ', response);
       });
   }
 
   getUserInfoById(userId) {
     this.http.get('http://localhost:3000/user/info/' + userId)
       .subscribe(response => {
-        console.log('getUserInfoById : ', response);
       });
   }
 
   saveUser(user){
     this.http.post('http://localhost:3000/user/save-user', user)
-      .subscribe(response => {
-        console.log('saveUser : ', response);
-      });
+      .subscribe(response => {});
   }
 
   getAllUsers(){
     this.http.get('http://localhost:3000/user/list-info')
       .subscribe(response => {
-        console.log('getAllUsers : ', response);
       });
   }
 
   getUserById(userId){
     this.http.get('http://localhost:3000/user/list-info')
       .subscribe(response => {
-        console.log('getAllUsers : ', response);
       });
   }
 
   logout() {
     this.token = null;
     this.isAuthenticated = false;
+    this.checkLateAuthentication.next(false);
     this.authStatusListener.next(false);
-    // clearTimeout(this.tokenTimer);
+    clearTimeout(this.tokenTimer);
     // this.userId = null;
     this.clearAuthData();
     this.router.navigate(['/get-all']);

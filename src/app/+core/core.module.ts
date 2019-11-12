@@ -19,10 +19,16 @@ import { RelatedPostsComponent } from './sidebar/related-posts/related-posts.com
 import { LatestPostsComponent } from './sidebar/latest-posts/latest-posts.component';
 import { CoreRoutingModule } from "@app/+core/core-routing.module";
 
-
-
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent, RelatedPostsComponent, LatestPostsComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    MainFilterComponent,
+    ProfileDropdownComponent,
+    RelatedPostsComponent,
+    LatestPostsComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,
