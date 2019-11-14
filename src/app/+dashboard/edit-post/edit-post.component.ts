@@ -53,7 +53,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         this.imagePreview = this.post.imagePath ? this.post.imagePath : '';
         this.created = this.post.created;
         let filterTagsArray = this.post.tags.map(item => {
-          return {name: item.name};
+          return {label: item.label};
         });
         this.editPostForm.setControl('tagsArray', this.fb.array(filterTagsArray || []));
       });
@@ -64,10 +64,10 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.string = event.target.value.replace(/\s/g, "");
     if(event.key === ',') {
       let trim = this.string.replace(/,/g, '');
-      this.tagsList.push({name: trim});
-      this.clonedTagsArray.push({name: trim});
+      this.tagsList.push({label: trim});
+      this.clonedTagsArray.push({label: trim});
       this.tagsFormArray.push(this.fb.control({
-        'name' : trim
+        'label' : trim
       }));
       this.tag = this.tagsList[this.tagsList.length-1];
       event.target.value = '';
@@ -79,7 +79,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
   onRemoveTags(filteredArrayOfTags){
     this.tagsFormArray.clear();
     filteredArrayOfTags.forEach(tag => {
-      this.tagsFormArray.push(this.fb.group({name: tag.name}))
+      this.tagsFormArray.push(this.fb.group({label: tag.label}))
     });
   }
 

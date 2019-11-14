@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { PostService } from '@app/+dashboard/_services/post.service';
 import { CurrentDate } from '@utils/current-date';
+import { RandomNumber } from '@utils/random-number';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -43,10 +44,12 @@ export class CreatePostComponent implements OnInit {
     this.string = event.target.value.replace(/\s/g, "");
     if(event.key === ',') {
       let trim = this.string.replace(/,/g, '');
-      this.tagsList.push({name: trim});
-      this.clonedTagsArray.push({name: trim});
+      this.tagsList.push({label: trim});
+      this.clonedTagsArray.push({label: trim});
+      let rn = new RandomNumber();
+      console.log('rn.getRandomNumber() : ', rn.getRandomNumber());
       this.addDynamicElement.push(this.fb.control({
-        'name' : trim
+        'label' : trim
       }));
       this.tag = this.tagsList[this.tagsList.length-1];
       event.target.value = '';
@@ -58,7 +61,7 @@ export class CreatePostComponent implements OnInit {
   onRemoveTags(filteredArrayOfTags){
     this.addDynamicElement.clear();
     filteredArrayOfTags.forEach(tag => {
-      this.addDynamicElement.push(this.fb.group({name: tag.name}))
+      this.addDynamicElement.push(this.fb.group({label: tag.label}))
     });
   }
 

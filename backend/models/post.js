@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const tagsSchema = mongoose.Schema({
-  name: String, required: false
+  tagId: { type: mongoose.Schema.Types.ObjectId, ref: 'Tag' },
+  required: false
 });
 
 const postSchema = mongoose.Schema({
@@ -10,7 +11,7 @@ const postSchema = mongoose.Schema({
   imagePath: { type: String, required: false },
   created: { type: String, required: true },
   updated: { type: String, required: false },
-  tags: [tagsSchema],
+  tags: [ tagsSchema ],
   authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 });
 

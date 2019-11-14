@@ -18,7 +18,7 @@ export class TagComponent implements OnInit, OnChanges {
   }
   removeTag(tag: any) {
 
-    this.tagsArray = this.tagsArray.filter(item => item.name !== tag.name);
+    this.tagsArray = this.tagsArray.filter(item => item.label !== tag.label);
     this.filteredTags.emit(this.tagsArray);
   }
 }

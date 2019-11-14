@@ -48,7 +48,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   getAll() {
     this.postsService.getAll(this.postsPerPage, this.currentPage);
     this.subscription = this.postsService.postsSubject.subscribe(response => {
-      console.log(' >>>>>> response >>>>> ', response);
       this.posts = response;
     });
   }

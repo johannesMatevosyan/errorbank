@@ -1,16 +1,30 @@
 const Post = require('../models/post');
+const Tag = require('../models/tag');
 
 exports.createPost = (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
+  const orderTags = JSON.parse(req.body.tagsArray);
+
+  console.log('req.body  : ', req.body);
+  console.log('orderTags : ', orderTags);
+
+  orderTags.forEach(singleTag => {
+    let tag = new Tag({
+      label: singleTag.label
+    });
+    tag.save();
+  });
+
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
     imagePath: url + '/images/' + req.file.filename,
     created: req.body.created,
     updated: req.body.updated,
-    tags: JSON.parse(req.body.tagsArray),
+    tags: orderTags,
     authorId: req.userData.userId
   });
+
   post.save()
     .then(createdPost => {
       res.status(201).json({
