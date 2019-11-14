@@ -13,7 +13,7 @@ import {
   MatExpansionModule,
   MatIconModule
 } from '@angular/material';
-import {AuthService} from "@app/+shared/_services/auth.service";
+// import {AuthService} from "@app/+shared/_services/auth.service";
 
 @NgModule({
   declarations: [PaginationComponent, PostInfoComponent, TagComponent],
@@ -26,7 +26,6 @@ import {AuthService} from "@app/+shared/_services/auth.service";
     MatExpansionModule,
     MatIconModule
   ],
-  providers: [AuthService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   exports: [PaginationComponent, PostInfoComponent, TagComponent],
 })
 export class SharedModule { }

@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import {Subscription} from "rxjs/index";
-import {ActivatedRoute} from "@angular/router";
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "@app/+user/_services/user.service";
+import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs/index";
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-user-profile',
+  templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
   profile: {};
   subscribeUser: Subscription;
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
@@ -22,6 +22,13 @@ export class UserComponent implements OnInit {
         this.profile = user;
       });
     });
+
+  }
+
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscribeUser.unsubscribe();
   }
 
 }

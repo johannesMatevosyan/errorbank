@@ -162,5 +162,12 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 exports.getUserById = (req, res, next) => {
-
+  console.log('exports.getUserById :::: ', req.params.id);
+  User.findOne({ userId: req.params.id }).then(singleUser => {
+    console.log('exports.singleUser :::: ', singleUser);
+    res.status(200).json({
+      message: `User with id:${req.params.id} fetched successfully!`,
+      user: singleUser
+    });
+  });
 };

@@ -19,6 +19,7 @@ export class PostService {
     this.http.get<{posts: PostModel[]; maxPosts: number}>('http://localhost:3000/posts/get-all' + queryParams)
       .pipe(
         map(postData => {
+          console.log(' :::::: postData :::::: ', postData);
           return {
             posts: postData.posts.map(post => {
               console.log('post :: ', post);

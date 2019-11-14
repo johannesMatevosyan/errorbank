@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const User = require('../models/user');
 
 exports.createPost = (req, res, next) => {
   console.log('req.userData ', req.userData);
@@ -36,22 +37,11 @@ exports.getAllPosts = (req, res, next) => {
     postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
   }
   postQuery
+    .populate('authorId', 'name')
     .then(documents => {
 
-      // const result = documents.map(postEx => ({
-      //   return {
-      //     title: postEx.title,
-      //     content: postEx.content,
-      //     imagePath: url + '/images/' + postEx.file.filename,
-      //     created: postEx.created,
-      //     updated: postEx.updated,
-      //     tags: JSON.parse(req.body.tagsArray),
-      //     authorId: postEx.userId
-      //   }
-      // }));
-
       fetchedPosts = documents;
-      console.log('documents : ', documents);
+
       return Post.count();
   }).then(count => {
     res.status(200).json({ // retrieve all posts from db

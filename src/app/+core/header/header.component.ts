@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.checkAuthenticationStatus();
     this.authListenerSubs = this.authService.dataStorage.subscribe(items =>  {
+      console.log(' :::: items ::::: ', items);
       this.profile = items;
     });
     this.searchFilterService.searchKey.subscribe(message => {
@@ -31,6 +32,7 @@ export class HeaderComponent implements OnInit {
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
+        debugger;
         this.userIsAuthenticated = isAuthenticated;
       });
   }

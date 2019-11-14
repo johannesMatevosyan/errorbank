@@ -33,8 +33,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   }
 
   checkAuthenticationStatus() {
-    console.log('POSTS');
-    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.userIsAuthenticated = this.authService.getValue();
     this.authStatusSub = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
         debugger;
@@ -44,15 +43,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
       }, () => {
         console.log('onCompleted');
       });
-   const AAAAA = this.authService.checkLateAuthentication.getValue();
-   console.log('AAAAA ', AAAAA);
-    this.authStatusSub = this.authService.checkLateAuthentication.subscribe(items =>  {
-      console.log(' *********** test2 :  ', items);
-    });
 
-    this.authService.getObs().subscribe(profile => {
-      console.log('profile : ', profile);
-    });
   }
 
   getAll() {
@@ -61,6 +52,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
       this.posts = response;
     });
   }
+
 
   deletePost(id) {
     this.postsService.delete(id);

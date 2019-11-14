@@ -37,8 +37,7 @@
             <span class="sandwich-bar"></span>
           </button>
           <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <button mat-menu-item><a routerLink="/user/posts">Your posts</a></button>
-            <button mat-menu-item><a routerLink="/user/favorite-posts">Your favorites</a></button>
+            <button mat-menu-item><a [routerLink]="'/user/profile/' + profile.id">Profile</a></button>
             <button mat-menu-item (click)="onLogout()">Log Out</button>
           </mat-menu>
 

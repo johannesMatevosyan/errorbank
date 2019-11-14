@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +16,8 @@ import {
 import { CoreModule } from '@app/+core/core.module';
 import { DashboardModule } from '@app/+dashboard/dashboard.module';
 import { ToastrModule } from "ngx-toastr";
-
+import {AuthInterceptor} from "@app/+shared/interceptors/auth.interceptor";
+import {AuthService} from "@app/+shared/_services/auth.service";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { ToastrModule } from "ngx-toastr";
     MatPaginatorModule,
     DashboardModule
   ],
-  providers: [],
+  providers: [AuthService , { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,1 +1,13 @@
+<mat-list role="list"  class="list-horizontal">
+  <mat-list-item role="listitem" class="mat-list-item" routerLinkActive="mat-accent">
+    <a [routerLink]="'/user/profile/' + profile?.userId" mat-button>Profile</a>
+  </mat-list-item>
+  <mat-list-item role="listitem" class="mat-list-item" routerLinkActive="mat-accent">
+    <a [routerLink]="'/user/posts/'" mat-button>Posts</a>
+  </mat-list-item>
+  <mat-list-item role="listitem" class="mat-list-item" routerLinkActive="mat-accent">
+    <a [routerLink]="'/user/favorite-posts/'" mat-button>Favourites</a>
+  </mat-list-item>
+</mat-list>
+
 <router-outlet></router-outlet>

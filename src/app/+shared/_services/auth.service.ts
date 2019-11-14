@@ -13,8 +13,8 @@ export class AuthService {
   zzzzzz: boolean = false;
   isAuthenticated: boolean = false;
   checkLateAuthentication = new BehaviorSubject<any>(this.data);
-  dataStorage = new BehaviorSubject<any>(this.zzzzzz);
-  authStatusListener = new Subject<boolean>();
+  dataStorage = new BehaviorSubject<any>(this.data);
+  authStatusListener = new BehaviorSubject(false);
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -32,6 +32,10 @@ export class AuthService {
 
   getObs() {
     return this.checkLateAuthentication.asObservable();
+  }
+
+  getValue() {
+    return this.authStatusListener.getValue();
   }
 
   getGithubUser(user) {
@@ -79,7 +83,7 @@ export class AuthService {
       .subscribe(response => {
         if (response['token']) {
           this.isAuthenticated = true;
-          this.checkLateAuthentication.next(true);
+          debugger;
           this.authStatusListener.next(true);
           this.token = response['token'];
           localStorage.setItem("token", response['token']);
@@ -106,33 +110,9 @@ export class AuthService {
       .subscribe(response => {});
   }
 
-  getAllUsersInfo() {
-    this.http.get('http://localhost:3000/user/list-info')
-      .subscribe(response => {
-      });
-  }
-
-  getUserInfoById(userId) {
-    this.http.get('http://localhost:3000/user/info/' + userId)
-      .subscribe(response => {
-      });
-  }
-
   saveUser(user){
     this.http.post('http://localhost:3000/user/save-user', user)
       .subscribe(response => {});
-  }
-
-  getAllUsers(){
-    this.http.get('http://localhost:3000/user/list-info')
-      .subscribe(response => {
-      });
-  }
-
-  getUserById(userId){
-    this.http.get('http://localhost:3000/user/list-info')
-      .subscribe(response => {
-      });
   }
 
   logout() {
