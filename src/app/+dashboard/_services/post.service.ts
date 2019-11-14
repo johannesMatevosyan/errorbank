@@ -29,6 +29,7 @@ export class PostService {
                 content: post.content,
                 imagePath: post.imagePath,
                 created: post.created,
+                tags: post.tags,
                 authorId: post.authorId,
               };
             }),

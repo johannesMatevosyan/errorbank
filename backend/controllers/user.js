@@ -4,7 +4,6 @@ const UserInfo = require('../models/user-info');
 const User = require('../models/user');
 
 exports.githubSignIn = (req, res, next) => {
-  const { query } = req.body;
   const code = req.body.code;
 
   if(!code) {
@@ -14,8 +13,6 @@ exports.githubSignIn = (req, res, next) => {
     });
   }
 
-  // Post
-  console.log('code: ', code);
   request
     .post('https://github.com/login/oauth/access_token')
     .send({
@@ -95,7 +92,6 @@ exports.saveUserInfo = (req, res, next) => {
   };
   UserInfo.findOneAndUpdate(query, userInfo, { upsert: true }, (err, user) => {
     if (err){
-      console.log('err : ', err);
       return res.status(401).json({
         message: 'Cannot save user info'
       });
@@ -117,7 +113,6 @@ exports.getAllUsersInfo = (req, res, next) => {
       })
     })
     .catch(err => {
-      console.log('err', err);
       return res.status(401).json({
         message: 'Cannot find user info'
       });
@@ -162,9 +157,7 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 exports.getUserById = (req, res, next) => {
-  console.log('exports.getUserById :::: ', req.params.id);
   User.findOne({ userId: req.params.id }).then(singleUser => {
-    console.log('exports.singleUser :::: ', singleUser);
     res.status(200).json({
       message: `User with id:${req.params.id} fetched successfully!`,
       user: singleUser

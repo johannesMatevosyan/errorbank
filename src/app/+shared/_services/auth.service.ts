@@ -83,7 +83,6 @@ export class AuthService {
       .subscribe(response => {
         if (response['token']) {
           this.isAuthenticated = true;
-          debugger;
           this.authStatusListener.next(true);
           this.token = response['token'];
           localStorage.setItem("token", response['token']);

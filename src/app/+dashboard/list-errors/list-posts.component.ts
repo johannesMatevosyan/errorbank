@@ -36,7 +36,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.userIsAuthenticated = this.authService.getValue();
     this.authStatusSub = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
-        debugger;
         this.userIsAuthenticated = isAuthenticated;
       },error => {
         console.error('error: ', error);
@@ -49,6 +48,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   getAll() {
     this.postsService.getAll(this.postsPerPage, this.currentPage);
     this.subscription = this.postsService.postsSubject.subscribe(response => {
+      console.log(' >>>>>> response >>>>> ', response);
       this.posts = response;
     });
   }
