@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs/index";
+import {environment} from "@env/environment";
+
+const BACKEND_URL = environment.apiUrl + '/user/';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +14,13 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getAllUsersInfo() {
-    this.http.get('http://localhost:3000/user/list-info')
+    this.http.get(BACKEND_URL + '/list-info')
       .subscribe(response => {
       });
   }
 
   getUserInfoById(userId) {
-    this.http.get('http://localhost:3000/user/info/' + userId)
+    this.http.get(BACKEND_URL + '/info/' + userId)
       .subscribe(response => {
 
       });
@@ -25,14 +28,14 @@ export class UserService {
 
 
   getAllUsers(){
-    this.http.get('http://localhost:3000/user/list-info')
+    this.http.get(BACKEND_URL + '/list-info')
       .subscribe(response => {
       });
   }
 
   getUserById(userId){
-    console.log('*********** userId ********* ', userId);
-    return this.http.get('http://localhost:3000/user/profile/' + userId).subscribe(userData => {
+    console.log('********** userId ********* ', userId);
+    return this.http.get(BACKEND_URL + '/profile/' + userId).subscribe(userData => {
       console.log('*********** user ********* ', userData['user']);
       this.userStorage.next(userData['user']);
     });

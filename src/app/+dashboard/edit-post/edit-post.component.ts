@@ -52,10 +52,13 @@ export class EditPostComponent implements OnInit, OnDestroy {
         this.clonedTagsArray = this.post.tags;
         this.imagePreview = this.post.imagePath ? this.post.imagePath : '';
         this.created = this.post.created;
-        let filterTagsArray = this.post.tags.map(item => {
-          return {label: item.label};
-        });
-        this.editPostForm.setControl('tagsArray', this.fb.array(filterTagsArray || []));
+        if (this.post.tags) {
+          let filterTagsArray = this.post.tags.map(item => {
+            return {label: item.label};
+          });
+          this.editPostForm.setControl('tagsArray', this.fb.array(filterTagsArray || []));
+        }
+
       });
     });
   }

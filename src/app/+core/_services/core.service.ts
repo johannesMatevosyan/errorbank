@@ -3,6 +3,9 @@ import { PostModel } from '@models/post.model';
 import { TagModel } from '@models/tag.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
+import {environment} from "@env/environment";
+
+const BACKEND_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +19,7 @@ export class CoreService {
   constructor(private http: HttpClient) { }
 
   getAllByDate() {
-    this.http.get<{posts: PostModel[]}>('http://localhost:3000/posts/get-by-date')
+    this.http.get<{posts: PostModel[]}>(BACKEND_URL + '/posts/get-by-date')
       .subscribe((responseData) => {
         this.posts = responseData.posts.slice(0);
         this.postsSubject.next(responseData.posts);
@@ -24,7 +27,7 @@ export class CoreService {
   }
 
   getTags() {
-    this.http.get<{tagsArray: TagModel[]}>('http://localhost:3000/tags/get-all-tags')
+    this.http.get<{tagsArray: TagModel[]}>(BACKEND_URL + '/tags/get-all-tags')
       .subscribe((responseData) => {
         const orderTagsArray = responseData.tagsArray.map(item => {
           return { id : item._id, label: item.label }

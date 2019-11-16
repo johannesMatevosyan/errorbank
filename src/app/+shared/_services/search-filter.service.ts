@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {PostModel} from "@models/post.model";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "@env/environment";
+
+const BACKEND_URL = environment.apiUrl + '/search/';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,7 @@ export class SearchFilterService {
   searchKey = this.searchSource.asObservable();
 
   changeSearch(searchText: string) {
-    this.http.post('http://localhost:3000/search/', {key: searchText})
+    this.http.post(BACKEND_URL, {key: searchText})
       .subscribe((searchResponse: any) => {
         this.searchSource.next(searchResponse);
       });
@@ -24,7 +27,7 @@ export class SearchFilterService {
 
   searchByTag(tagObj) {
     console.log('tagObj ', tagObj);
-    this.http.post('http://localhost:3000/search/tag-name', tagObj)
+    this.http.post(BACKEND_URL + '/tag-name', tagObj)
       .subscribe((searchResponse: any) => {
         this.searchSource.next(searchResponse);
       });

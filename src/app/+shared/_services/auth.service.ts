@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Router } from "@angular/router";
+import {environment} from "@env/environment";
+
+const BACKEND_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,6 @@ export class AuthService {
   data: any;
   tokenTimer: any;
   token: string;
-  zzzzzz: boolean = false;
   isAuthenticated: boolean = false;
   checkLateAuthentication = new BehaviorSubject<any>(this.data);
   dataStorage = new BehaviorSubject<any>(this.data);
@@ -40,7 +42,7 @@ export class AuthService {
 
   getGithubUser(user) {
     let data = {code: user};
-    this.http.post('http://localhost:3000/user/signin/callback', data)
+    this.http.post(BACKEND_URL + '/user/signin/callback', data)
       .subscribe((responseData) => {
         if (responseData['access_token']) {
           this.sendToken(responseData['access_token']);
@@ -50,7 +52,7 @@ export class AuthService {
 
   sendToken(accessToken = null) {
     let data = {token: accessToken};
-    this.http.post('http://localhost:3000/user/github/token', data)
+    this.http.post(BACKEND_URL + '/user/github/token', data)
       .subscribe((user) => {
         if (user && user['name']) {
           const userInfo = {
@@ -79,7 +81,7 @@ export class AuthService {
 
   getJwtToken(userId: string, userLogin: string) {
     let user = {id: userId, login: userLogin};
-    this.http.post('http://localhost:3000/user/get-jwt-token', user)
+    this.http.post(BACKEND_URL + '/user/get-jwt-token', user)
       .subscribe(response => {
         if (response['token']) {
           this.isAuthenticated = true;
@@ -105,12 +107,12 @@ export class AuthService {
   }
 
   saveUserInfo(user) {
-    this.http.post('http://localhost:3000/user/save-user-info', user)
+    this.http.post(BACKEND_URL + '/user/save-user-info', user)
       .subscribe(response => {});
   }
 
   saveUser(user){
-    this.http.post('http://localhost:3000/user/save-user', user)
+    this.http.post(BACKEND_URL + '/user/save-user', user)
       .subscribe(response => {});
   }
 

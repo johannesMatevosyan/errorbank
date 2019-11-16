@@ -5,6 +5,9 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Router} from "@angular/router";
 import {TagModel} from "@models/tag.model";
+import {environment} from "@env/environment";
+
+const BACKEND_URL = environment.apiUrl + '/posts/';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +22,10 @@ export class PostService {
 
   getAll(postsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
-    this.http.get<{posts: PostModel[]; tagsArray: TagModel[]; maxPosts: number}>('http://localhost:3000/posts/get-all' + queryParams)
+    this.http.get<{posts: PostModel[]; tagsArray: TagModel[]; maxPosts: number}>(BACKEND_URL +'get-all' + queryParams)
       .pipe(
         map(postData => {
-          console.log(' :::::: postData :::::: ', postData);
+          console.log(' :::::: postData ::::::   ', postData);
           return {
             posts: postData.posts.map(post => {
               return {
@@ -64,7 +67,7 @@ export class PostService {
     postData.append('updated', post.updated);
     postData.append('tagsArray', JSON.stringify(post.tagsArray));
 
-    this.http.post<PostModel[]>('http://localhost:3000/posts/create', postData)
+    this.http.post<PostModel[]>(BACKEND_URL + 'create', postData)
       .subscribe((responseData) => {
         this.posts.push(post);
         this.postsSubject.next(responseData);
@@ -72,7 +75,7 @@ export class PostService {
   }
 
   getPostById(postId: string) {
-    this.http.get<{post: PostModel[]}>('http://localhost:3000/posts/get-id/' + postId)
+    this.http.get<{post: PostModel[]}>(BACKEND_URL + 'get-id/' + postId)
       .subscribe((responseData) => {
         this.postsSubject.next(responseData.post);
       });
@@ -89,14 +92,14 @@ export class PostService {
     postData.append('updated', post.updated);
     postData.append('tagsArray', JSON.stringify(post.tagsArray));
 
-    this.http.put<{post: PostModel[]}>('http://localhost:3000/posts/update/' + postId, postData)
+    this.http.put<{post: PostModel[]}>(BACKEND_URL + 'update/' + postId, postData)
       .subscribe((responseData) => {
         this.router.navigate(['/get-all']);
       });
   }
 
   delete(postId: string) {
-    this.http.delete('http://localhost:3000/posts/delete/' + postId)
+    this.http.delete(BACKEND_URL + 'delete/' + postId)
       .subscribe(() => {
         const updatedPosts = this.posts.filter(obj => {
           return obj._id !== postId;
@@ -104,16 +107,5 @@ export class PostService {
         this.postsSubject.next(updatedPosts);
       });
   }
-
-  // getTags() {
-  //   this.http.get<{tagsArray: TagModel[]}>('http://localhost:3000/tags/get-all-tags')
-  //     .subscribe((responseData) => {
-  //       const orderTagsArray = responseData.tagsArray.map(item => {
-  //         return { id : item._id, label: item.label }
-  //       });
-  //       this.tagsArray = orderTagsArray.slice(0);
-  //       this.tagsSubject.next(orderTagsArray);
-  //     });
-  // }
 
 }
