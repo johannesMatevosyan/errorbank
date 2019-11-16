@@ -60,7 +60,8 @@ exports.getJWTToken = (req, res, next) => {
       const token = jwt.sign({ // create token based on input
           id: user._id,
           login: user.login
-        }, 'secret_this_should_be_longer',
+        },
+        process.env.JWT_KEY,
         {expiresIn: '1h'}
       );
 
