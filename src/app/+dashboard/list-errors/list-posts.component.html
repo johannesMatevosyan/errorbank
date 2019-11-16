@@ -20,9 +20,11 @@
     <p>
       {{ post.content }}
     </p>
-    <div class="tag-list" *ngIf="post.tags?.length > 0">
-      <h3 class="tag-list-title">Tags </h3>
-      <app-tag [tagsArray]="post.tags" [removable]="false"></app-tag>
+    <div class="tag-list" *ngIf="tagsArray?.length > 0">
+      <h3 class="tag-list-title">Tags</h3>
+      <app-tag
+        [tagsArray]="tagsArray"
+        [removable]="false"></app-tag>
     </div>
 
     <div class="text-md-right" *ngIf="userIsAuthenticated">

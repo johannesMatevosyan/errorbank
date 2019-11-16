@@ -5,6 +5,7 @@ import { PostModel } from "@models/post.model";
 import { Subscription } from "rxjs/index";
 import { SearchFilterService } from "@app/+shared/_services/search-filter.service";
 import { AuthService } from "@app/+shared/_services/auth.service";
+import { TagModel } from "@models/tag.model";
 
 @Component({
   selector: 'app-list-dashboard',
@@ -16,6 +17,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   postsPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  tagsArray: TagModel[] = [];
   posts: PostModel[] = [];
   userIsAuthenticated = false;
   authStatusSub: Subscription;
@@ -48,10 +50,10 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   getAll() {
     this.postsService.getAll(this.postsPerPage, this.currentPage);
     this.subscription = this.postsService.postsSubject.subscribe(response => {
+      console.log('posts response : ', response);
       this.posts = response;
     });
   }
-
 
   deletePost(id) {
     this.postsService.delete(id);
@@ -61,6 +63,10 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.currentPage = pageData.pageIndex + 1;
     this.postsPerPage = pageData.pageSize;
     this.postsService.getAll(this.postsPerPage, this.currentPage);
+  }
+
+  filterByTag(tagObject) {
+    console.log('filterByTag ', tagObject);
   }
 
   ngOnDestroy() {

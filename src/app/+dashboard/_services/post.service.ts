@@ -4,42 +4,51 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Router} from "@angular/router";
+import {TagModel} from "@models/tag.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
   posts = [];
+  tagsArray = [];
+  tagsSubject = new Subject<TagModel[]>();
   postsSubject = new Subject<PostModel[]>();
 
   constructor(private http: HttpClient, private router: Router) { }
 
   getAll(postsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
-    this.http.get<{posts: PostModel[]; maxPosts: number}>('http://localhost:3000/posts/get-all' + queryParams)
+    this.http.get<{posts: PostModel[]; tagsArray: TagModel[]; maxPosts: number}>('http://localhost:3000/posts/get-all' + queryParams)
       .pipe(
         map(postData => {
           console.log(' :::::: postData :::::: ', postData);
           return {
             posts: postData.posts.map(post => {
-              console.log('post :: ', post);
               return {
                 id: post._id,
                 title: post.title,
                 content: post.content,
                 imagePath: post.imagePath,
                 created: post.created,
-                tags: post.tags,
                 authorId: post.authorId,
               };
             }),
+            tagsArray : postData.tagsArray,
+            // tagsArray : postData.tagsArray.map(item => {
+            //   let orderedTags = { id : item._id, label: item.label };
+            //   this.tagsArray = item.slice(0);
+            //   this.tagsSubject.next(orderedTags);
+            //   return orderedTags;
+            // }),
+
+
             maxPosts: postData.maxPosts
           };
         })
       )
       .subscribe((transformedPostData) => {
 
-        console.log('transformedPostData >> ', transformedPostData);
         this.posts = transformedPostData.posts.slice(0);
         this.postsSubject.next(transformedPostData.posts);
       });
@@ -95,5 +104,16 @@ export class PostService {
         this.postsSubject.next(updatedPosts);
       });
   }
+
+  // getTags() {
+  //   this.http.get<{tagsArray: TagModel[]}>('http://localhost:3000/tags/get-all-tags')
+  //     .subscribe((responseData) => {
+  //       const orderTagsArray = responseData.tagsArray.map(item => {
+  //         return { id : item._id, label: item.label }
+  //       });
+  //       this.tagsArray = orderTagsArray.slice(0);
+  //       this.tagsSubject.next(orderTagsArray);
+  //     });
+  // }
 
 }

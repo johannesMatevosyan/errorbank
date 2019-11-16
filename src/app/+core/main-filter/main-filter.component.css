@@ -1,3 +1,7 @@
-.main-filter-box{
+.filter-sidebar {
   border: 1px solid #000000;
+  padding: 5px;
+}
+.filter-sidebar .tag {
+  margin-bottom: 5px;
 }

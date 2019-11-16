@@ -3,12 +3,9 @@ const Tag = require('../models/tag');
 
 exports.createPost = (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
-  const orderTags = JSON.parse(req.body.tagsArray);
+  const orderTagsArray = JSON.parse(req.body.tagsArray);
 
-  console.log('req.body  : ', req.body);
-  console.log('orderTags : ', orderTags);
-
-  orderTags.forEach(singleTag => {
+  orderTagsArray.forEach(singleTag => {
     let tag = new Tag({
       label: singleTag.label
     });
@@ -21,7 +18,7 @@ exports.createPost = (req, res, next) => {
     imagePath: url + '/images/' + req.file.filename,
     created: req.body.created,
     updated: req.body.updated,
-    tags: orderTags,
+    tagIdArray: orderTagsArray,
     authorId: req.userData.userId
   });
 
@@ -30,7 +27,8 @@ exports.createPost = (req, res, next) => {
       res.status(201).json({
         message: 'Post added successfully',
         postId: createdPost._id,
-        post: createdPost
+        post: createdPost,
+        tagsArray: []
       });
     }).catch(err => {
       return res.status(401).json({
@@ -50,14 +48,14 @@ exports.getAllPosts = (req, res, next) => {
   }
   postQuery
     .populate('authorId', 'name')
+    .populate('tagIdArray.tagId')
     .then(documents => {
-
+      console.log('documents ', documents);
       fetchedPosts = documents;
-
       return Post.count();
   }).then(count => {
     res.status(200).json({ // retrieve all posts from db
-      message: 'Posts fetched successfully!',
+      message: 'Posts fetched successfully! ',
       posts: fetchedPosts,
       maxPosts: count
     });
@@ -89,7 +87,7 @@ exports.updatePostById = (req, res, next) => {
         post.imagePath = imagePath;
         post.created = req.body.created;
         post.updated = req.body.updated;
-        post.tags = JSON.parse(req.body.tagsArray);
+        post.tagIdArray = JSON.parse(req.body.tagsArray);
         post.authorId = req.userData.userId;
       return post.save();
     }).then(result => {

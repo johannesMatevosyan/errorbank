@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "@app/+user/_services/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs/index";
+import {UserModel} from "@models/user.model";
 
 @Component({
   selector: 'app-user-profile',
@@ -9,7 +10,13 @@ import {Subscription} from "rxjs/index";
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
-  profile: {};
+  profile: UserModel;
+  /*
+  login: "johannesZeJoker"
+  name: "johannesZeJoker"
+  userId: "57531749"
+  _id: "5dc56e76d44d9a1131fece3d"
+   */
   subscribeUser: Subscription;
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
 
@@ -18,8 +25,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       let userId = paramsId['id'];
       this.userService.getUserById(userId);
       this.subscribeUser = this.userService.userStorage.subscribe(user => {
-        console.log('user response : ', user);
-        this.profile = user;
+        if (user) {
+          console.log('user response : ', user);
+          console.log('user typeof : ', typeof user.userId);
+          this.profile = user;
+        }
+
       });
     });
 

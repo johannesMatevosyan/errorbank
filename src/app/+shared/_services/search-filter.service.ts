@@ -20,6 +20,13 @@ export class SearchFilterService {
         this.searchSource.next(searchResponse);
       });
 
+  }
 
+  searchByTag(tagObj) {
+    console.log('tagObj ', tagObj);
+    this.http.post('http://localhost:3000/search/tag-name', tagObj)
+      .subscribe((searchResponse: any) => {
+        this.searchSource.next(searchResponse);
+      });
   }
 }

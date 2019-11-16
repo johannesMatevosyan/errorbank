@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from '@app/+user/user-routing.module';
 import { SharedModule } from '@app/+shared/shared.module';
-import { MatListModule, MatButtonModule } from '@angular/material';
+import {AngularMaterialModule} from "@app/angular-material.module";
 
 import { UserComponent } from './user.component';
 import { UserPostsComponent } from './user-posts/user-posts.component';
@@ -14,8 +14,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
   declarations: [UserComponent, UserPostsComponent, UserFavoritePostsComponent, UserProfileComponent],
   imports: [
     CommonModule,
-    MatListModule,
-    MatButtonModule,
+    AngularMaterialModule,
     UserRoutingModule,
     SharedModule
   ]

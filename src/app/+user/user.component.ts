@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from "rxjs/index";
 import {ActivatedRoute} from "@angular/router";
+import {UserModel} from "@models/user.model";
 import {UserService} from "@app/+user/_services/user.service";
 
 @Component({
@@ -9,7 +10,7 @@ import {UserService} from "@app/+user/_services/user.service";
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  profile: {};
+  profile: UserModel;
   subscribeUser: Subscription;
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
 
@@ -19,7 +20,9 @@ export class UserComponent implements OnInit {
       this.userService.getUserById(userId);
       this.subscribeUser = this.userService.userStorage.subscribe(user => {
         console.log('user response : ', user);
-        this.profile = user;
+        if (user) {
+          this.profile = user;
+        }
       });
     });
   }
