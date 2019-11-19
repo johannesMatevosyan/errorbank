@@ -69,9 +69,14 @@ exports.getAllPosts = (req, res, next) => {
 };
 
 exports.getPostById = (req, res, next) => {
-  Post.findOne({ _id: req.params.id }).then(post => {
+  const postQuery = Post.findOne({ _id: req.params.id });
+
+  postQuery
+    .populate('authorId', 'name')
+    .populate('tags', 'label')
+    .findOne().then(post => {
     res.status(200).json({
-      message: `Post with id:${req.params.id} fetched successfully!`,
+      message: `Post with id:${req.params.id} fetched successfully !`,
       post: post
     });
   });

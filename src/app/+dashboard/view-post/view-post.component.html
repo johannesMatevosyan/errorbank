@@ -1,6 +1,10 @@
 <section class="post-box-view">
 
-  <h5>Date {{post?.created.split(' ')[0]}}</h5>
+  <h5 class="sp mb-15">
+    <span class="date"> Date {{post?.created.split(' ')[0]}} </span>
+    <span class="author">Author: {{ post?.authorId.name }}</span>
+  </h5>
+
   <h2 class="post-title text-center">{{ post?.title }}</h2>
   <p class="post-content">{{ post?.content }}</p>
   <img [src]="post?.imagePath" alt="{{ post?.title }}">
