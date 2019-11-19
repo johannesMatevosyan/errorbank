@@ -2,40 +2,45 @@ const Post = require('../models/post');
 const Tag = require('../models/tag');
 
 exports.createPost = (req, res, next) => {
+  const parseTagsArray = JSON.parse(req.body.tagsArray);
   const url = req.protocol + '://' + req.get('host');
-  const orderTagsArray = JSON.parse(req.body.tagsArray);
+  const file = req.file.filename && (url + '/images/' + req.file.filename);
+  const saveTagsPromises = [];
 
-  orderTagsArray.forEach(singleTag => {
-    let tag = new Tag({
+  parseTagsArray.forEach(singleTag => { // Save tags to 'tags' table
+    let query = {
       label: singleTag.label
-    });
-    tag.save();
+    };
+    saveTagsPromises.push(Tag.findOneAndUpdate(query, query, { upsert: true, new: true }));
   });
+  Promise.all(saveTagsPromises)
+    .then((tags) => {
+      const tagIds = [];
 
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    imagePath: url + '/images/' + req.file.filename,
-    created: req.body.created,
-    updated: req.body.updated,
-    tagIdArray: orderTagsArray,
-    authorId: req.userData.userId
-  });
-
-  post.save()
-    .then(createdPost => {
-      res.status(201).json({
-        message: 'Post added successfully',
-        postId: createdPost._id,
-        post: createdPost,
-        tagsArray: []
+      tags.forEach(tag => tag && tagIds.push(tag._id));
+      const post = new Post({
+        title: req.body.title,
+        content: req.body.content,
+        imagePath: file,
+        created: req.body.created,
+        updated: req.body.updated,
+        tags: tagIds,
+        authorId: req.userData.userId
       });
-    }).catch(err => {
-      return res.status(401).json({
-        message: 'Cannot add post : ' + err
+      post.save()
+        .then(createdPost => {
+          res.status(201).json({
+            message: 'Post added successfully',
+            postId: createdPost._id,
+            post: createdPost,
+          });
+        }).catch(err => {
+        return res.status(401).json({
+          message: 'Cannot add post : ' + err
+        });
       });
-    });
-
+    })
+    .catch(error => console.log(`Error in promises: ${error}`));
 };
 
 exports.getAllPosts = (req, res, next) => {
@@ -48,7 +53,7 @@ exports.getAllPosts = (req, res, next) => {
   }
   postQuery
     .populate('authorId', 'name')
-    .populate('tagIdArray.tagId')
+    .populate('tags.label')
     .then(documents => {
       console.log('documents ', documents);
       fetchedPosts = documents;
@@ -87,7 +92,7 @@ exports.updatePostById = (req, res, next) => {
         post.imagePath = imagePath;
         post.created = req.body.created;
         post.updated = req.body.updated;
-        post.tagIdArray = JSON.parse(req.body.tagsArray);
+        post.tags = JSON.parse(req.body.tagsArray);
         post.authorId = req.userData.userId;
       return post.save();
     }).then(result => {
@@ -102,7 +107,7 @@ exports.updatePostById = (req, res, next) => {
 exports.deletePostById = (req, res, next) => {
   Post.deleteOne({ _id: req.params.id, authorId: req.userData.userId }).then(post => {
     res.status(200).json({
-      message: `Post with id:${req.params.id} deleted successfully!`,
+      message: `Post with id:${req.params.id} deleted successfully! `,
     });
   });
 

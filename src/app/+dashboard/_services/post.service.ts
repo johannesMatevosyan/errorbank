@@ -45,7 +45,6 @@ export class PostService {
             //   return orderedTags;
             // }),
 
-
             maxPosts: postData.maxPosts
           };
         })
