@@ -17,5 +17,10 @@
   </div>
 
 </section>
+<section>
+  <div class="comment-box" *ngIf="comment !== undefined">
+    text: {{ comment?.text }}
+  </div>
+</section>
 <app-comment [postInfo]="postInfo" (sendComment)="onPostComment($event)"></app-comment>
 

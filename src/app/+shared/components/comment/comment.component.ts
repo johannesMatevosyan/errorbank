@@ -15,7 +15,6 @@ export class CommentComponent implements OnInit {
   }
 
   postComment(text) {
-    console.log('text ', text);
     let cd = new CurrentDate();
     let comment = {
       text: text,

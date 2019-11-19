@@ -4,6 +4,7 @@ import {PostService} from "@app/+dashboard/_services/post.service";
 import {Subscription} from "rxjs/index";
 import {PostModel} from "@models/post.model";
 import {CommentService} from "@app/+shared/_services/comment.service";
+import {CommentModel} from "@models/comment.model";
 
 @Component({
   selector: 'app-view-post',
@@ -13,6 +14,8 @@ import {CommentService} from "@app/+shared/_services/comment.service";
 export class ViewPostComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   post: PostModel;
+  postId: string = '75757575';
+  comment: CommentModel;
   postInfo = {
     postId : '',
     userId : ''
@@ -22,6 +25,8 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getSinglePost();
+    this.getComment();
+    this.getCommentByPost(this.postId);
   }
 
   getSinglePost() {
@@ -40,8 +45,30 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   onPostComment(comment) {
-    console.log('onPostComment', comment);
     this.commentService.saveComment(comment);
+  }
+
+  getComment(){
+    this.subscription = this.commentService.commentSubject.subscribe((response) => {
+
+      if (response) {
+        this.comment = response;
+      }
+    });
+  }
+
+  getCommentByPost(post) {
+    this.activatedRoute.params.subscribe(paramsId => {
+      if (paramsId.id) {
+        this.commentService.getCommentsByPostID(paramsId.id);
+        this.subscription = this.commentService.commentsSubject.subscribe((response) => {
+          if(response){
+            console.log('this.commentService.commentsSubject  : ', response);
+          }
+        });
+      }
+    });
+
   }
 
   ngOnDestroy() {

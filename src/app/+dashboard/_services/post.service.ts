@@ -15,7 +15,6 @@ const BACKEND_URL = environment.apiUrl + '/posts/';
 export class PostService {
   posts = [];
   tagsArray = [];
-  tagsSubject = new Subject<TagModel[]>();
   postSubject = new Subject<PostModel>();
   postsSubject = new Subject<PostModel[]>();
 
@@ -26,7 +25,6 @@ export class PostService {
     this.http.get<{posts: PostModel[]; maxPosts: number}>(BACKEND_URL +'get-all' + queryParams)
       .pipe(
         map(postData => {
-          console.log(' :::::: postData ::::::   ', postData);
           return {
             posts: postData.posts.map(post => {
               return {
@@ -40,7 +38,6 @@ export class PostService {
                 author: post.author,
               };
             }),
-
             maxPosts: postData.maxPosts
           };
         })
