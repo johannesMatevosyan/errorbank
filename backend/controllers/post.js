@@ -53,9 +53,9 @@ exports.getAllPosts = (req, res, next) => {
   }
   postQuery
     .populate('authorId', 'name')
-    .populate('tags.label')
+    .populate('tags', 'label')
     .then(documents => {
-      console.log('documents ', documents);
+      console.log('*** documents ', documents);
       fetchedPosts = documents;
       return Post.count();
   }).then(count => {

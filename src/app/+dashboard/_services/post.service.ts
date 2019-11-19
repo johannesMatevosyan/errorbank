@@ -22,7 +22,7 @@ export class PostService {
 
   getAll(postsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
-    this.http.get<{posts: PostModel[]; tagsArray: TagModel[]; maxPosts: number}>(BACKEND_URL +'get-all' + queryParams)
+    this.http.get<{posts: PostModel[]; maxPosts: number}>(BACKEND_URL +'get-all' + queryParams)
       .pipe(
         map(postData => {
           console.log(' :::::: postData ::::::   ', postData);
@@ -34,16 +34,11 @@ export class PostService {
                 content: post.content,
                 imagePath: post.imagePath,
                 created: post.created,
+                updated: post.updated,
+                tags: post.tags,
                 authorId: post.authorId,
               };
             }),
-            tagsArray : postData.tagsArray,
-            // tagsArray : postData.tagsArray.map(item => {
-            //   let orderedTags = { id : item._id, label: item.label };
-            //   this.tagsArray = item.slice(0);
-            //   this.tagsSubject.next(orderedTags);
-            //   return orderedTags;
-            // }),
 
             maxPosts: postData.maxPosts
           };
