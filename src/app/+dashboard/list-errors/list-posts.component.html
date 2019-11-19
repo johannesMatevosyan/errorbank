@@ -12,7 +12,7 @@
   <div *ngFor="let post of posts" class="post-box mb-15">
 
     <h5 class="sp mb-15">
-      <span class="date"> Date {{post.created.split(' ')[0]}} </span> <span class="author">Author: {{ post.authorId.name }}</span>
+      <span class="date"> Date {{post.created.split(' ')[0]}} </span> <span class="author">Author: {{ post.author.name }}</span>
     </h5>
     <h3 class="post-title">
       <a [routerLink]="'/view/' + post.id">{{ post.title }}</a>

@@ -6,7 +6,7 @@ const postSchema = mongoose.Schema({
   imagePath: { type: String, required: false },
   created: { type: String, required: true },
   updated: { type: String, required: false },
-  tags: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Tag', required: true} ],
+  tags: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Tag', required: false} ],
   authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 });
 

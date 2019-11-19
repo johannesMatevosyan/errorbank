@@ -16,6 +16,7 @@ export class PostService {
   posts = [];
   tagsArray = [];
   tagsSubject = new Subject<TagModel[]>();
+  postSubject = new Subject<PostModel>();
   postsSubject = new Subject<PostModel[]>();
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -36,7 +37,7 @@ export class PostService {
                 created: post.created,
                 updated: post.updated,
                 tags: post.tags,
-                authorId: post.authorId,
+                author: post.author,
               };
             }),
 
@@ -69,9 +70,9 @@ export class PostService {
   }
 
   getPostById(postId: string) {
-    this.http.get<{post: PostModel[]}>(BACKEND_URL + 'get-id/' + postId)
+    this.http.get<{post: PostModel}>(BACKEND_URL + 'get-id/' + postId)
       .subscribe((responseData) => {
-        this.postsSubject.next(responseData.post);
+        this.postSubject.next(responseData.post);
       });
   }
 

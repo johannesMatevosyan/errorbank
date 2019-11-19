@@ -1,11 +1,11 @@
 export interface PostModel {
-  _id?: number;
+  _id?: string;
   title: string;
   content: string;
   imagePath: string;
   created: string;
   updated?: string;
   tags?: Array<any>;
-  authorId?: string;
+  author?: { _id: string, name: string};
   maxPosts?: number;
 }

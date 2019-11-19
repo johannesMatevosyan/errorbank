@@ -14,6 +14,6 @@ import { CommentComponent } from './components/comment/comment.component';
     CommonModule,
     AngularMaterialModule
   ],
-  exports: [PaginationComponent, PostInfoComponent, TagComponent],
+  exports: [PaginationComponent, PostInfoComponent, TagComponent, CommentComponent],
 })
 export class SharedModule { }

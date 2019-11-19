@@ -24,6 +24,7 @@ const postRoutes = require('./routes/post');
 const authRoutes = require('./routes/user');
 const searchRoutes = require('./routes/search');
 const tagRoutes = require('./routes/tag');
+const commentRoutes = require('./routes/comment');
 
 
 
@@ -31,6 +32,7 @@ app.use("/posts", postRoutes);
 app.use("/user", authRoutes);
 app.use("/search", searchRoutes);
 app.use("/tags", tagRoutes);
+app.use("/comment", commentRoutes);
 
 
 mongoose.connect(

@@ -3,5 +3,10 @@
             matInput
             cols="30" rows="10"
             class="comment-field"
-            placeholder="Comment"></textarea>
+            #comment
+            placeholder=" What are your thoughts"></textarea>
 </mat-form-field>
+  <div class="text-right">
+    <a mat-raised-button color="accent" (click)="postComment(comment.value)">Comment</a>
+  </div>
+

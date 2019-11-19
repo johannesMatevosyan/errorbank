@@ -54,11 +54,24 @@ exports.getAllPosts = (req, res, next) => {
   postQuery
     .populate('authorId', 'name')
     .populate('tags', 'label')
-    .then(documents => {
-      console.log('*** documents ', documents);
-      fetchedPosts = documents;
+    .then(posts => {
+
+      let transformedArray = [];
+
+      for (var i = 0; i < posts.length; i++) {
+        let transformedPost = posts[i].toObject();
+        transformedPost.author = transformedPost.authorId;
+        delete transformedPost.authorId;
+        transformedArray.push(transformedPost);
+      }
+
+      return transformedArray;
+    }).then(posts => {
+
+      fetchedPosts = posts;
       return Post.count();
-  }).then(count => {
+
+    }).then(count => {
     res.status(200).json({ // retrieve all posts from db
       message: 'Posts fetched successfully! ',
       posts: fetchedPosts,
@@ -75,9 +88,14 @@ exports.getPostById = (req, res, next) => {
     .populate('authorId', 'name')
     .populate('tags', 'label')
     .findOne().then(post => {
+
+      let transformPost = post.toObject();
+      transformPost.author = transformPost.authorId;
+      delete transformPost.authorId;
+
     res.status(200).json({
       message: `Post with id:${req.params.id} fetched successfully !`,
-      post: post
+      post: transformPost
     });
   });
 
