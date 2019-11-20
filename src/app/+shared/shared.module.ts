@@ -7,9 +7,10 @@ import { PaginationComponent } from '@app/+shared/components/pagination/paginati
 import { PostInfoComponent } from '@app/+shared/components/post-info/post-info.component';
 import { TagComponent } from '@app/+shared/components/tag/tag.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { CommentBoxComponent } from './components/comment-box/comment-box.component';
 
 @NgModule({
-  declarations: [PaginationComponent, PostInfoComponent, TagComponent, CommentComponent],
+  declarations: [PaginationComponent, PostInfoComponent, TagComponent, CommentComponent, CommentBoxComponent],
   imports: [
     CommonModule,
     AngularMaterialModule

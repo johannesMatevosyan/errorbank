@@ -16,6 +16,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   post: PostModel;
   postId: string = '75757575';
   comment: CommentModel;
+  commentsArray: CommentModel[];
   postInfo = {
     postId : '',
     userId : ''
@@ -37,7 +38,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         if (response) {
           this.post = response;
           this.postInfo.postId = response._id;
-          this.postInfo.userId = response.author.name;
+          this.postInfo.userId = response.author._id;
         }
 
       });
@@ -64,6 +65,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         this.subscription = this.commentService.commentsSubject.subscribe((response) => {
           if(response){
             console.log('this.commentService.commentsSubject  : ', response);
+            this.commentsArray = response;
           }
         });
       }

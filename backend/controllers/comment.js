@@ -8,7 +8,6 @@ exports.createComment = (req, res, next) => {
     userId: req.body.userId,
     date: req.body.date,
   });
-
   comment.save()
     .then(createdComment => {
       res.status(201).json({
@@ -24,8 +23,11 @@ exports.createComment = (req, res, next) => {
 
 exports.getCommentsByPostID = (req, res, next) => {
   console.log('getCommentsByPostID ', req.params.id);
-  Comment.findOne({ postId: req.params.id }).then(comment => {
-    console.log('comment ', comment);
+  const postQuery = Comment.find({ postId: req.params.id });
+  postQuery
+    .populate('userId', 'login')
+    .then(comment => {
+    console.log('comment : ', comment);
     res.status(200).json({
       message: `Comment(s) with id:${req.params.id} fetched successfully!`,
       comment: comment
