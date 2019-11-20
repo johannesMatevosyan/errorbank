@@ -159,6 +159,7 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.getUserById = (req, res, next) => {
   User.findOne({ _id: req.params.id }).then(singleUser => {
+    console.log('singleUser ', singleUser);
     res.status(200).json({
       message: `User with id:${req.params.id} fetched successfully!`,
       user: singleUser

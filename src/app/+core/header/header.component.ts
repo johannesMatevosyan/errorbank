@@ -18,9 +18,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.checkAuthenticationStatus();
-    this.authListenerSubs = this.authService.dataStorage.subscribe(userData =>  {
+    this.authListenerSubs = this.authService.userDataStorage.subscribe(userData =>  {
       if (userData) {
-        this.profile = userData.user;
+        this.profile = userData;
       }
 
     });

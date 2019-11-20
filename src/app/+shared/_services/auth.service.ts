@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Router } from "@angular/router";
-import {environment} from "@env/environment";
+import { UserModel } from "@models/user.model";
+import { environment } from "@env/environment";
 
 const BACKEND_URL = environment.apiUrl;
 
@@ -13,9 +14,10 @@ export class AuthService {
   data: any;
   tokenTimer: any;
   token: string;
+  userIdentitySubject = new BehaviorSubject<any>(this.data);
   isAuthenticated: boolean = false;
   checkLateAuthentication = new BehaviorSubject<any>(this.data);
-  dataStorage = new BehaviorSubject<any>(this.data);
+  userDataStorage = new BehaviorSubject<any>(this.data);
   authStatusListener = new BehaviorSubject(false);
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -26,6 +28,10 @@ export class AuthService {
 
   getIsAuth() {
     return this.isAuthenticated;
+  }
+
+  getUserIdentity() {
+    return this.userIdentitySubject;
   }
 
   getAuthStatusListener() {
@@ -54,7 +60,6 @@ export class AuthService {
     let data = {token: accessToken};
     this.http.post(BACKEND_URL + '/user/github/token', data)
       .subscribe((user) => {
-        console.log(' ************** user ********', user);
         if (user && user['name']) {
           const userInfo = {
             'id': user['id'],
@@ -112,10 +117,14 @@ export class AuthService {
   }
 
   saveUser(user){
-    this.http.post(BACKEND_URL + '/user/save-user', user)
+    this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user', user)
       .subscribe(response => {
-        this.dataStorage.next(response);
-        console.log('saveUser response ', response);
+
+        if (response) {
+          this.userIdentitySubject.next(response.user._id);
+          this.userDataStorage.next(response.user);
+        }
+
       });
   }
 
@@ -125,7 +134,7 @@ export class AuthService {
     this.checkLateAuthentication.next(false);
     this.authStatusListener.next(false);
     clearTimeout(this.tokenTimer);
-    // this.userId = null;
+    this.userIdentitySubject = null;
     this.clearAuthData();
     this.router.navigate(['/get-all']);
   }

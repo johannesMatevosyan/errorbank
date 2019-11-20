@@ -18,16 +18,13 @@ export class CommentService {
   saveComment(comment) {
     this.http.post<{ comment: CommentModel}>(BACKEND_URL + 'create', comment)
       .subscribe((responseData) => {
-        console.log('responseData : ', responseData);
         this.commentSubject.next(responseData.comment);
       });
   }
 
   getCommentsByPostID(postId: string) {
-    console.log('getCommentsByPostID ', postId);
     this.http.get<{comment: CommentModel[]}>(BACKEND_URL + 'get/' + postId)
       .subscribe((responseData) => {
-        console.log('getCommentsByPostID : ', responseData);
         this.commentsSubject.next(responseData.comment);
       });
   }

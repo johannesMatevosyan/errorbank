@@ -14,13 +14,13 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getAllUsersInfo() {
-    this.http.get(BACKEND_URL + '/list-info')
+    this.http.get(BACKEND_URL + 'list-info')
       .subscribe(response => {
       });
   }
 
   getUserInfoById(userId) {
-    this.http.get(BACKEND_URL + '/info/' + userId)
+    this.http.get(BACKEND_URL + 'info/' + userId)
       .subscribe(response => {
 
       });
@@ -28,15 +28,13 @@ export class UserService {
 
 
   getAllUsers(){
-    this.http.get(BACKEND_URL + '/list-info')
+    this.http.get(BACKEND_URL + 'list-info')
       .subscribe(response => {
       });
   }
 
   getUserById(userId){
-    console.log('********** userId ********* ', userId);
-    return this.http.get(BACKEND_URL + '/profile/' + userId).subscribe(userData => {
-      console.log('*********** user ********* ', userData['user']);
+    return this.http.get(BACKEND_URL + 'profile/' + userId).subscribe(userData => {
       this.userStorage.next(userData['user']);
     });
   }

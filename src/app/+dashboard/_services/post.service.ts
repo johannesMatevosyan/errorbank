@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Router} from "@angular/router";
-import {TagModel} from "@models/tag.model";
 import {environment} from "@env/environment";
 
 const BACKEND_URL = environment.apiUrl + '/posts/';

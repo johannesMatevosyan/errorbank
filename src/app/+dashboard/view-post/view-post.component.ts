@@ -64,7 +64,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         this.commentService.getCommentsByPostID(paramsId.id);
         this.subscription = this.commentService.commentsSubject.subscribe((response) => {
           if(response){
-            console.log('this.commentService.commentsSubject  : ', response);
             this.commentsArray = response;
           }
         });

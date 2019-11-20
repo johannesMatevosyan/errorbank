@@ -14,7 +14,6 @@ export class PublicUserService {
   constructor(private http: HttpClient) { }
 
   getUserById(id){
-    console.log('********** userId ********* ', id);
     return this.http.get(BACKEND_URL + '/profile/' + id).subscribe(userData => {
       console.log('*********** user ********* ', userData['user']);
       this.userStorage.next(userData['user']);

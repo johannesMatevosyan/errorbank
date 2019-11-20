@@ -27,7 +27,7 @@
         [removable]="false"></app-tag>
     </div>
 
-    <div class="text-md-right" *ngIf="userIsAuthenticated">
+    <div class="text-md-right" *ngIf="userIsAuthenticated && userIntegrity === post.author._id">
       <a mat-raised-button [routerLink]="'/edit/' + post.id" color="primary">Edit</a>
       <a mat-raised-button (click)="deletePost(post.id)" color="accent">Delete</a>
     </div>

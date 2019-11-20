@@ -17,6 +17,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   postsPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  userIntegrity: string;
   tagsArray: TagModel[] = [];
   posts: PostModel[] = [];
   userIsAuthenticated = false;
@@ -49,8 +50,10 @@ export class ListPostsComponent implements OnInit, OnDestroy {
 
   getAll() {
     this.postsService.getAll(this.postsPerPage, this.currentPage);
+    this.subscription = this.authService.userIdentitySubject.subscribe(response => {
+      this.userIntegrity = response;
+    });
     this.subscription = this.postsService.postsSubject.subscribe(response => {
-      console.log('posts response : ', response);
       this.posts = response;
     });
   }

@@ -46,8 +46,6 @@ export class CreatePostComponent implements OnInit {
       let trim = this.string.replace(/,/g, '');
       this.tagsList.push({label: trim});
       this.clonedTagsArray.push({label: trim});
-      let rn = new RandomNumber();
-      console.log('rn.getRandomNumber() : ', rn.getRandomNumber());
       this.addDynamicElement.push(this.fb.control({
         'label' : trim
       }));
