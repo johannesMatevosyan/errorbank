@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from '@app/+user/user-routing.module';
 import { SharedModule } from '@app/+shared/shared.module';
-import {AngularMaterialModule} from "@app/angular-material.module";
+import { AngularMaterialModule } from "@app/angular-material.module";
 
 import { UserComponent } from './user.component';
 import { UserPostsComponent } from './user-posts/user-posts.component';

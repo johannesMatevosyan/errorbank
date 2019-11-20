@@ -5,6 +5,7 @@ import {Subscription} from "rxjs/index";
 import {PostModel} from "@models/post.model";
 import {CommentService} from "@app/+shared/_services/comment.service";
 import {CommentModel} from "@models/comment.model";
+import {PublicUserService} from "@app/+shared/_services/public-user.service";
 
 @Component({
   selector: 'app-view-post',
@@ -22,19 +23,19 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     userId : ''
   };
   constructor(private postService: PostService,
-              private activatedRoute: ActivatedRoute, private commentService: CommentService) { }
+              private activatedRoute: ActivatedRoute,
+              private commentService: CommentService) { }
 
   ngOnInit() {
     this.getSinglePost();
     this.getComment();
-    this.getCommentByPost(this.postId);
+    this.getCommentByPost();
   }
 
   getSinglePost() {
     this.activatedRoute.params.subscribe(paramsId => {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postSubject.subscribe((response) => {
-        console.log('response *********** ', response);
         if (response) {
           this.post = response;
           this.postInfo.postId = response._id;
@@ -51,14 +52,13 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   getComment(){
     this.subscription = this.commentService.commentSubject.subscribe((response) => {
-
       if (response) {
         this.comment = response;
       }
     });
   }
 
-  getCommentByPost(post) {
+  getCommentByPost() {
     this.activatedRoute.params.subscribe(paramsId => {
       if (paramsId.id) {
         this.commentService.getCommentsByPostID(paramsId.id);

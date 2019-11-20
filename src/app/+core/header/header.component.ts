@@ -18,8 +18,11 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.checkAuthenticationStatus();
-    this.authListenerSubs = this.authService.dataStorage.subscribe(items =>  {
-      this.profile = items;
+    this.authListenerSubs = this.authService.dataStorage.subscribe(userData =>  {
+      if (userData) {
+        this.profile = userData.user;
+      }
+
     });
     this.searchFilterService.searchKey.subscribe(message => {
       this.message = message;

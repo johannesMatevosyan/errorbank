@@ -204,17 +204,7 @@ footer {
 .comment-box-list .comment-box:first-child {
   margin-top: 3px;
 }
-.comment-box-author {
-  font-weight: bold;
-  font-style: italic;
-}
 
-.comment-box {
-  padding: 15px;
-  font-size: 12px;
-  border: 1px solid #bbbbbb;
-  background-color: #dddddd;
-}
 
 @media screen and (min-width: 1200px) {
   .text-lg-left {

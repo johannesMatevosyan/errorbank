@@ -11,12 +11,6 @@ import {UserModel} from "@models/user.model";
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   profile: UserModel;
-  /*
-  login: "johannesZeJoker"
-  name: "johannesZeJoker"
-  userId: "57531749"
-  _id: "5dc56e76d44d9a1131fece3d"
-   */
   subscribeUser: Subscription;
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
 

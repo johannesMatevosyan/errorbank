@@ -1,1 +1,18 @@
-<p>comment-box works!</p>
+<ng-container *ngIf="commentsArray?.length > 0">
+  <div class="comment-box" *ngFor="let singleComment of commentsArray;">
+    <div class="comment-vote-box">
+      <div class="comment-vote">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </div>
+      <div class="comment-vote">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </div>
+    </div>
+    <div class="comment-text-box">
+      <p> {{ singleComment?.text }}</p>
+      <h6 class="comment-box-author">
+        <a [routerLink]="'/user/profile/' + singleComment?.userId._id">posted by: {{ singleComment?.userId.login }}</a>
+      </h6>
+    </div>
+  </div>
+</ng-container>

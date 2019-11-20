@@ -54,6 +54,7 @@ export class AuthService {
     let data = {token: accessToken};
     this.http.post(BACKEND_URL + '/user/github/token', data)
       .subscribe((user) => {
+        console.log(' ************** user ********', user);
         if (user && user['name']) {
           const userInfo = {
             'id': user['id'],
@@ -70,7 +71,6 @@ export class AuthService {
           this.saveUserInfo(userInfo);
           this.saveUser(githubUser);
           this.getJwtToken(user['id'], user['login']);
-          this.dataStorage.next(githubUser);
           this.checkLateAuthentication.next(true);
           this.router.navigate(['get-all']);
         } else {
@@ -113,7 +113,10 @@ export class AuthService {
 
   saveUser(user){
     this.http.post(BACKEND_URL + '/user/save-user', user)
-      .subscribe(response => {});
+      .subscribe(response => {
+        this.dataStorage.next(response);
+        console.log('saveUser response ', response);
+      });
   }
 
   logout() {
