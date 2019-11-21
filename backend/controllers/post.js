@@ -16,7 +16,6 @@ exports.createPost = (req, res, next) => {
   Promise.all(saveTagsPromises)
     .then((tags) => {
       const tagIds = [];
-
       tags.forEach(tag => tag && tagIds.push(tag._id));
       const post = new Post({
         title: req.body.title,
@@ -55,7 +54,6 @@ exports.getAllPosts = (req, res, next) => {
     .populate('authorId', 'name')
     .populate('tags', 'label')
     .then(posts => {
-
       let transformedArray = [];
 
       for (var i = 0; i < posts.length; i++) {
@@ -116,7 +114,7 @@ exports.updatePostById = (req, res, next) => {
         post.created = req.body.created;
         post.updated = req.body.updated;
         post.tags = JSON.parse(req.body.tagsArray);
-        post.authorId = req.userData.userId;
+        post.authorId = req.userData.githubId;
       return post.save();
     }).then(result => {
     res.status(200).json({

@@ -12,7 +12,6 @@ exports.githubSignIn = (req, res, next) => {
       message: 'Error: no code'
     });
   }
-
   request
     .post('https://github.com/login/oauth/access_token')
     .send({
@@ -49,11 +48,11 @@ exports.githubUser = (req, res, next) => {
 exports.getJWTToken = (req, res, next) => {
 
   let ID = req.body.id.toString();
-  User.findOne({ userId: ID })
+  User.findOne({ githubId: ID })
     .then(user => {
       if (!user) {
         return res.status(401).json({
-          message: 'User not found',
+          message: 'User not found.',
         });
       }
 
@@ -64,12 +63,12 @@ exports.getJWTToken = (req, res, next) => {
         process.env.JWT_KEY,
         {expiresIn: '1h'}
       );
-
+console.log('userData  ', user);
       res.status(201).json({
         message: 'User created!',
         token: token,
         expiresIn: 3600,
-        userId:  user._id
+        userData:  user,
       });
     })
     .catch(err => {
@@ -82,10 +81,10 @@ exports.getJWTToken = (req, res, next) => {
 
 
 exports.saveUserInfo = (req, res, next) => {
-  const query = { userId: req.body.id };
+  const query = { githubId: req.body.githubId };
   let fetchedUser;
   const userInfo = {
-    userId: req.body.id,
+    githubId: req.body.githubId,
     name: req.body.name,
     login: req.body.login,
     location: req.body.location,
@@ -94,7 +93,7 @@ exports.saveUserInfo = (req, res, next) => {
   UserInfo.findOneAndUpdate(query, userInfo, { upsert: true }, (err, user) => {
     if (err){
       return res.status(401).json({
-        message: 'Cannot save user info'
+        message: 'Cannot save user info!'
       });
     } else {
       res.status(201).json({
@@ -125,17 +124,17 @@ exports.getUserInfoById = (req, res, next) => {
 };
 
 exports.saveUser = (req, res, next) => {
-  const query = { userId: req.body.id };
+  const query = { githubId: req.body.githubId };
   let fetchedUser;
   const user = {
-    userId: req.body.id,
+    githubId: req.body.githubId,
     name: req.body.name,
     login: req.body.login,
   };
   User.findOneAndUpdate(query, user, { upsert: true }, (err, user) => {
     if (err){
       return res.status(401).json({
-        message: 'Cannot save user'
+        message: 'Cannot save user: ' + err,
       });
     }else{
       res.status(201).json({
@@ -159,7 +158,6 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.getUserById = (req, res, next) => {
   User.findOne({ _id: req.params.id }).then(singleUser => {
-    console.log('singleUser ', singleUser);
     res.status(200).json({
       message: `User with id:${req.params.id} fetched successfully!`,
       user: singleUser

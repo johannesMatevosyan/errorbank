@@ -12,10 +12,10 @@
   <div *ngFor="let post of posts" class="post-box mb-15">
 
     <h5 class="sp mb-15">
-      <span class="date"> Date {{post.created.split(' ')[0]}} </span> <span class="author">Author: {{ post.author.name }}</span>
+      <span class="date"> Date {{post.created.split(' ')[0]}} </span> <span class="author">Author: {{ post?.author.name }}</span>
     </h5>
     <h3 class="post-title">
-      <a [routerLink]="'/view/' + post.id">{{ post.title }}</a>
+      <a [routerLink]="'/view/' + post?.id">{{ post?.title }}</a>
     </h3>
     <p>
       {{ post.content }}
@@ -26,8 +26,7 @@
         [tagsArray]="post.tags"
         [removable]="false"></app-tag>
     </div>
-
-    <div class="text-md-right" *ngIf="userIsAuthenticated && userIntegrity === post.author._id">
+    <div class="text-md-right" *ngIf="userIsAuthenticated && userIntegrity === post.author?._id">
       <a mat-raised-button [routerLink]="'/edit/' + post.id" color="primary">Edit</a>
       <a mat-raised-button (click)="deletePost(post.id)" color="accent">Delete</a>
     </div>
@@ -46,5 +45,3 @@
 <ng-container *ngIf="posts?.length === 0">
   <h1 class="mat-subheading-1 accent-color">No results!</h1>
 </ng-container>
-
-

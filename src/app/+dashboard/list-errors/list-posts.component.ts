@@ -36,7 +36,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   }
 
   checkAuthenticationStatus() {
-    this.userIsAuthenticated = this.authService.getValue();
+    this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;

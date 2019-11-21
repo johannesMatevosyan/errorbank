@@ -3,7 +3,7 @@ textarea.comment-field {
   width: 100%;
 }
 textarea.comment-field {
-  border: 1px solid #212121;
+  background-color: #efe9e9;
   height: 80px;
   font-size: 13px;
   padding: 7px;

@@ -11,7 +11,7 @@
           <i class="material-icons">search</i>
         </button>
       </div>
-&nbsp;&nbsp;
+
     </div>
     <div class="user-details">
 
@@ -23,9 +23,9 @@
       <ng-container *ngIf="userIsAuthenticated">
         <div class="profile-info">
 
-          <div class="profile-name">{{ profile.name }}</div>
+          <div class="profile-name">{{ profile?.name }}</div>
           <div class="profile-image">
-            <img src="https://avatars0.githubusercontent.com/u/{{ profile.userId}}" alt="{{ profile.name }}">
+            <img src="https://avatars0.githubusercontent.com/u/{{ profile?.githubId}}" alt="{{ profile?.name }}">
           </div>
 
         </div>
@@ -37,7 +37,7 @@
             <span class="sandwich-bar"></span>
           </button>
           <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <button mat-menu-item><a [routerLink]="'/user/profile/' + profile._id">Profile</a></button>
+            <button mat-menu-item><a [routerLink]="'/user/profile/' + profile?.userId">Profile</a></button>
             <button mat-menu-item (click)="onLogout()">Log Out</button>
           </mat-menu>
 
@@ -47,3 +47,4 @@
     </div>
   </mat-toolbar>
 </header>
+

@@ -35,6 +35,16 @@ export class HeaderComponent implements OnInit {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
+
+    if(this.userIsAuthenticated) {
+      let userData = {
+        userId : localStorage.getItem("_id"),
+        githubId : localStorage.getItem("githubId"),
+        name : localStorage.getItem("name"),
+        login : localStorage.getItem("login"),
+      };
+      this.profile = userData;
+    }
   }
 
   search(item) {
