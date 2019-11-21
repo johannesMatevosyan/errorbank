@@ -21,10 +21,13 @@
 
   <app-comment-box [commentsArray]="commentsArray"></app-comment-box>
 
-  <div class="comment-box" *ngIf="comment !== undefined">
-    <p> {{ comment?.text }} </p>
-    <h6 class="comment-box-author"><a [routerLink]="'/user/profile/' + singleComment?.userId._id">posted by: {{ singleComment?.userId.login }}</a></h6>
-  </div>
+  <!--<div class="comment-box" *ngIf="comment !== undefined">-->
+    <!--<p> {{ comment?.text }} </p>-->
+    <!--<h6 class="comment-box-author">-->
+      <!--<a [routerLink]="'/user/profile/' + singleComment?.userId._id">posted by: {{ singleComment?.userId.login }}</a>-->
+    <!--</h6>-->
+  <!--</div>-->
+
 </section>
 <app-comment [postInfo]="postInfo" (sendComment)="onPostComment($event)"></app-comment>
 

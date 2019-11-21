@@ -48,6 +48,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   onPostComment(comment) {
     this.commentService.saveComment(comment);
+    this.commentsArray.push(comment);
   }
 
   getComment(){
