@@ -14,6 +14,7 @@ export class SearchFilterService {
   searchData: any;
   constructor(private http: HttpClient) { }
 
+  tagSource = new BehaviorSubject(this.searchData);
   searchSource = new BehaviorSubject(this.searchData);
   searchKey = this.searchSource.asObservable();
 
@@ -27,9 +28,15 @@ export class SearchFilterService {
 
   searchByTag(tagArr) {
     console.log('tagArr : ', tagArr);
-    let searchData = { tags : tagArr };
-    this.http.post(BACKEND_URL + 'tag-name', searchData)
+    let searchData = tagArr.map((item) => {
+      return item.id;
+    });
+    console.log('searchData' , searchData);
+    let searchDataObj = { tags : searchData };
+    this.http.post(BACKEND_URL + 'tag-name', searchDataObj)
       .subscribe((searchResponse: any) => {
+        this.tagSource.next(tagArr);
+        console.log(' *** searchResponse ', searchResponse);
         this.searchSource.next(searchResponse);
       });
   }

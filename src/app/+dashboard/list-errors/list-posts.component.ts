@@ -20,13 +20,14 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   pageSizeOptions = [1, 2, 5, 10];
   userIntegrity: string;
   tagsArray: TagModel[] = [];
+  filterByTagsArray: TagModel[] = [];
   posts: PostModel[] = [];
   userIsAuthenticated = false;
   authStatusSub: Subscription;
   subscription: Subscription;
   constructor(private postsService: PostService,
               public authService: AuthService,
-              private searchFilterService: SearchFilterService) { }
+              private sfService: SearchFilterService) { }
 
   ngOnInit() {
     this.checkAuthenticationStatus();
@@ -63,16 +64,22 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   }
 
   searchPosts() {
-    this.subscription = this.searchFilterService.searchKey.subscribe(response => {
+    this.subscription = this.sfService.searchKey.subscribe(response => {
       this.posts =  response ? response.search : [];
     });
   }
 
   searchByTags() {
-    this.subscription = this.searchFilterService.searchSource.subscribe(response => {
+    this.subscription = this.sfService.searchSource.subscribe(response => {
       if (response) {
-        console.log('response ', response.searchTags);
+        console.log('response searchSource ', response.searchTags);
         this.posts = response.searchTags;
+      }
+    });
+    this.subscription = this.sfService.tagSource.subscribe(response => {
+      if (response) {
+        this.filterByTagsArray = response;
+        console.log('************* tagSource response ', response);
       }
     });
   }

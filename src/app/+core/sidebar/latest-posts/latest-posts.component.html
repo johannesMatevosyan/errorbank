@@ -1,4 +1,19 @@
-<h4>Latest Posts</h4>
-<ul class="sidebar-items" *ngFor="let post of postsByDate">
-  <li><a [routerLink]="'/view/' + post._id">{{ post.title }}</a></li>
-</ul>
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Latest Posts</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <mat-list>
+      <ng-container *ngFor="let post of postsByDate">
+        <mat-list-item>
+          <a  mat-button [routerLink]="'/view/' + post._id">{{ post.title }}</a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+

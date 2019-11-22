@@ -26,10 +26,9 @@
       ></app-post-info>
     </div>
 
-
     <div class="post-edit-box" *ngIf="userIsAuthenticated && userIntegrity === singlePost.author?._id">
-      <a [routerLink]="'/edit/' + singlePost.id" color="blue-color">Edit</a>
-      <a (click)="deletePost(singlePost.id)" color="accent-color">Delete</a>
+      <a [routerLink]="'/edit/' + singlePost.id" mat-button color="blue-color">Edit</a>
+      <a (click)="deletePost(singlePost.id)" mat-button color="accent-color">Delete</a>
     </div>
 
   </div><!--.post-options-->

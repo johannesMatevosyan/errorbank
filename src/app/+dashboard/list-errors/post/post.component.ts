@@ -36,7 +36,6 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   deletePost(id) {
-    console.log('id : ', id);
     this.deletePostById.emit(id);
   }
 
