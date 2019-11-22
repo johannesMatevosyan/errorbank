@@ -35,6 +35,7 @@ export class PostService {
                 updated: post.updated,
                 tags: post.tags,
                 author: post.author,
+                viewed: post.viewed,
               };
             }),
             maxPosts: postData.maxPosts
@@ -73,7 +74,6 @@ export class PostService {
   }
 
   updatePostById(postId, post) {
-    console.log('update : ', post);
 
     const postData = new FormData();
     postData.append('title', post.title);
@@ -90,13 +90,7 @@ export class PostService {
   }
 
   delete(postId: string) {
-    this.http.delete(BACKEND_URL + 'delete/' + postId)
-      .subscribe(() => {
-        const updatedPosts = this.posts.filter(obj => {
-          return obj._id !== postId;
-        });
-        this.postsSubject.next(updatedPosts);
-      });
+    return this.http.delete(BACKEND_URL + 'delete/' + postId);
   }
 
 }

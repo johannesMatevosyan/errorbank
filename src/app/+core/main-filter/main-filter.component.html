@@ -6,5 +6,24 @@
       [removable]="false"></app-tag>
   </div>
   <div *ngIf="tagsArray?.length === 0">No tags to display </div>
+
+  <div class="sort-items">
+
+  <mat-list>
+    <mat-list-item>
+      <span (click)="sortPostsByDate()" class="sort-item-title">Sort by date</span>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <span (click)="sortPostsByLikes()" class="sort-item-title">Sort by likes</span>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <span (click)="sortPostsByCommentCount()" class="sort-item-title">Sort by likes</span>
+    </mat-list-item>
+  </mat-list>
+
+  </div>
+
 </div>
 

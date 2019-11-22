@@ -25,9 +25,10 @@ export class SearchFilterService {
 
   }
 
-  searchByTag(tagObj) {
-    console.log('tagObj ', tagObj);
-    this.http.post(BACKEND_URL + '/tag-name', tagObj)
+  searchByTag(tagArr) {
+    console.log('tagArr : ', tagArr);
+    let searchData = { tags : tagArr };
+    this.http.post(BACKEND_URL + 'tag-name', tagArr)
       .subscribe((searchResponse: any) => {
         this.searchSource.next(searchResponse);
       });

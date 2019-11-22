@@ -1,5 +1,4 @@
 const express = require('express');
-const multer = require('multer');
 const postsController = require('../controllers/post');
 const checkAuth = require('../middleware/check-auth');
 const extractFile = require('../middleware/file');

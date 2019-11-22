@@ -5,3 +5,16 @@
 .filter-sidebar .tag {
   margin-bottom: 5px;
 }
+.sort-items .sort-item-title {
+  display: block;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  padding: 3px;
+  cursor: pointer;
+}
+.sort-items .sort-item-title:hover {
+  background-color: #bbbbbb;
+}
+

@@ -8,6 +8,7 @@ const postSchema = mongoose.Schema({
   updated: { type: String, required: false },
   tags: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Tag', required: false} ],
   authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  viewed: { type: Number, required: false, default: 0 },
 });
 
 module.exports = mongoose.model('Post', postSchema);

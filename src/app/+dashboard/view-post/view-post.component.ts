@@ -15,7 +15,6 @@ import {PublicUserService} from "@app/+shared/_services/public-user.service";
 export class ViewPostComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   post: PostModel;
-  postId: string = '75757575';
   comment: CommentModel;
   commentsArray: CommentModel[];
   postInfo = {

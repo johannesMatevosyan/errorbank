@@ -22,7 +22,8 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getToken() {
-    return this.token;
+    // return this.token;
+    return localStorage.getItem('token');
   }
 
   getIsAuth() {
@@ -75,6 +76,7 @@ export class AuthService {
     this.http.post(BACKEND_URL + '/user/get-jwt-token', user)
       .subscribe(response => {
         if (response['token']) {
+          console.log(' TTT response ', response);
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
           this.token = response['token'];
@@ -128,7 +130,7 @@ export class AuthService {
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("_id");
     this.userIdentitySubject.next(userId);
 
     if (!token || !expirationDate) {
@@ -151,11 +153,7 @@ export class AuthService {
   }
 
   private clearAuthData() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("expiration");
-    localStorage.removeItem("login");
-    localStorage.removeItem("githubId");
-    localStorage.removeItem("name");
-    localStorage.removeItem("_id");
+    localStorage.clear();
+    window.localStorage.clear();
   }
 }

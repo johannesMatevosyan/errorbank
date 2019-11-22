@@ -9,11 +9,21 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { ListPostsComponent } from './list-errors/list-posts.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { ViewPostComponent } from './view-post/view-post.component';
-import {AngularMaterialModule} from "@app/angular-material.module";
+import { AngularMaterialModule } from "@app/angular-material.module";
+import { PostInfoComponent } from "@app/+dashboard/list-errors/post-info/post-info.component";
+import { PostComponent } from './list-errors/post/post.component';
 
 
 @NgModule({
-  declarations: [DashboardComponent, CreatePostComponent, ListPostsComponent, EditPostComponent, ViewPostComponent],
+  declarations: [
+    DashboardComponent,
+    CreatePostComponent,
+    ListPostsComponent,
+    EditPostComponent,
+    ViewPostComponent,
+    PostInfoComponent,
+    PostComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,

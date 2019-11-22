@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {Component, OnDestroy, OnInit } from '@angular/core';
 import { PostService } from '@app/+dashboard/_services/post.service';
 import { PageEvent } from '@angular/material';
 import { PostModel } from "@models/post.model";
@@ -6,6 +6,7 @@ import { Subscription } from "rxjs/index";
 import { SearchFilterService } from "@app/+shared/_services/search-filter.service";
 import { AuthService } from "@app/+shared/_services/auth.service";
 import { TagModel } from "@models/tag.model";
+import { PostInfoService } from "@app/+dashboard/_services/post-info.service";
 
 @Component({
   selector: 'app-list-dashboard',
@@ -30,9 +31,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.checkAuthenticationStatus();
     this.getAll();
-    this.subscription = this.searchFilterService.searchKey.subscribe(response => {
-      this.posts =  response ? response.search : [];
-    });
+    this.searchPosts();
   }
 
   checkAuthenticationStatus() {
@@ -51,15 +50,29 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   getAll() {
     this.postsService.getAll(this.postsPerPage, this.currentPage);
     this.subscription = this.authService.userIdentitySubject.subscribe(response => {
-      this.userIntegrity = response;
+      if (response) {
+        this.userIntegrity = response;
+      }
     });
     this.subscription = this.postsService.postsSubject.subscribe(response => {
-      this.posts = response;
+      if (response) {
+        this.posts = response;
+      }
     });
   }
 
-  deletePost(id) {
-    this.postsService.delete(id);
+  searchPosts() {
+    this.subscription = this.searchFilterService.searchKey.subscribe(response => {
+      this.posts =  response ? response.search : [];
+    });
+  }
+
+  onDeletePost(id) {
+    this.postsService.delete(id).subscribe(response => {
+      if (response) {
+        this.getAll();
+      }
+    });
   }
 
   onChangedPage(pageData: PageEvent) {

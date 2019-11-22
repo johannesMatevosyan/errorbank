@@ -7,7 +7,11 @@ import {
   MatToolbarModule,
   MatExpansionModule,
   MatPaginatorModule,
-  MatIconModule, MatListModule
+  MatIconModule,
+  MatDialogModule,
+  MatListModule,
+  MatDividerModule,
+  MatMenuModule
 } from '@angular/material';
 
 
@@ -17,15 +21,17 @@ import {
     CommonModule
   ],
   exports: [
-    MatListModule,
-    MatButtonModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
     MatIconModule,
+    MatDialogModule,
     MatPaginatorModule,
+    MatListModule,
+    MatDividerModule,
+    MatMenuModule,
   ]
 })
 export class AngularMaterialModule { }

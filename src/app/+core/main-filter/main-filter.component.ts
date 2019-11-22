@@ -23,6 +23,18 @@ export class MainFilterComponent implements OnInit, OnDestroy {
     });
   }
 
+  sortPostsByDate() {
+
+  }
+
+  sortPostsByLikes() {
+
+  }
+
+  sortPostsByCommentCount() {
+
+  }
+
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();

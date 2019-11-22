@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit {
   search(item) {
     this.searchFilterService.changeSearch(item)
   }
+
   onLogout() {
     this.authService.logout();
   }

@@ -63,7 +63,7 @@ exports.getJWTToken = (req, res, next) => {
         process.env.JWT_KEY,
         {expiresIn: '1h'}
       );
-console.log('userData  ', user);
+
       res.status(201).json({
         message: 'User created!',
         token: token,

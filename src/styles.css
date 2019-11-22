@@ -77,8 +77,17 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   height: auto;
   width: auto;
 }
-.accent-color {
+.accent-bg-color {
   background-color: #c62828;
+}
+.accent-color {
+  color: #c62828;
+}
+.blue-bg-color {
+  background-color: #212121;
+}
+.blue-color {
+  color: #212121;
 }
 .pl-15 {
   padding-left: 15px;
@@ -102,6 +111,9 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
 .fill-space {
   flex: 1 1 auto;
 }
+.d-inline-block {
+  display: inline-block;
+}
 .sandwich .sandwich-bar {
   display: block;
   background-color: #fff;
@@ -109,9 +121,14 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   width: 25px;
   margin-bottom: 3px;
 }
-.sp{
+.sp {
   display: flex;
   justify-content: space-between;
+}
+.overflow-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .post-title {
   color: #07C;
@@ -120,9 +137,10 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   line-height: 1.2;
   margin-bottom: 10px;
 }
-.post-content{
+.post-content {
   color: #333333;
-  font-style: italic;
+  font-size: 13px;
+  font-weight: 400;
   margin-bottom: 10px;
 }
 .date {
@@ -138,6 +156,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   margin-bottom: 5px;
 }
 .tag-list-title {
+  margin-right: 10px;
   font-size: 13px;
   font-style: italic;
   margin-bottom: 3px;
@@ -170,8 +189,9 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   outline: none;
 }
 
-.tag-list .tag:not(:first-child) {
+.tag-list .tag {
   margin-left: 7px;
+  margin-bottom: 7px;
 }
 
 footer {
@@ -205,6 +225,28 @@ footer {
   margin-top: 3px;
 }
 
+.post-options {
+  display: flex;
+  justify-content: space-between;
+}
+.wrap-post-info-box{
+  width: 200px;
+}
+.post-info-box {
+  border: 1px solid #0077CC;
+  padding: 5px 5px;
+}
+.post-edit-box a {
+  text-decoration: none;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 14px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.post-edit-box a:hover {
+  background-color: #bbbbbb;
+}
 
 @media screen and (min-width: 1200px) {
   .text-lg-left {

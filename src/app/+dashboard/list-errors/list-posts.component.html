@@ -9,29 +9,16 @@
 
 <ng-container *ngIf="posts?.length > 0">
 
-  <div *ngFor="let post of posts" class="post-box mb-15">
+  <ng-container *ngFor="let post of posts">
 
-    <h5 class="sp mb-15">
-      <span class="date"> Date {{post.created.split(' ')[0]}} </span> <span class="author">Author: {{ post?.author.name }}</span>
-    </h5>
-    <h3 class="post-title">
-      <a [routerLink]="'/view/' + post?.id">{{ post?.title }}</a>
-    </h3>
-    <p>
-      {{ post.content }}
-    </p>
-    <div class="tag-list" *ngIf="post.tags?.length > 0">
-      <h3 class="tag-list-title">Tags</h3>
-      <app-tag
-        [tagsArray]="post.tags"
-        [removable]="false"></app-tag>
-    </div>
-    <div class="text-md-right" *ngIf="userIsAuthenticated && userIntegrity === post.author?._id">
-      <a mat-raised-button [routerLink]="'/edit/' + post.id" color="primary">Edit</a>
-      <a mat-raised-button (click)="deletePost(post.id)" color="accent">Delete</a>
-    </div>
+    <app-post
+      [singlePost]="post"
+      [userIsAuthenticated]="userIsAuthenticated"
+      [userIntegrity]="userIntegrity"
+      (deletePostById)="onDeletePost($event)"
+    ></app-post>
 
-  </div>
+  </ng-container>
 
   <mat-paginator
     [length]="totalPosts"
@@ -43,5 +30,5 @@
 
 </ng-container>
 <ng-container *ngIf="posts?.length === 0">
-  <h1 class="mat-subheading-1 accent-color">No results!</h1>
+  <h1 class="mat-subheading-1 accent-bg-color">No results!</h1>
 </ng-container>

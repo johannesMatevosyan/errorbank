@@ -1,0 +1,42 @@
+<div  class="post-box mb-15">
+
+  <h5 class="sp mb-15">
+    <span class="date"> Date {{singlePost.created.split(' ')[0]}} </span>
+    <span class="author">Author: {{ singlePost?.author.name }}</span>
+  </h5>
+  <h3 class="post-title">
+    <a [routerLink]="'/view/' + singlePost?.id">{{ singlePost?.title }}</a>
+  </h3>
+  <p class="post-content overflow-ellipsis">
+    {{ singlePost.content }}
+  </p>
+  <div class="tag-list" *ngIf="singlePost.tags?.length > 0">
+    <h3 class="tag-list-title d-inline-block">Tags</h3>
+    <app-tag
+      [tagsArray]="singlePost.tags"
+      [removable]="false"></app-tag>
+  </div>
+
+  <div>userIsAuthenticated : {{ userIsAuthenticated }}</div>
+  <div>userIntegrity : {{ userIntegrity }} </div>
+  <div>singlePost.author.id : {{ singlePost.author?._id }}</div>
+
+  <div class="post-options">
+
+    <div class="wrap-post-info-box">
+      <app-post-info
+        [numberOfComments]="numberOfComments"
+        [numberOfViews]="numberOfViews"
+      ></app-post-info>
+    </div>
+
+
+    <div class="post-edit-box" *ngIf="userIsAuthenticated && userIntegrity === singlePost.author?._id">
+      <a [routerLink]="'/edit/' + singlePost.id" color="blue-color">Edit</a>
+      <a (click)="deletePost(singlePost.id)" color="accent-color">Delete</a>
+    </div>
+
+  </div><!--.post-options-->
+
+
+</div>

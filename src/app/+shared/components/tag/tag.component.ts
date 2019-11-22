@@ -27,6 +27,7 @@ export class TagComponent implements OnInit, OnChanges {
 
   getTag(tag) {
     console.log('tag : ', tag);
-    this.sfService.searchByTag(tag);
+    this.tags.push(tag);
+    this.sfService.searchByTag(this.tags);
   }
 }

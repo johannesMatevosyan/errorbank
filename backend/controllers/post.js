@@ -66,10 +66,10 @@ exports.getAllPosts = (req, res, next) => {
       return transformedArray;
     }).then(posts => {
 
-      fetchedPosts = posts;
-      return Post.count();
+    fetchedPosts = posts;
+    return Post.count();
 
-    }).then(count => {
+  }).then(count => {
     res.status(200).json({ // retrieve all posts from db
       message: 'Posts fetched successfully! ',
       posts: fetchedPosts,
@@ -80,22 +80,25 @@ exports.getAllPosts = (req, res, next) => {
 };
 
 exports.getPostById = (req, res, next) => {
-  const postQuery = Post.findOne({ _id: req.params.id });
+  const postQuery = Post.findOne({ _id: req.params.id })
+    .populate('authorId', 'name')
+    .populate('tags', 'label');
 
   postQuery
-    .populate('authorId', 'name')
-    .populate('tags', 'label')
-    .findOne().then(post => {
+    .then(post => {
+      post.viewed++;
+      return post.save();
+    }).then((post) => {
 
       let transformPost = post.toObject();
       transformPost.author = transformPost.authorId;
       delete transformPost.authorId;
 
-    res.status(200).json({
-      message: `Post with id:${req.params.id} fetched successfully !`,
-      post: transformPost
+      res.status(200).json({
+        message: `Post with id:${req.params.id} fetched successfully !`,
+        post: transformPost
+      });
     });
-  });
 
 };
 
@@ -126,9 +129,22 @@ exports.updatePostById = (req, res, next) => {
 };
 
 exports.deletePostById = (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id, authorId: req.userData.userId }).then(post => {
-    res.status(200).json({
-      message: `Post with id:${req.params.id} deleted successfully! `,
+
+  Post.deleteOne({ _id: req.params.id, authorId: req.userData.userId }).then(result => {
+
+    if (result.n > 0) {
+      res.status(200).json({
+        message: `Post with id:${req.params.id} deleted successfully!`
+      });
+    } else {
+      res.status(401).json({
+        message: 'Not Authorized to delete!!'
+      });
+    }
+
+  }).catch(error => {
+    res.status(500).json({
+      message: "Failed to delete: " + error,
     });
   });
 
