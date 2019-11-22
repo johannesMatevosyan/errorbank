@@ -13,3 +13,17 @@
 .post-img-box img {
   height: 100%;
 }
+
+.post-vote-box {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+}
+.post-vote {
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+.post-vote:hover {
+  background-color: #bbbbbb;
+}

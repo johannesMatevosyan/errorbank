@@ -32,6 +32,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.checkAuthenticationStatus();
     this.getAll();
     this.searchPosts();
+    this.searchByTags();
   }
 
   checkAuthenticationStatus() {
@@ -67,6 +68,15 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     });
   }
 
+  searchByTags() {
+    this.subscription = this.searchFilterService.searchSource.subscribe(response => {
+      if (response) {
+        console.log('response ', response.searchTags);
+        this.posts = response.searchTags;
+      }
+    });
+  }
+
   onDeletePost(id) {
     this.postsService.delete(id).subscribe(response => {
       if (response) {
@@ -86,7 +96,8 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
+    if(this.subscription){// this if will detect undefined issue of timersub
+      this.subscription.unsubscribe();
+    }
   }
 }

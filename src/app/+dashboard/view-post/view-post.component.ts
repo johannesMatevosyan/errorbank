@@ -6,6 +6,7 @@ import {PostModel} from "@models/post.model";
 import {CommentService} from "@app/+shared/_services/comment.service";
 import {CommentModel} from "@models/comment.model";
 import {PublicUserService} from "@app/+shared/_services/public-user.service";
+import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
 
 @Component({
   selector: 'app-view-post',
@@ -23,6 +24,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   };
   constructor(private postService: PostService,
               private activatedRoute: ActivatedRoute,
+              private postInfoService: PostInfoService,
               private commentService: CommentService) { }
 
   ngOnInit() {
@@ -72,8 +74,19 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   }
 
+  vote(status: string) {
+    this.activatedRoute.params.subscribe(paramsId => {
+      if (paramsId.id) {
+        let vote = { vote: status, postId: paramsId.id };
+        this.postInfoService.voteForPost(vote);
+      }
+    });
+
+  }
+
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
+    if(this.subscription){ // this if will detect undefined issue of timersub
+      this.subscription.unsubscribe();
+    }
   }
 }

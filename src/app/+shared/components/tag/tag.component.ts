@@ -25,9 +25,9 @@ export class TagComponent implements OnInit, OnChanges {
     this.filteredTags.emit(this.tagsArray);
   }
 
-  getTag(tag) {
-    console.log('tag : ', tag);
-    this.tags.push(tag);
+  filterByTag(tagId) {
+    console.log('tagId : ', tagId);
+    this.tags.push(tagId);
     this.sfService.searchByTag(this.tags);
   }
 }

@@ -21,25 +21,35 @@ exports.searchKey = (req, res, next) => {
 
 exports.searchByTag = (req, res, next) => {
 console.log('req.body ', req.body);
-  // Post.index({"$**" : "text"});
-  //tags: [id1, id2]
   const query = {
     tags: {
       $in : req.body.tags
     }
   };
+  const postQuery = Post.find(query)
+    .populate('authorId', 'name')
+    .populate('tags', 'label');
 
-  Post.find(query, function(err, search) {
+  postQuery.exec(query, function(err, search) {
 
     if (err){
       return res.status(401).json({
         message: 'Wrong search input: ' + err,
       });
     }else{
-      console.log(' *********** search  ***********', search);
+      console.log(' ++ *********** search  *********** ++++ ', search);
+      let transformedArray = [];
+
+      for (var i = 0; i < search.length; i++) {
+        let transformedPost = search[i].toObject();
+        transformedPost.author = transformedPost.authorId;
+        delete transformedPost.authorId;
+        transformedArray.push(transformedPost);
+      }
+
       res.status(201).json({
         message: 'Search performed successfully!!!',
-        search: search
+        searchTags: transformedArray
       });
     }
   });

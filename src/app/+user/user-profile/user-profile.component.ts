@@ -30,8 +30,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.subscribeUser.unsubscribe();
+    if(this.subscribeUser){ // this if will detect undefined issue of timersub
+      this.subscribeUser.unsubscribe();
+    }
   }
 
 }

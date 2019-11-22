@@ -17,4 +17,23 @@ exports.getPostCommentInfoById = (req, res, next) => {
 
 };
 
+exports.voteForPostById = (req, res, next) => {
+
+  let userId = req.userData.userId;
+  let vote = req.body.vote;
+
+  const postQuery = Post.findOne({ _id: req.body.postId });
+
+  postQuery
+    .find().then(post => {
+    //post.votes = ;
+    return post.save();
+  }).then((result) => {
+console.log('result ', result);
+    res.status(200).json({
+      message: `Vote saved successfully !`,
+    });
+  });
+
+};
 

@@ -114,6 +114,12 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
 .d-inline-block {
   display: inline-block;
 }
+.v-align-middle {
+  vertical-align: middle;
+}
+.v-align-top {
+  vertical-align: top;
+}
 .sandwich .sandwich-bar {
   display: block;
   background-color: #fff;

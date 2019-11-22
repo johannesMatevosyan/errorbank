@@ -36,7 +36,8 @@ export class MainFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
+    if(this.subscription){ // this if will detect undefined issue of timersub
+      this.subscription.unsubscribe();
+    }
   }
 }

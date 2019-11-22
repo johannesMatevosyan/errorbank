@@ -11,8 +11,17 @@
     <img [src]="post?.imagePath" alt="{{ post?.title }}">
   </div>
 
-  <div class="tag-list">
-    <h5 class="tag-list-title">tags</h5>
+  <div class="post-vote-box d-inline-block v-align-middle">
+    <div class="post-vote" (click)="vote('up')">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </div>
+    <div class="post-vote" (click)="vote('down')">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
+  </div>
+
+  <div class="tag-list d-inline-block v-align-middle pl-2">
+    <h5 class="tag-list-title d-inline-block">tags</h5>
     <app-tag [tagsArray]="post?.tags" [removable]="false"></app-tag>
   </div>
 

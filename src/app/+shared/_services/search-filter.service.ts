@@ -14,7 +14,7 @@ export class SearchFilterService {
   searchData: any;
   constructor(private http: HttpClient) { }
 
-  private searchSource = new BehaviorSubject(this.searchData);
+  searchSource = new BehaviorSubject(this.searchData);
   searchKey = this.searchSource.asObservable();
 
   changeSearch(searchText: string) {
@@ -28,7 +28,7 @@ export class SearchFilterService {
   searchByTag(tagArr) {
     console.log('tagArr : ', tagArr);
     let searchData = { tags : tagArr };
-    this.http.post(BACKEND_URL + 'tag-name', tagArr)
+    this.http.post(BACKEND_URL + 'tag-name', searchData)
       .subscribe((searchResponse: any) => {
         this.searchSource.next(searchResponse);
       });
