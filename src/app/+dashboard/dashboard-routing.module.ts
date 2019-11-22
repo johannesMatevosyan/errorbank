@@ -14,7 +14,7 @@ const routes: Routes = [{
   children: [
     {
       path: 'get-all',
-      component: ListPostsComponent
+      component: ListPostsComponent,
     },
     {
       path: 'create',

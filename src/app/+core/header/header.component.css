@@ -9,12 +9,13 @@
   text-align: right;
 }
 
-.logo a {
+.logo .logo-link {
   color: #ffffff;
   font-weight: bold;
   font-style: italic;
+  cursor: pointer;
 }
-.logo a:hover {
+.logo .logo-link:hover {
   color: red;
 }
 .profile-info {
