@@ -48,8 +48,63 @@ table {
   border-spacing: 0;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@font-face {
+  font-family: 'nunitoblack';
+  src: url('./assets/fonts/nunito-black-webfont.woff2') format('woff2'),
+  url('./assets/fonts/nunito-black-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'nunitoextralight';
+  src: url('./assets/fonts/nunito-extralight-webfont.woff2') format('woff2'),
+  url('./assets/fonts/nunito-extralight-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'nunitoitalic';
+  src: url('./assets/fonts/nunito-italic-webfont.woff2') format('woff2'),
+  url('./assets/fonts/nunito-italic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'nunitolight';
+  src: url('./assets/fonts/nunito-light-webfont.woff2') format('woff2'),
+  url('./assets/fonts/nunito-light-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'nunitoregular';
+  src: url('./assets/fonts/nunito-regular-webfont.woff2') format('woff2'),
+  url('./assets/fonts/nunito-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'nunitosemibold';
+  src: url('./assets/fonts/nunito-semibold-webfont.woff2') format('woff2'),
+  url('./assets/fonts/nunito-semibold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+html, body {
+  height: 100%;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  font-family: 'nunitoregular', "Helvetica",Arial,sans-serif; }
+body { margin: 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  font-family: 'nunitoregular', "Helvetica",Arial,sans-serif; }
+
+h1, h2, h3, h4, h5, h6, p {
+  font-family: 'nunitoregular', "Helvetica",Arial,sans-serif;
+}
 
 .layout {
   min-height: calc(100vh - 52px);
