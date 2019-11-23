@@ -19,6 +19,8 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   userIntegrity: string;
+  searchText: string = '';
+  searchPhrase: string = '';
   tagsArray: TagModel[] = [];
   filterByTagsArray: TagModel[] = [];
   tagIdArray = [];
@@ -30,6 +32,9 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     pagination : {
       pagesize: this.postsPerPage,
       page: this.currentPage
+    },
+    text: {
+      word: this.searchText
     }
   };
   userIsAuthenticated = false;
@@ -43,7 +48,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.checkAuthenticationStatus();
     this.getAllPosts();
     this.searchPosts();
-    this.searchByTags();
+    this.searchMethods();
   }
 
   checkAuthenticationStatus() {
@@ -80,26 +85,31 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     });
   }
 
-  searchByTags() {
+  searchMethods() {
     this.subscription = this.sfService.searchSource.subscribe(response => {
       if (response) {
-        console.log(' ++ searchSource ', response);
         this.posts = response.posts;
-
-        console.log(' ++ this.posts ', this.posts);
-
       }
     });
     this.subscription = this.sfService.tagSource.subscribe(response => {
       if (response) {
         this.filterByTagsArray = response;
-        // this.query.filter.tags
         this.tagIdArray = response.map(tag => {
           return tag.id;
         });
-        console.log('this.tagIdArray : ', this.tagIdArray);
       }
     });
+    this.subscription = this.sfService.textSource.subscribe(response => {
+      if (response) {
+        this.searchPhrase = response;
+        console.log('textSource ', response);
+        this.query.text.word = response;
+      }
+    });
+  }
+
+  onRemoveTagFromList(event) {
+    console.log('onRemoveTagFromList  ', event);
   }
 
   onDeletePost(id) {

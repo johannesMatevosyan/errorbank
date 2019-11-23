@@ -6,10 +6,16 @@
   </h5>
 
   <h2 class="post-title text-center">{{ post?.title }}</h2>
-  <p class="post-content">{{ post?.content }}</p>
-  <div class="post-img-box">
-    <img [src]="post?.imagePath" alt="{{ post?.title }}">
-  </div>
+
+  <div class="post-content-box">
+    <div class="post-img-box">
+      <img [src]="post?.imagePath" alt="{{ post?.title }}">
+    </div>
+
+    <p class="post-content">{{ post?.content }}</p>
+
+  </div><!--.post-content-box-->
+
 
   <div class="post-vote-box d-inline-block v-align-middle">
     <div class="post-vote" (click)="vote('up')">

@@ -50,13 +50,21 @@ exports.getAllPosts = (req, res, next) => {
   const pageSize = +req.body.pagination.pagesize;
   const currentPage = +req.body.pagination.page;
   const tags = req.body.filter.tags;
-  const filter = {};
+  const text = req.body.text.word;
+  let filter = {};
 
   if (tags.length > 0) {
     filter.tags = {
       $in : req.body.filter.tags
     };
   }
+  if (text !== '') {
+    // filter.text = {$text: {$search: text}}
+  }
+
+  console.log(' req.body.text.word : ', req.body.text.word);
+
+  console.log('filter  : ', filter);
 
   const postQuery = Post.find(filter)
     .populate('authorId', 'name')
@@ -70,6 +78,7 @@ exports.getAllPosts = (req, res, next) => {
     .then(([posts, total]) => {
 
       let mutated = tranformPost.newPost(posts);
+      console.log('mutated  : ', mutated);
 
       res.status(201).json({
         message: 'Posts are fetched successfully!!!',

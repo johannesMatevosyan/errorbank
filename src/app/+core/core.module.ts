@@ -10,6 +10,7 @@ import { ProfileDropdownComponent } from '@app/+core/profile-dropdown/profile-dr
 import { RelatedPostsComponent } from './sidebar/related-posts/related-posts.component';
 import { LatestPostsComponent } from './sidebar/latest-posts/latest-posts.component';
 import { CoreRoutingModule } from "@app/+core/core-routing.module";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,14 @@ import { CoreRoutingModule } from "@app/+core/core-routing.module";
     SharedModule,
     CoreRoutingModule,
     AngularMaterialModule,
+    ReactiveFormsModule,
   ],
-  exports: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    MainFilterComponent,
+    ProfileDropdownComponent
+  ],
 })
 export class CoreModule { }

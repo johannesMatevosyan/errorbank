@@ -11,4 +11,7 @@ const postSchema = mongoose.Schema({
   viewed: { type: Number, required: false, default: 0 },
 });
 
+postSchema.index({ title: 'text', content: 'text' });
+
+
 module.exports = mongoose.model('Post', postSchema);

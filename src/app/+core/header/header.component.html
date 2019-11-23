@@ -6,10 +6,17 @@
     <div class="search-block">
 
       <div class="relative search-form">
-        <input matInput type="text" placeholder="Search" #searchItem>
-        <button class="search-icon" (click)="search(searchItem.value)">
-          <i class="material-icons">search</i>
-        </button>
+        <form novalidate [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+          <input
+            matInput
+            type="text"
+            formControlName="searchItem"
+            placeholder="Search"
+          >
+          <button class="search-icon" type="submit">
+            <i class="material-icons">search</i>
+          </button>
+        </form>
       </div>
 
     </div>

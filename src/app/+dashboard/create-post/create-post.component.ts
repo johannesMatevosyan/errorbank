@@ -1,10 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { PostModel } from '@models/post.model';
-import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { PostService } from '@app/+dashboard/_services/post.service';
 import { CurrentDate } from '@utils/current-date';
-import { RandomNumber } from '@utils/random-number';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -19,7 +17,6 @@ export class CreatePostComponent implements OnInit {
   tag: string;
   string;
   createPostForm: FormGroup;
-  subscription: Subscription;
   imagePreview: string;
 
   constructor(private fb: FormBuilder, private postService: PostService, private toastr: ToastrService) { }

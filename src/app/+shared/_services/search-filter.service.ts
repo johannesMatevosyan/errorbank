@@ -10,6 +10,7 @@ const BACKEND_URL = environment.apiUrl + '/posts';
   providedIn: 'root'
 })
 export class SearchFilterService {
+  searchText: string = '';
   postsPerPage = 2;
   currentPage = 1;
   query = {
@@ -19,26 +20,32 @@ export class SearchFilterService {
     pagination : {
       pagesize: this.postsPerPage,
       page: this.currentPage
+    },
+    text: {
+      word: this.searchText
     }
   };
   searchData: any;
   tagSource = new BehaviorSubject(this.searchData);
+  textSource = new BehaviorSubject(this.searchData);
   searchSource = new BehaviorSubject(this.searchData);
+  sortSource = new BehaviorSubject(this.searchData);
   searchKey = this.searchSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  changeSearch(searchText: string) {
-    this.http.post(BACKEND_URL, {key: searchText})
+  searchByText(text: {searchItem : string}) {
+    let searchText = text.searchItem;
+    this.query.text.word = searchText;
+    this.http.post(BACKEND_URL, this.query)
       .subscribe((searchResponse: any) => {
+        this.textSource.next(searchText);
         this.searchSource.next(searchResponse);
       });
 
   }
 
   searchByTag(tagArr) {
-    console.log('tagArr : ', tagArr);
-
 
     let searchData = tagArr.map((item) => {
       return item.id;
@@ -52,4 +59,17 @@ export class SearchFilterService {
       });
   }
 
+  sortByDate() {
+    this.http.post(BACKEND_URL, this.query)
+  }
+
+  sortByLikes() {
+
+  }
+
+  sortByCommentCount() {
+
+  }
+
 }
+

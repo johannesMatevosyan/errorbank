@@ -9,7 +9,7 @@ import {SearchFilterService} from "@app/+shared/_services/search-filter.service"
 export class TagComponent implements OnInit, OnChanges {
   @Input() tagsArray;
   @Input() removable : boolean;
-  @Output() filteredTags = new EventEmitter<Array<object>>();
+  @Output() removeTagFromList = new EventEmitter<Array<object>>();
   @Output() sendTagObjects = new EventEmitter<Array<object>>();
   tags = [];
   constructor(private sfService: SearchFilterService) { }
@@ -21,14 +21,21 @@ export class TagComponent implements OnInit, OnChanges {
   }
 
   removeTag(tag: any) {
-    this.tagsArray = this.tagsArray.filter(item => item.label !== tag.label);
-    console.log('this.tagsArray ', this.tagsArray);
-    this.sfService.searchByTag(this.tagsArray);
-    this.filteredTags.emit(this.tagsArray);
+    console.log('this.tagsArray START :  ', this.tagsArray);
+    // let filteredArray = this.tagsArray.splice(0);
+    let clonedTagArray = [...this.tagsArray];
+    console.log('filteredArray :  ', clonedTagArray);
+    let arrayToSend = clonedTagArray.filter(item => item.label !== tag.label);
+    console.log('arrayToSend : ', arrayToSend);
+    this.sfService.searchByTag(arrayToSend);
+    this.tagsArray.push(tag);
+    console.log('this.tagsArray FINAL :  ', this.tagsArray);
+    this.removeTagFromList.emit(this.tagsArray);
   }
 
   filterByTag(tagObj) {
-    console.log('tagId : ', tagObj);
+    console.log('tagId :', tagObj);
+    this.tagsArray = this.tagsArray.filter( obj => obj.id !== tagObj.id );
     this.tags.push(tagObj);
     this.sfService.searchByTag(this.tags);
   }

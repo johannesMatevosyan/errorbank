@@ -133,6 +133,7 @@ h1, h2, h3, h4, h5, h6, p {
 .mat-flat-button,
 .mat-icon-button,
 .mat-stroked-button,
+.mat-card,
 .mat-raised-button {
   border-radius: 0 !important;
 }
@@ -222,6 +223,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   font-size: 13px;
   font-weight: 400;
   margin-bottom: 10px;
+  padding: 5px 10px;
 }
 .date {
   font-size: 12px;
@@ -230,6 +232,10 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
 .author {
   font-size: 12px;
   font-style: italic;
+}
+.search-result {
+  font-size: 13px;
+  margin-bottom: 7px;
 }
 .tag-list {
   margin-top: 5px;
@@ -304,11 +310,16 @@ footer {
   margin-top: 3px;
 }
 .post-box-wrapper {
-  border: 1px solid #777777;
-  margin-bottom: 7px;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  margin-bottom: 10px;
 }
 .post-box-wrapper app-post:last-child .post-box {
   border-bottom: none;
+}
+.post-content {
+  display: inline-block;
 }
 .post-options {
   display: flex;
@@ -332,6 +343,11 @@ footer {
 }
 .post-edit-box a:hover {
   background-color: #bbbbbb;
+}
+.pagination {
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
 @media screen and (min-width: 1200px) {

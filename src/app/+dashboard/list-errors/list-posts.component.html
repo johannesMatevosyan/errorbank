@@ -1,17 +1,28 @@
-<br>
+
+
 <section class="tag-list" *ngIf="filterByTagsArray?.length > 0">
   <app-tag
     [tagsArray]="filterByTagsArray"
-    [removable]="true"></app-tag>
+    [removable]="true"
+    (removeTagFromList)="onRemoveTagFromList($event)"
+  ></app-tag>
 </section>
 
-<a mat-raised-button
-   *ngIf="userIsAuthenticated"
-   [routerLink]="'/create'"
-   color="accent">Create post </a>
+<div class="dashboard-header">
+
+  <div class="search-result" *ngIf="searchPhrase !== ''">
+    Results for "{{ searchPhrase }}"
+  </div>
+
+  <a mat-raised-button
+     class="create-post-button"
+     *ngIf="userIsAuthenticated"
+     [routerLink]="'/create'"
+     color="accent">Create post </a>
+
+</div>
 
 <br><br>
-
 
 <ng-container *ngIf="posts?.length > 0">
 
@@ -28,7 +39,7 @@
     </ng-container>
   </section>
 
-  <mat-paginator
+  <mat-paginator class="pagination"
     [length]="totalPosts"
     [pageSize]="postsPerPage"
     [pageSizeOptions]="pageSizeOptions"
@@ -37,6 +48,7 @@
   ></mat-paginator>
 
 </ng-container>
+
 <ng-container *ngIf="posts?.length === 0">
   <h1 class="mat-subheading-1 accent-color">No results!</h1>
 </ng-container>
