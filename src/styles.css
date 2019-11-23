@@ -210,6 +210,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
 }
 .post-title {
   color: #07C;
@@ -222,8 +223,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   color: #333333;
   font-size: 13px;
   font-weight: 400;
-  margin-bottom: 10px;
-  padding: 5px 10px;
+  padding: 5px;
 }
 .date {
   font-size: 12px;
@@ -317,9 +317,6 @@ footer {
 }
 .post-box-wrapper app-post:last-child .post-box {
   border-bottom: none;
-}
-.post-content {
-  display: inline-block;
 }
 .post-options {
   display: flex;

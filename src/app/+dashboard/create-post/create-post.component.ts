@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { PostModel } from '@models/post.model';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { PostService } from '@app/+dashboard/_services/post.service';
+
+import {extensionsArray} from '@app/+shared/utils/extensions';
 import { CurrentDate } from '@utils/current-date';
 import { ToastrService } from 'ngx-toastr';
 
@@ -62,6 +64,12 @@ export class CreatePostComponent implements OnInit {
 
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
+    const mimeTP = file.type;
+
+    if (extensionsArray.indexOf(mimeTP) === -1) {
+      alert('This file format is not accepted.');
+      return;
+    }
     this.createPostForm.patchValue({image: file});
     this.createPostForm.get('image').updateValueAndValidity();
     const reader = new FileReader();
