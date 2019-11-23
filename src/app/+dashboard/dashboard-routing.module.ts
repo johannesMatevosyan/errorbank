@@ -13,7 +13,7 @@ const routes: Routes = [{
   component: DashboardComponent,
   children: [
     {
-      path: 'get-all',
+      path: 'posts',
       component: ListPostsComponent,
     },
     {

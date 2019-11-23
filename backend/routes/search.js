@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.post('', searchController.searchKey);
 
-router.post('/tag-name', searchController.searchByTag);
+//router.post('/tag-name', searchController.searchByTag);
 
 module.exports = router;

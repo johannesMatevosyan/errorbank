@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Tag = require('../models/tag');
+const tranformPost = require('../utils/transform-post');
 
 exports.createPost = (req, res, next) => {
   const parseTagsArray = JSON.parse(req.body.tagsArray);
@@ -43,41 +44,79 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-  const pageSize = +req.query.pagesize;
-  const currentPage = +req.query.page;
-  const postQuery = Post.find();
-  let fetchedPosts;
-  if (pageSize && currentPage) {
-    postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+
+  console.log(' ***** req.body ***** ', req.body);
+
+  const pageSize = +req.body.pagination.pagesize;
+  const currentPage = +req.body.pagination.page;
+  const tags = req.body.filter.tags;
+  const filter = {};
+
+  if (tags.length > 0) {
+    filter.tags = {
+      $in : req.body.filter.tags
+    };
   }
-  postQuery
+
+  const postQuery = Post.find(filter)
     .populate('authorId', 'name')
     .populate('tags', 'label')
-    .then(posts => {
+    .skip(pageSize * (currentPage - 1))
+    .limit(pageSize);
+
+  const countQuery = Post.count(filter);
+
+  Promise.all([postQuery, countQuery])
+    .then(([posts, total]) => {
+
+      let mutated = tranformPost.newPost(posts);
+
+      res.status(201).json({
+        message: 'Posts are fetched successfully!!!',
+        posts: mutated,
+        maxPosts: total
+      });
+
+  })
+  .catch(err => {
+    res.status(500).json({
+      message: 'Failed to filter submitted tag ' + err,
+    });
+  });
+
+};
+
+/*
+exports.filterByTags = function(filter) {
+
+  const postQuery = Post.find(filter)
+    .populate('authorId', 'name')
+    .populate('tags', 'label');
+
+  postQuery.exec(filter, function(err, search) {
+
+    if (err){
+      return res.status(401).json({
+        message: 'Wrong search input: ' + err,
+      });
+    }else{
       let transformedArray = [];
 
-      for (var i = 0; i < posts.length; i++) {
-        let transformedPost = posts[i].toObject();
+      for (var i = 0; i < search.length; i++) {
+        let transformedPost = search[i].toObject();
         transformedPost.author = transformedPost.authorId;
         delete transformedPost.authorId;
         transformedArray.push(transformedPost);
       }
 
-      return transformedArray;
-    }).then(posts => {
-
-    fetchedPosts = posts;
-    return Post.count();
-
-  }).then(count => {
-    res.status(200).json({ // retrieve all posts from db
-      message: 'Posts fetched successfully! ',
-      posts: fetchedPosts,
-      maxPosts: count
-    });
+      res.status(201).json({
+        message: 'Search performed successfully!!!',
+        searchTags: transformedArray
+      });
+    }
   });
-
-};
+}
+*/
 
 exports.getPostById = (req, res, next) => {
   const postQuery = Post.findOne({ _id: req.params.id })

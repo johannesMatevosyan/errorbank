@@ -1,31 +1,32 @@
 <br>
+<section class="tag-list" *ngIf="filterByTagsArray?.length > 0">
+  <app-tag
+    [tagsArray]="filterByTagsArray"
+    [removable]="true"></app-tag>
+</section>
+
 <a mat-raised-button
    *ngIf="userIsAuthenticated"
    [routerLink]="'/create'"
    color="accent">Create post </a>
 
-<br>
+<br><br>
 
-<section class="tag-list" *ngIf="filterByTagsArray?.length > 0">
-  <app-tag
-    [tagsArray]="filterByTagsArray"
-    [removable]="true"
-    [removable]="false"></app-tag>
-</section>
-<br>
 
 <ng-container *ngIf="posts?.length > 0">
 
-  <ng-container *ngFor="let post of posts">
+  <section class="post-box-wrapper">
+    <ng-container *ngFor="let post of posts">
 
-    <app-post
-      [singlePost]="post"
-      [userIsAuthenticated]="userIsAuthenticated"
-      [userIntegrity]="userIntegrity"
-      (deletePostById)="onDeletePost($event)"
-    ></app-post>
+      <app-post
+        [singlePost]="post"
+        [userIsAuthenticated]="userIsAuthenticated"
+        [userIntegrity]="userIntegrity"
+        (deletePostById)="onDeletePost($event)"
+      ></app-post>
 
-  </ng-container>
+    </ng-container>
+  </section>
 
   <mat-paginator
     [length]="totalPosts"
@@ -37,5 +38,5 @@
 
 </ng-container>
 <ng-container *ngIf="posts?.length === 0">
-  <h1 class="mat-subheading-1 accent-bg-color">No results!</h1>
+  <h1 class="mat-subheading-1 accent-color">No results!</h1>
 </ng-container>

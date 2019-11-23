@@ -22,6 +22,8 @@ export class TagComponent implements OnInit, OnChanges {
 
   removeTag(tag: any) {
     this.tagsArray = this.tagsArray.filter(item => item.label !== tag.label);
+    console.log('this.tagsArray ', this.tagsArray);
+    this.sfService.searchByTag(this.tagsArray);
     this.filteredTags.emit(this.tagsArray);
   }
 

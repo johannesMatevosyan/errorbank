@@ -17,4 +17,8 @@
 .sort-items .sort-item-title:hover {
   background-color: #bbbbbb;
 }
+.filter-sidebar .tag-list .tag {
+  margin-left: 7px;
+  margin-bottom: 7px;
+}
 

@@ -21,7 +21,17 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   userIntegrity: string;
   tagsArray: TagModel[] = [];
   filterByTagsArray: TagModel[] = [];
+  tagIdArray = [];
   posts: PostModel[] = [];
+  query = {
+    filter: {
+      tags : [],
+    },
+    pagination : {
+      pagesize: this.postsPerPage,
+      page: this.currentPage
+    }
+  };
   userIsAuthenticated = false;
   authStatusSub: Subscription;
   subscription: Subscription;
@@ -31,7 +41,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.checkAuthenticationStatus();
-    this.getAll();
+    this.getAllPosts();
     this.searchPosts();
     this.searchByTags();
   }
@@ -49,8 +59,9 @@ export class ListPostsComponent implements OnInit, OnDestroy {
 
   }
 
-  getAll() {
-    this.postsService.getAll(this.postsPerPage, this.currentPage);
+  getAllPosts() {
+
+    this.postsService.getAll(this.query);
     this.subscription = this.authService.userIdentitySubject.subscribe(response => {
       if (response) {
         this.userIntegrity = response;
@@ -72,14 +83,21 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   searchByTags() {
     this.subscription = this.sfService.searchSource.subscribe(response => {
       if (response) {
-        console.log('response searchSource ', response.searchTags);
-        this.posts = response.searchTags;
+        console.log(' ++ searchSource ', response);
+        this.posts = response.posts;
+
+        console.log(' ++ this.posts ', this.posts);
+
       }
     });
     this.subscription = this.sfService.tagSource.subscribe(response => {
       if (response) {
         this.filterByTagsArray = response;
-        console.log('************* tagSource response ', response);
+        // this.query.filter.tags
+        this.tagIdArray = response.map(tag => {
+          return tag.id;
+        });
+        console.log('this.tagIdArray : ', this.tagIdArray);
       }
     });
   }
@@ -87,7 +105,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   onDeletePost(id) {
     this.postsService.delete(id).subscribe(response => {
       if (response) {
-        this.getAll();
+        this.getAllPosts();
       }
     });
   }
@@ -95,11 +113,10 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;
     this.postsPerPage = pageData.pageSize;
-    this.postsService.getAll(this.postsPerPage, this.currentPage);
-  }
+    this.query.pagination.pagesize = this.postsPerPage;
+    this.query.pagination.page = this.currentPage;
 
-  filterByTag(tagObject) {
-    console.log('filterByTag ', tagObject);
+    this.postsService.getAll(this.query);
   }
 
   ngOnDestroy() {

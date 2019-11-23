@@ -18,9 +18,10 @@ exports.searchKey = (req, res, next) => {
   });
 
 };
+/*
 
 exports.searchByTag = (req, res, next) => {
-console.log('req.body ', req.body);
+
   const query = {
     tags: {
       $in : req.body.tags
@@ -37,7 +38,6 @@ console.log('req.body ', req.body);
         message: 'Wrong search input: ' + err,
       });
     }else{
-      console.log(' ++ *********** search  *********** ++++ ', search);
       let transformedArray = [];
 
       for (var i = 0; i < search.length; i++) {
@@ -56,4 +56,5 @@ console.log('req.body ', req.body);
 
 };
 
+*/
 

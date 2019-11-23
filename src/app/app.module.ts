@@ -8,9 +8,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@app/+core/core.module';
 import { DashboardModule } from '@app/+dashboard/dashboard.module';
 import { ToastrModule } from "ngx-toastr";
-import {AuthInterceptor} from "@app/+shared/interceptors/auth.interceptor";
-import {AuthService} from "@app/+shared/_services/auth.service";
-import {AngularMaterialModule} from "@app/angular-material.module";
+import { AuthInterceptor} from "@app/+shared/interceptors/auth.interceptor";
+import { AuthService} from "@app/+shared/_services/auth.service";
+import { AngularMaterialModule} from "@app/angular-material.module";
+import { ErrorComponent} from "@app/+shared/components/error/error.component";
+import { ErrorInterceptor} from "@app/error-interceptor";
 
 @NgModule({
   declarations: [
@@ -26,7 +28,11 @@ import {AngularMaterialModule} from "@app/angular-material.module";
     AngularMaterialModule,
     DashboardModule
   ],
-  providers: [AuthService , { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+  providers: [AuthService ,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }

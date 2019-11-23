@@ -64,7 +64,7 @@ export class AuthService {
           this.saveUserInfo(userInfo);
           this.saveUser(githubUser);
           this.getJwtToken(user['id'], user['login']);
-          this.router.navigate(['get-all']);
+          this.router.navigate(['posts']);
         } else {
           console.error("Undefined user..");
         }
@@ -149,7 +149,7 @@ export class AuthService {
     clearTimeout(this.tokenTimer);
     this.userIdentitySubject = null;
     this.clearAuthData();
-    this.router.navigate(['/get-all']);
+    this.router.navigate(['/posts']);
   }
 
   private clearAuthData() {

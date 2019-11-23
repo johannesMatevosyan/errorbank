@@ -91,16 +91,19 @@ table {
   font-style: normal;
 }
 html, body {
+  background-color: #f9f8fa;
   height: 100%;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   font-family: 'nunitoregular', "Helvetica",Arial,sans-serif; }
-body { margin: 0;
+body {
+  background-color: #f9f8fa;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  font-family: 'nunitoregular', "Helvetica",Arial,sans-serif; }
+  font-family: 'nunitoregular', "Helvetica",Arial,sans-serif;
+  margin: 0; }
 
 h1, h2, h3, h4, h5, h6, p {
   font-family: 'nunitoregular', "Helvetica",Arial,sans-serif;
@@ -120,8 +123,24 @@ h1, h2, h3, h4, h5, h6, p {
 .content {
   width: 50%;
 }
+.mb-7 {
+  margin-bottom: 7px;
+}
 .mb-15 {
   margin-bottom: 15px;
+}
+.mat-button,
+.mat-flat-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-raised-button {
+  border-radius: 0 !important;
+}
+.mat-button,
+.mat-flat-button,
+.mat-icon-button,
+.mat-stroked-button {
+  line-height: 22px !important;
 }
 mat-form-field,
 textarea {
@@ -196,7 +215,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   font-size: 16px;
   font-weight: 600;
   line-height: 1.2;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .post-content {
   color: #333333;
@@ -251,8 +270,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
 }
 
 .tag-list .tag {
-  margin-left: 7px;
-  margin-bottom: 7px;
+  margin-right: 7px;
 }
 
 footer {
@@ -285,13 +303,20 @@ footer {
 .comment-box-list .comment-box:first-child {
   margin-top: 3px;
 }
-
+.post-box-wrapper {
+  border: 1px solid #777777;
+  margin-bottom: 7px;
+}
+.post-box-wrapper app-post:last-child .post-box {
+  border-bottom: none;
+}
 .post-options {
   display: flex;
   justify-content: space-between;
 }
-.wrap-post-info-box{
+.wrap-post-info-box {
   width: 200px;
+  margin-top: 5px;
 }
 .post-info-box {
   border: 1px solid #0077CC;

@@ -1,4 +1,8 @@
-.post-box{
-  background-color: #ddd;
-  padding: 15px;
+.post-box {
+  background-color: #ffffff;
+  border-bottom: 1px solid #777777;
+  padding: 10px 15px 5px 15px;
+}
+.post-box:hover {
+  background-color: #e7f5ff;
 }

@@ -5,9 +5,10 @@ const extractFile = require('../middleware/file');
 const router = express.Router();
 
 
+
 router.post('/create', checkAuth, extractFile, postsController.createPost);
 
-router.get('/get-all', postsController.getAllPosts);
+router.post('', postsController.getAllPosts);
 
 router.get('/get-by-date', postsController.getPostsByDate);
 

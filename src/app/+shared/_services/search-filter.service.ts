@@ -4,19 +4,29 @@ import {PostModel} from "@models/post.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@env/environment";
 
-const BACKEND_URL = environment.apiUrl + '/search/';
+const BACKEND_URL = environment.apiUrl + '/posts';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchFilterService {
-
+  postsPerPage = 2;
+  currentPage = 1;
+  query = {
+    filter: {
+      tags : [],
+    },
+    pagination : {
+      pagesize: this.postsPerPage,
+      page: this.currentPage
+    }
+  };
   searchData: any;
-  constructor(private http: HttpClient) { }
-
   tagSource = new BehaviorSubject(this.searchData);
   searchSource = new BehaviorSubject(this.searchData);
   searchKey = this.searchSource.asObservable();
+
+  constructor(private http: HttpClient) { }
 
   changeSearch(searchText: string) {
     this.http.post(BACKEND_URL, {key: searchText})
@@ -28,16 +38,18 @@ export class SearchFilterService {
 
   searchByTag(tagArr) {
     console.log('tagArr : ', tagArr);
+
+
     let searchData = tagArr.map((item) => {
       return item.id;
     });
-    console.log('searchData' , searchData);
-    let searchDataObj = { tags : searchData };
-    this.http.post(BACKEND_URL + 'tag-name', searchDataObj)
+
+    this.query.filter.tags = searchData;
+    this.http.post(BACKEND_URL, this.query)
       .subscribe((searchResponse: any) => {
         this.tagSource.next(tagArr);
-        console.log(' *** searchResponse ', searchResponse);
         this.searchSource.next(searchResponse);
       });
   }
+
 }
