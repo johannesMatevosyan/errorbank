@@ -8,14 +8,14 @@
   ></app-tag>
 </section>
 
-<div class="dashboard-header">
+<div class="position-buttons">
 
   <div class="search-result" *ngIf="searchPhrase !== ''">
     Results for "{{ searchPhrase }}"
   </div>
 
   <a mat-raised-button
-     class="create-post-button"
+     class="erb-button-right"
      *ngIf="userIsAuthenticated"
      [routerLink]="'/create'"
      color="accent">Create post </a>

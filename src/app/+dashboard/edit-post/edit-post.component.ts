@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PostService} from '@app/+dashboard/_services/post.service';
 import {Subscription} from 'rxjs/index';
 import {ActivatedRoute} from "@angular/router";
 import {CurrentDate} from "@utils/current-date";
+import {extensionsArray} from "@utils/extensions";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-edit-post',
@@ -11,6 +13,7 @@ import {CurrentDate} from "@utils/current-date";
   styleUrls: ['./edit-post.component.css']
 })
 export class EditPostComponent implements OnInit, OnDestroy {
+  formSubmitAttempt = false;
   editPostForm: FormGroup;
   subscription: Subscription;
   tagsList = [];
@@ -21,16 +24,17 @@ export class EditPostComponent implements OnInit, OnDestroy {
   imagePreview;
   post;
 
-  constructor(private fb: FormBuilder, private postService: PostService, private activatedRoute: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private postService: PostService,
+              private activatedRoute: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.editPostForm = this.fb.group({
-      id: [''],
-      title: [''],
-      content: [''],
-      image: [''],
-      created: [''],
-      updated: [''],
+    this.editPostForm =  new FormGroup({
+      id: new FormControl(null),
+      title: new FormControl(null, [Validators.required, Validators.minLength(2)]),
+      content: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      image: new FormControl(''),
+      created: new FormControl(''),
+      updated: new FormControl(''),
       tagsArray: this.fb.array([]),
     });
     this.loadPostById();
@@ -43,7 +47,8 @@ export class EditPostComponent implements OnInit, OnDestroy {
   loadPostById() {
     this.activatedRoute.params.subscribe(paramsId => {
       this.postService.getPostById(paramsId.id);
-      this.subscription = this.postService.postsSubject.subscribe(response => {
+      this.subscription = this.postService.postSubject.subscribe(response => {
+        console.log('editPostForm ', response);
         this.post = response;
         this.editPostForm.controls['id'].setValue(paramsId.id ? paramsId.id : '');
         this.editPostForm.controls['title'].setValue(this.post.title ? this.post.title : '');
@@ -88,6 +93,12 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
+    const mimeTP = file.type;
+
+    if (extensionsArray.indexOf(mimeTP) === -1) {
+      alert('This file format is not accepted.');
+      return;
+    }
     this.editPostForm.patchValue({image: file});
     this.editPostForm.get('image').updateValueAndValidity();
     const reader = new FileReader();
@@ -98,14 +109,22 @@ export class EditPostComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.editPostForm.invalid) {
-      return false;
-    }
 
     let cd = new CurrentDate();
     const postId = this.editPostForm.controls['id'].value;
     this.editPostForm.controls['updated'].setValue(cd.getCurrentDate());
-    this.postService.updatePostById(postId, this.editPostForm.value);
+
+    this.formSubmitAttempt = true;
+
+    if (this.editPostForm.status) {
+      this.postService.updatePostById(postId, this.editPostForm.value);
+      this.subscription = this.postService.isSubmitted.subscribe((submission) => {
+        console.log('isSubmitted ', submission);
+        if (submission) {
+          this.toastr.success('Success!', 'Post updated successfully ');
+        }
+      });
+    }
   }
 
   ngOnDestroy() {

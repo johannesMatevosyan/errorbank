@@ -1,8 +1,6 @@
-<h2>Edit post</h2>
-
 <form novalidate [formGroup]="editPostForm" (ngSubmit)="onSubmit()">
 
-  <section class="post-box-view">
+  <section class="post-box-view mb-15">
 
     <mat-form-field>
       <input
@@ -25,7 +23,10 @@
               formControlName="content"
               required
               placeholder="content"></textarea>
-      <mat-error>Please enter Content</mat-error>
+      <mat-error
+        *ngIf="!editPostForm.get('content').valid &&
+      editPostForm.get('content').touched &&
+      formSubmitAttempt">Please enter Content</mat-error>
     </mat-form-field>
 
     <div>
@@ -35,8 +36,8 @@
         (click)="filePicker.click()">Pick Image</button>
       <input type="file" #filePicker (change)="onImagePicked($event)">
     </div>
-    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview !== null && editPostForm.get('image').valid">
-      <img [src]="imagePreview" [alt]="editPostForm.value.title">
+    <div class="post-img-box" *ngIf="imagePreview !== '' && imagePreview !== null && editPostForm.get('image').valid">
+      <img [src]="imagePreview" [alt]="'Post Image'">
     </div>
 
     <mat-form-field>
@@ -64,8 +65,12 @@
     name="id"
     formControlName="id"
   >
-  <button
-    mat-raised-button
-    color="accent"
-    type="submit">Save Post </button>
+  <div class="position-buttons">
+    <button
+      mat-raised-button
+      class="erb-button-right"
+      color="accent"
+      type="submit">Save Changes </button>
+  </div>
+
 </form>

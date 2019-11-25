@@ -1,0 +1,10 @@
+.status-message {
+  font-size: 18px;
+  text-align: center;
+}
+.error-dialog-button button,
+.error-dialog-button .mat-button {
+  margin: 0 auto !important;
+  padding: 7px 15px !important;
+}
+

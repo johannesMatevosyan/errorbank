@@ -1,11 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { PostModel } from '@models/post.model';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import {FormGroup, FormBuilder, FormArray, Validators, FormControl} from '@angular/forms';
 import { PostService } from '@app/+dashboard/_services/post.service';
 
 import {extensionsArray} from '@app/+shared/utils/extensions';
 import { CurrentDate } from '@utils/current-date';
 import { ToastrService } from 'ngx-toastr';
+import {Subscription} from "rxjs/index";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-post',
@@ -13,26 +15,34 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./create-post.component.css']
 })
 export class CreatePostComponent implements OnInit {
+  formSubmitAttempt = false;
   tagsList = [];
   clonedTagsArray = [];
   selectedTagsArray: FormArray;
   tag: string;
   string;
   createPostForm: FormGroup;
-  imagePreview: string;
+  imagePreview: string = '';
+  subscription: Subscription;
 
-  constructor(private fb: FormBuilder, private postService: PostService, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, private postService: PostService,
+      private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.createPostForm = this.fb.group({
-      title: [''],
-      content: [''],
-      image: [''],
-      created: [''],
-      updated: ['null'],
+    this.createPostForm = new FormGroup({
+      title: new FormControl(null, [Validators.required, Validators.minLength(2)]),
+      content: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      image: new FormControl(null),
+      created: new FormControl(null),
+      updated: new FormControl('null'),
       tagsArray: this.fb.array([]),
     });
+
     this.selectedTagsArray = this.createPostForm.get('tagsArray') as FormArray;
+
+    this.createPostForm.statusChanges.subscribe(
+      (value) => console.log('statusChanges ', value)
+    );
   }
 
   get addDynamicElement() {
@@ -80,7 +90,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   onSubmit() {
-    this.toastr.success('AAAAAAAAA!', 'Toastr fun!');
+
     let cd = new CurrentDate();
 
     this.createPostForm.controls['created'].setValue(cd.getCurrentDate());
@@ -88,7 +98,25 @@ export class CreatePostComponent implements OnInit {
       return false;
     }
 
-    this.postService.create(this.createPostForm.value);
+    this.formSubmitAttempt = true;
+
+    if (this.createPostForm.status) {
+      this.postService.create(this.createPostForm.value);
+      this.subscription = this.postService.isSubmitted.subscribe((submission) => {
+        console.log('isSubmitted ', submission);
+        if (submission) {
+          this.toastr.success('Success!', 'Post created successfully');
+          this.router.navigate(['/posts']);
+        }
+      });
+    }
+
+  }
+
+  ngOnDestroy() {
+    if(this.subscription){ // this if will detect undefined issue of timersub
+      this.subscription.unsubscribe();
+    }
   }
 
 }

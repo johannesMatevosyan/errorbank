@@ -346,6 +346,20 @@ footer {
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
+.position-buttons {
+  overflow: hidden;
+}
+.erb-button-right {
+  float: right;
+}
+.position-buttons .search-result {
+  margin-top: 12px;
+  float: left;
+}
+/*input.ng-invalid.ng-touched {*/
+  /*border: 1px solid red;*/
+/*}*/
+
 
 @media screen and (min-width: 1200px) {
   .text-lg-left {

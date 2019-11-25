@@ -16,6 +16,7 @@ export class PostService {
   tagsArray = [];
   postSubject = new Subject<PostModel>();
   postsSubject = new Subject<PostModel[]>();
+  isSubmitted = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -61,8 +62,12 @@ export class PostService {
 
     this.http.post<PostModel[]>(BACKEND_URL + '/create', postData)
       .subscribe((responseData) => {
-        this.posts.push(post);
-        this.postsSubject.next(responseData);
+        if (responseData) {
+          this.posts.push(post);
+          this.postsSubject.next(responseData);
+          this.isSubmitted.next(true);
+        }
+
       });
   }
 
@@ -85,7 +90,12 @@ export class PostService {
 
     this.http.put<{post: PostModel[]}>(BACKEND_URL + '/update/' + postId, postData)
       .subscribe((responseData) => {
-        this.router.navigate(['/posts']);
+        if (responseData) {
+          console.log('responseData .... ', responseData);
+          this.isSubmitted.next(true);
+        }
+
+        // this.router.navigate(['/posts']);
       });
   }
 

@@ -5,7 +5,7 @@ const tranformPost = require('../utils/transform-post');
 exports.createPost = (req, res, next) => {
   const parseTagsArray = JSON.parse(req.body.tagsArray);
   const url = req.protocol + '://' + req.get('host');
-  const file = req.file.filename && (url + '/images/' + req.file.filename);
+  const file = req.file ? req.file.filename && (url + '/images/' + req.file.filename) : '';
   const saveTagsPromises = [];
 
   parseTagsArray.forEach(singleTag => { // Save tags to 'tags' table
@@ -62,8 +62,6 @@ exports.getAllPosts = (req, res, next) => {
     // filter.text = {$text: {$search: text}}
   }
 
-  console.log(' req.body.text.word : ', req.body.text.word);
-
   console.log('filter  : ', filter);
 
   const postQuery = Post.find(filter)
@@ -78,7 +76,6 @@ exports.getAllPosts = (req, res, next) => {
     .then(([posts, total]) => {
 
       let mutated = tranformPost.newPost(posts);
-      console.log('mutated  : ', mutated);
 
       res.status(201).json({
         message: 'Posts are fetched successfully!!!',
@@ -94,38 +91,6 @@ exports.getAllPosts = (req, res, next) => {
   });
 
 };
-
-/*
-exports.filterByTags = function(filter) {
-
-  const postQuery = Post.find(filter)
-    .populate('authorId', 'name')
-    .populate('tags', 'label');
-
-  postQuery.exec(filter, function(err, search) {
-
-    if (err){
-      return res.status(401).json({
-        message: 'Wrong search input: ' + err,
-      });
-    }else{
-      let transformedArray = [];
-
-      for (var i = 0; i < search.length; i++) {
-        let transformedPost = search[i].toObject();
-        transformedPost.author = transformedPost.authorId;
-        delete transformedPost.authorId;
-        transformedArray.push(transformedPost);
-      }
-
-      res.status(201).json({
-        message: 'Search performed successfully!!!',
-        searchTags: transformedArray
-      });
-    }
-  });
-}
-*/
 
 exports.getPostById = (req, res, next) => {
   const postQuery = Post.findOne({ _id: req.params.id })
@@ -152,27 +117,46 @@ exports.getPostById = (req, res, next) => {
 
 
 exports.updatePostById = (req, res, next) => {
-  let imagePath = req.body.imagePath;
+  const parseTagsArray = JSON.parse(req.body.tagsArray);
+  let imagePath = req.body.imagePath ? req.body.imagePath : '';
+  const saveTagsPromises = [];
+  const tagIds = [];
+  console.log('req.userData ', req.userData);
+
+  parseTagsArray.forEach(singleTag => { // Save tags to 'tags' table
+    let query = {
+      label: singleTag.label
+    };
+    saveTagsPromises.push(Tag.findOneAndUpdate(query, query, { upsert: true, new: true }));
+  });
+
   if (req.file) {
     const url = req.protocol + '://' + req.get('host');
     imagePath = url + '/images/' + req.file.filename;
   }
-  Post.findById({ _id: req.params.id })
-    .then(post => {
-        post.title = req.body.title;
-        post.content = req.body.content;
-        post.imagePath = imagePath;
-        post.created = req.body.created;
-        post.updated = req.body.updated;
-        post.tags = JSON.parse(req.body.tagsArray);
-        post.authorId = req.userData.githubId;
-      return post.save();
-    }).then(result => {
-    res.status(200).json({
-      message: `Post with id:${req.params.id} updated successfully! `,
-      post: result
-    });
-  });
+  Promise.all(saveTagsPromises)
+    .then((tags) => {
+
+      tags.forEach(tag => tag && tagIds.push(tag._id));
+      return Post.findById({ _id: req.params.id });
+    })
+    .then((post) => {
+      post.title = req.body.title;
+      post.content = req.body.content;
+      post.imagePath = imagePath;
+      post.created = req.body.created;
+      post.updated = req.body.updated;
+      post.tags = tagIds;
+      post.authorId = req.userData.userId;
+      post.save();
+    })
+    .then((result) => {
+      res.status(200).json({
+        message: `Post with id:${req.params.id} updated successfully! `,
+        post: result
+      });
+    })
+    .catch(error => console.log(`Error in promises: ${error}`));
 
 };
 

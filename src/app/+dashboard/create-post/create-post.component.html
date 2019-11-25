@@ -12,7 +12,10 @@
       required
       minlength="3"
       placeholder="title">
-    <mat-error>Please enter title</mat-error>
+    <mat-error
+      *ngIf="!createPostForm.get('title').valid &&
+      createPostForm.get('title').touched &&
+      formSubmitAttempt">Please enter title</mat-error>
   </mat-form-field>
   <mat-form-field>
           <textarea
@@ -22,7 +25,10 @@
             formControlName="content"
             required
             placeholder="content"></textarea>
-    <mat-error>Please enter Content</mat-error>
+    <mat-error
+      *ngIf="!createPostForm.get('content').valid &&
+      createPostForm.get('content').touched &&
+      formSubmitAttempt">Please enter Content</mat-error>
   </mat-form-field>
 
   <section>
@@ -37,7 +43,7 @@
              (change)="onImagePicked($event)">
     </div>
     <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview !== null && createPostForm.get('image').valid">
-      <img [src]="imagePreview" [alt]="createPostForm.value.title">
+      <img [src]="imagePreview" [alt]="'Post image'">
     </div>
   </section>
 
