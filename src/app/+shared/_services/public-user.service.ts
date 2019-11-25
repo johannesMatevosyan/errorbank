@@ -15,7 +15,6 @@ export class PublicUserService {
 
   getUserById(id){
     return this.http.get(BACKEND_URL + '/profile/' + id).subscribe(userData => {
-      console.log('*********** user ********* ', userData['user']);
       this.userStorage.next(userData['user']);
     });
   }

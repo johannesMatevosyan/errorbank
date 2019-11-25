@@ -76,7 +76,6 @@ export class AuthService {
     this.http.post(BACKEND_URL + '/user/get-jwt-token', user)
       .subscribe(response => {
         if (response['token']) {
-          console.log(' TTT response ', response);
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
           this.token = response['token'];

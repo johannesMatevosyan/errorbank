@@ -48,7 +48,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(paramsId => {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postSubject.subscribe(response => {
-        console.log('editPostForm ', response);
         this.post = response;
         this.editPostForm.controls['id'].setValue(paramsId.id ? paramsId.id : '');
         this.editPostForm.controls['title'].setValue(this.post.title ? this.post.title : '');
@@ -108,6 +107,13 @@ export class EditPostComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
   }
 
+  removeImage() {
+    this.editPostForm.removeControl('image');
+    this.editPostForm.addControl('image', new FormControl(''));
+    this.editPostForm.controls['image'].patchValue({});
+    this.imagePreview = '';
+  }
+
   onSubmit() {
 
     let cd = new CurrentDate();
@@ -115,7 +121,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.editPostForm.controls['updated'].setValue(cd.getCurrentDate());
 
     this.formSubmitAttempt = true;
-console.log('this.editPostForm  ', this.editPostForm);
     if (this.editPostForm.status === 'VALID') {
       this.postService.updatePostById(postId, this.editPostForm.value);
       this.subscription = this.postService.isUpdated.subscribe((submission) => {

@@ -92,7 +92,6 @@ export class PostService {
     this.http.put<{post: PostModel[]}>(BACKEND_URL + '/update/' + postId, postData)
       .subscribe((responseData) => {
         if (responseData) {
-          console.log('responseData .... ', responseData);
           this.isUpdated.next(true);
         }
       });

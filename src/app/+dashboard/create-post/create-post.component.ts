@@ -89,6 +89,13 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
   }
 
+  removeImage() {
+    this.createPostForm.removeControl('image');
+    this.createPostForm.addControl('image', new FormControl(''));
+    this.createPostForm.controls['image'].patchValue({});
+    this.imagePreview = '';
+  }
+
   onSubmit() {
 
     let cd = new CurrentDate();
@@ -103,7 +110,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     if (this.createPostForm.status === 'VALID') {
       this.postService.create(this.createPostForm.value);
       this.subscription = this.postService.isSubmitted.subscribe((submission) => {
-        console.log('isSubmitted ', submission);
         if (submission) {
           this.toastr.success('Success!', 'Post created successfully');
           this.router.navigate(['/posts']);

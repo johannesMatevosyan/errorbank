@@ -102,7 +102,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.subscription = this.sfService.textSource.subscribe(response => {
       if (response) {
         this.searchPhrase = response;
-        console.log('textSource ', response);
         this.query.text.word = response;
       }
     });

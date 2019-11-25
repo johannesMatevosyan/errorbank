@@ -45,8 +45,6 @@ exports.createPost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
 
-  console.log(' ***** req.body ***** ', req.body);
-
   const pageSize = +req.body.pagination.pagesize;
   const currentPage = +req.body.pagination.page;
   const tags = req.body.filter.tags;
@@ -121,7 +119,6 @@ exports.updatePostById = (req, res, next) => {
   let imagePath = req.body.imagePath ? req.body.imagePath : '';
   const saveTagsPromises = [];
   const tagIds = [];
-  console.log('req.userData ', req.userData);
 
   parseTagsArray.forEach(singleTag => { // Save tags to 'tags' table
     let query = {

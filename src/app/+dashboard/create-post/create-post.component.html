@@ -41,11 +41,14 @@
              accept=".jpg,.jpe,.jpeg,.png"
              (change)="onImagePicked($event)">
     </div>
-    <div class="text-center">
-      <div class="image-preview"
+    <div>
+      <div class="post-img-box"
            *ngIf="imagePreview !== '' && imagePreview !== null && createPostForm.get('image').valid">
         <img [src]="imagePreview" [alt]="'Post image'">
-        <span class="remove-image" title="Remove image"><i class="material-icons">delete</i></span>
+        <span
+          class="remove-image"
+          (click)="removeImage()"
+          title="Remove image"><i class="material-icons">delete</i></span>
       </div>
     </div>
   </section>

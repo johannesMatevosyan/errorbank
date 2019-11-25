@@ -5,32 +5,4 @@
   0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   padding: 15px;
 }
-.post-img-box {
-  background: #f9f8fa;
-  height: 250px;
-  width: 250px;
-  line-height: 250px;
-  margin: auto;
-  text-align: center;
-}
-.post-img-box img {
-  height: auto;
-  width: auto;
-  max-width: 100%;
-  max-height: 100%;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-input[type=file] {
-  visibility: hidden;
-}
-.image-preview {
-  height: 250px;
-  width: 250px;
-  margin: 10px auto;
-}
-.image-preview img {
-  height: 100%;
-}
 

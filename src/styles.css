@@ -232,6 +232,59 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   font-weight: 400;
   padding: 5px;
 }
+
+/* style post image  */
+.post-img-box {
+  position: relative;
+  background: #f9f8fa;
+  height: 250px;
+  width: 250px;
+  line-height: 250px;
+  margin: auto;
+  text-align: center;
+}
+.post-img-box img {
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* end of styling post image */
+
+/* style image/file upload */
+input[type=file] {
+  visibility: hidden;
+}
+.image-preview {
+  position: relative;
+  background: #ffffff;
+  width: 250px;
+  height: 200px;
+  display: inline-block;
+  text-align: center;
+}
+.image-preview img {
+  height: 100%;
+}
+.remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 14px;
+  color: #212121;
+  width: 30px;
+  height: 30px;
+  line-height: 1;
+  cursor: pointer;
+}
+.remove-image:hover {
+  color: #c62828;
+}
+/* end of style image/file upload */
+
 .date {
   font-size: 12px;
   font-style: italic;
@@ -407,9 +460,13 @@ footer {
 }
 
 @media screen and (max-width: 992px) {
+
+  .page-title {
+    text-align: center;
+  }
   .main-container {
     display: block;
-    padding: 15px 0;
+    padding: 15px 15px;
   }
   .left-sidebar {
     width: 100%;

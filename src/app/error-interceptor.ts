@@ -10,7 +10,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(private dialog: MatDialog) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    console.log('  ErrorInterceptor req ', req);
 
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {

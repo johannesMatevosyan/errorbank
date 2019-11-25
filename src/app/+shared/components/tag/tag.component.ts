@@ -21,15 +21,11 @@ export class TagComponent implements OnInit, OnChanges {
   }
 
   removeTag(tag: any) {
-    console.log('this.tagsArray START :  ', this.tagsArray);
-    // let filteredArray = this.tagsArray.splice(0);
+
     let clonedTagArray = [...this.tagsArray];
-    console.log('filteredArray :  ', clonedTagArray);
     let arrayToSend = clonedTagArray.filter(item => item.label !== tag.label);
-    console.log('arrayToSend : ', arrayToSend);
     this.sfService.searchByTag(arrayToSend);
     this.tagsArray.push(tag);
-    console.log('this.tagsArray FINAL :  ', this.tagsArray);
     this.removeTagFromList.emit(this.tagsArray);
   }
 
