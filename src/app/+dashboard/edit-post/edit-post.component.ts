@@ -115,11 +115,10 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.editPostForm.controls['updated'].setValue(cd.getCurrentDate());
 
     this.formSubmitAttempt = true;
-
-    if (this.editPostForm.status) {
+console.log('this.editPostForm  ', this.editPostForm);
+    if (this.editPostForm.status === 'VALID') {
       this.postService.updatePostById(postId, this.editPostForm.value);
       this.subscription = this.postService.isUpdated.subscribe((submission) => {
-        console.log('isSubmitted ', submission);
         if (submission) {
           this.toastr.success('Success!', 'Post updated successfully ');
           this.router.navigate(['/posts']);

@@ -212,6 +212,13 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   text-overflow: ellipsis;
   width: 100%;
 }
+.page-title {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
 .post-title {
   color: #07C;
   font-size: 16px;
@@ -277,6 +284,10 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
 
 .tag-list .tag {
   margin-right: 7px;
+}
+
+.filter-sidebar .tag-list .tag {
+  margin-bottom: 5px;
 }
 
 footer {
@@ -378,7 +389,9 @@ footer {
   .text-md-right {
     text-align: right;
   }
+
 }
+
 
 @media screen and (min-width: 768px) {
   .text-sm-left {
@@ -390,5 +403,23 @@ footer {
 }
 
 @media screen and (min-width: 576px) {
+
+}
+
+@media screen and (max-width: 992px) {
+  .main-container {
+    display: block;
+    padding: 15px 0;
+  }
+  .left-sidebar {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .content {
+    width: 100%;
+  }
+  .right-sidebar {
+    display: none;
+  }
 
 }

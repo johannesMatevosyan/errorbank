@@ -1,6 +1,5 @@
-<h2>Create post</h2>
+<h2 class="page-title">Create post</h2>
 
-<br>
 <form novalidate [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <input
@@ -36,14 +35,18 @@
       <button
         mat-stroked-button
         type="button"
-        (click)="filePicker.click()">Pick Image</button>
+        (click)="filePicker.click()">Upload Image</button>
       <input type="file"
              #filePicker
              accept=".jpg,.jpe,.jpeg,.png"
              (change)="onImagePicked($event)">
     </div>
-    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview !== null && createPostForm.get('image').valid">
-      <img [src]="imagePreview" [alt]="'Post image'">
+    <div class="text-center">
+      <div class="image-preview"
+           *ngIf="imagePreview !== '' && imagePreview !== null && createPostForm.get('image').valid">
+        <img [src]="imagePreview" [alt]="'Post image'">
+        <span class="remove-image" title="Remove image"><i class="material-icons">delete</i></span>
+      </div>
     </div>
   </section>
 

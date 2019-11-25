@@ -2,9 +2,24 @@ input[type=file] {
   visibility: hidden;
 }
 .image-preview {
-  height: 5rem;
-  margin: 1rem 0;
+  position: relative;
+  background: #ffffff;
+  width: 250px;
+  height: 200px;
+  display: inline-block;
+  text-align: center;
 }
 .image-preview img {
   height: 100%;
+}
+.remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 14px;
+  color: #212121;
+  cursor: pointer;
+}
+.remove-image:hover {
+  color: #c62828;
 }

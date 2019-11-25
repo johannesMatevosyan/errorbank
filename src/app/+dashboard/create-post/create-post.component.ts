@@ -100,7 +100,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     this.formSubmitAttempt = true;
 
-    if (this.createPostForm.status) {
+    if (this.createPostForm.status === 'VALID') {
       this.postService.create(this.createPostForm.value);
       this.subscription = this.postService.isSubmitted.subscribe((submission) => {
         console.log('isSubmitted ', submission);
