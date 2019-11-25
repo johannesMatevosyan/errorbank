@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PostService} from '@app/+dashboard/_services/post.service';
 import {Subscription} from 'rxjs/index';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {CurrentDate} from "@utils/current-date";
 import {extensionsArray} from "@utils/extensions";
 import {ToastrService} from "ngx-toastr";
@@ -24,7 +24,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
   imagePreview;
   post;
 
-  constructor(private fb: FormBuilder, private postService: PostService,
+  constructor(private fb: FormBuilder, private postService: PostService, private router: Router,
               private activatedRoute: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -118,10 +118,11 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
     if (this.editPostForm.status) {
       this.postService.updatePostById(postId, this.editPostForm.value);
-      this.subscription = this.postService.isSubmitted.subscribe((submission) => {
+      this.subscription = this.postService.isUpdated.subscribe((submission) => {
         console.log('isSubmitted ', submission);
         if (submission) {
           this.toastr.success('Success!', 'Post updated successfully ');
+          this.router.navigate(['/posts']);
         }
       });
     }

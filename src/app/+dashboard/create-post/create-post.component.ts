@@ -14,7 +14,7 @@ import {Router} from "@angular/router";
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnDestroy {
   formSubmitAttempt = false;
   tagsList = [];
   clonedTagsArray = [];

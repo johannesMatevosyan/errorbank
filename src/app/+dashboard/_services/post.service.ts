@@ -17,6 +17,7 @@ export class PostService {
   postSubject = new Subject<PostModel>();
   postsSubject = new Subject<PostModel[]>();
   isSubmitted = new Subject<boolean>();
+  isUpdated = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -92,10 +93,8 @@ export class PostService {
       .subscribe((responseData) => {
         if (responseData) {
           console.log('responseData .... ', responseData);
-          this.isSubmitted.next(true);
+          this.isUpdated.next(true);
         }
-
-        // this.router.navigate(['/posts']);
       });
   }
 
