@@ -7,6 +7,7 @@ import { SearchFilterService } from "@app/+shared/_services/search-filter.servic
 import { AuthService } from "@app/+shared/_services/auth.service";
 import { TagModel } from "@models/tag.model";
 import { PostInfoService } from "@app/+dashboard/_services/post-info.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-list-dashboard',
@@ -42,7 +43,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   constructor(private postsService: PostService,
               public authService: AuthService,
-              private sfService: SearchFilterService) { }
+              private sfService: SearchFilterService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.checkAuthenticationStatus();
@@ -114,6 +115,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   onDeletePost(id) {
     this.postsService.delete(id).subscribe(response => {
       if (response) {
+        this.toastr.success('Success!', 'Post deleted successfully ');
         this.getAllPosts();
       }
     });

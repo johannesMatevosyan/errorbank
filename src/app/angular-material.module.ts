@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {MAT_DIALOG_DATA} from '@angular/material';
 import {
   MatInputModule,
   MatCardModule,
@@ -11,7 +12,7 @@ import {
   MatDialogModule,
   MatListModule,
   MatDividerModule,
-  MatMenuModule
+  MatMenuModule, MatDialogRef
 } from '@angular/material';
 
 
@@ -32,6 +33,10 @@ import {
     MatListModule,
     MatDividerModule,
     MatMenuModule,
+  ],
+  providers: [
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: [] },
   ]
 })
 export class AngularMaterialModule { }

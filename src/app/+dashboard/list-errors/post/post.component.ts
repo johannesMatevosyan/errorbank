@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
 import {Subscription} from "rxjs/index";
+import {MatDialog} from "@angular/material";
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 
 @Component({
   selector: 'app-post',
@@ -12,11 +14,12 @@ export class PostComponent implements OnInit, OnDestroy {
   @Input() userIsAuthenticated;
   @Input() userIntegrity;
   @Output() deletePostById = new EventEmitter<String>();
+  alertModal = false;
   postId: string;
   numberOfComments = 0;
   numberOfViews = 0;
   subscription: Subscription;
-  constructor(public postInfoService: PostInfoService) { }
+  constructor(public postInfoService: PostInfoService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.postId = this.singlePost.id;
@@ -36,7 +39,16 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   deletePost(id) {
-    this.deletePostById.emit(id);
+    const dialogRef = this.dialog.open(AlertComponent, {
+      width: '300px',
+      data: {message: 'Are you sure you want to delete this post?'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.response) {
+        this.deletePostById.emit(id);
+      }
+    });
   }
 
   ngOnDestroy() {

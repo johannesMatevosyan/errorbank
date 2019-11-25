@@ -13,6 +13,7 @@ import { AuthService} from "@app/+shared/_services/auth.service";
 import { AngularMaterialModule} from "@app/angular-material.module";
 import { ErrorComponent} from "@app/+shared/components/error/error.component";
 import { ErrorInterceptor} from "@app/error-interceptor";
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,6 @@ import { ErrorInterceptor} from "@app/error-interceptor";
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorComponent]
+  entryComponents: [ErrorComponent, AlertComponent]
 })
 export class AppModule { }

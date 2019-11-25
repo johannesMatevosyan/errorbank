@@ -1,0 +1,12 @@
+.status-message {
+  font-size: 18px;
+  text-align: center;
+}
+.alert-dialog-buttons {
+  display: flex;
+  justify-content: center;
+}
+.alert-dialog-buttons .mat-button {
+  padding: 7px 15px !important;
+}
+

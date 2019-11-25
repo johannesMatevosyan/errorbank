@@ -147,6 +147,9 @@ mat-form-field,
 textarea {
   width: 100%;
 }
+textarea.post-content-textarea {
+  height: 100px;
+}
 mat-list.mat-list-base.list-horizontal .mat-list-item {
   display: inline-block;
   height: auto;

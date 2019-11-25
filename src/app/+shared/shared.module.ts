@@ -7,6 +7,7 @@ import { TagComponent } from '@app/+shared/components/tag/tag.component';
 import { CommentComponent } from '@app/+shared/components/comment/comment.component';
 import { CommentBoxComponent } from '@app/+shared/components/comment-box/comment-box.component';
 import { ErrorComponent } from '@app/+shared/components/error/error.component';
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ErrorComponent } from '@app/+shared/components/error/error.component';
     TagComponent,
     CommentComponent,
     CommentBoxComponent,
+    AlertComponent,
     ErrorComponent
   ],
   imports: [
@@ -26,6 +28,7 @@ import { ErrorComponent } from '@app/+shared/components/error/error.component';
     TagComponent,
     CommentComponent,
     CommentBoxComponent,
+    AlertComponent,
     ErrorComponent
   ],
 })

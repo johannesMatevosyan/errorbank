@@ -10,8 +10,6 @@
         type="text"
         name="title"
         formControlName="title"
-        ngModel
-        required
         minlength="3"
         placeholder="title">
       <mat-error>Please enter title</mat-error>
@@ -21,9 +19,9 @@
             <textarea
               matInput
               cols="30" rows="10"
+              class="post-content-textarea"
               name="content"
               formControlName="content"
-              required
               placeholder="content"></textarea>
       <mat-error
         *ngIf="!editPostForm.get('content').valid &&
