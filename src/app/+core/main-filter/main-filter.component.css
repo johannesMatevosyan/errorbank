@@ -4,7 +4,9 @@
   margin-bottom: 5px;
 }
 .sort-items .sort-item-title {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   font-size: 13px;
   font-weight: 400;

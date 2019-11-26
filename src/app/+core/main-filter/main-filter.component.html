@@ -4,7 +4,6 @@
   <mat-card-content>
 
     <div class="tag-list" *ngIf="tagsArray?.length > 0">
-      <!--<mat-card-title>Tags</mat-card-title>-->
       <h3 class="tag-list-title">Tags </h3>
       <app-tag
         [tagsArray]="tagsArray"
@@ -14,15 +13,27 @@
 
     <mat-list class="sort-items">
       <mat-list-item>
-        <span (click)="sortPostsByDate()" class="sort-item-title">Sort by date</span>
+        <span (click)="sortPostsByDate()" class="sort-item-title">
+          <span class="sort-text">Sort by date</span>
+          <mat-icon class="sort-arrow" *ngIf="dateSort === 1">keyboard_arrow_up</mat-icon>
+          <mat-icon class="sort-arrow" *ngIf="dateSort === -1">keyboard_arrow_down</mat-icon>
+        </span>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
-        <span (click)="sortPostsByLikes()" class="sort-item-title">Sort by likes</span>
+        <span (click)="sortPostsByLikes()" class="sort-item-title">
+          <span class="sort-text">Sort by likes</span>
+          <mat-icon class="sort-arrow" *ngIf="likeSort === 1">keyboard_arrow_up</mat-icon>
+          <mat-icon class="sort-arrow" *ngIf="likeSort === -1">keyboard_arrow_down</mat-icon>
+        </span>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
-        <span (click)="sortPostsByCommentCount()" class="sort-item-title">Sort by likes</span>
+        <span (click)="sortPostsByCommentCount()" class="sort-item-title">
+          <span class="sort-text">Sort by Comments</span>
+          <mat-icon class="sort-arrow" *ngIf="commentSort === 1">keyboard_arrow_up</mat-icon>
+          <mat-icon class="sort-arrow" *ngIf="commentSort === -1">keyboard_arrow_down</mat-icon>
+        </span>
       </mat-list-item>
     </mat-list>
 

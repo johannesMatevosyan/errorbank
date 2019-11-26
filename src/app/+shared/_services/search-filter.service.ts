@@ -23,6 +23,15 @@ export class SearchFilterService {
     },
     text: {
       word: this.searchText
+    },
+    sortByDate : {
+      date: 1
+    },
+    sortByLikes : {
+      likes: 1
+    },
+    sortByComments : {
+      comments: 1
     }
   };
   searchData: any;
@@ -59,16 +68,26 @@ export class SearchFilterService {
       });
   }
 
-  sortByDate() {
-    this.http.post(BACKEND_URL, this.query)
+  sortByDate(sortOrder) {
+    this.query.sortByDate = sortOrder;
+    console.log(' ********** this.query ********** ', this.query);
+    this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
+      console.log(' ***** sortByDate ***** ', sort);
+    });
   }
 
-  sortByLikes() {
-
+  sortByLikes(sortOrder) {
+    this.query.sortByLikes = sortOrder;
+    this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
+      console.log(' ***** sortByLikes ***** ', sort);
+    });
   }
 
-  sortByCommentCount() {
-
+  sortByCommentCount(sortOrder) {
+    this.query.sortByComments = sortOrder;
+    this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
+      console.log(' ***** sortByLikes ***** ', sort);
+    });
   }
 
 }

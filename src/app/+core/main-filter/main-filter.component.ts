@@ -9,6 +9,9 @@ import {SearchFilterService} from "@app/+shared/_services/search-filter.service"
   styleUrls: ['./main-filter.component.css']
 })
 export class MainFilterComponent implements OnInit, OnDestroy {
+  dateSort = 1;
+  likeSort = 1;
+  commentSort = 1;
   tagsArray;
   subscription: Subscription;
   constructor(private coreService: CoreService, private sfService: SearchFilterService) { }
@@ -25,15 +28,24 @@ export class MainFilterComponent implements OnInit, OnDestroy {
   }
 
   sortPostsByDate() {
-    this.sfService.sortByDate();
+    console.log('sortPostsByDate 1 : ', this.dateSort);
+    this.dateSort = this.dateSort * (-1);
+    console.log('sortPostsByDate 2 : ', this.dateSort);
+    this.sfService.sortByDate(this.dateSort);
   }
 
   sortPostsByLikes() {
-    this.sfService.sortByLikes();
+    console.log('sortPostsByLikes 1 : ', this.likeSort);
+    this.likeSort = this.likeSort * (-1);
+    console.log('sortPostsByLikes 2 : ', this.likeSort);
+    this.sfService.sortByLikes(this.likeSort);
   }
 
   sortPostsByCommentCount() {
-    this.sfService.sortByCommentCount();
+    console.log('sortPostsByLikes 1 : ', this.commentSort);
+    this.commentSort = this.commentSort * (-1);
+    console.log('sortPostsByLikes 2 : ', this.commentSort);
+    this.sfService.sortByCommentCount(this.commentSort);
   }
 
   ngOnDestroy() {

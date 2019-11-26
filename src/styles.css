@@ -215,6 +215,17 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   text-overflow: ellipsis;
   width: 100%;
 }
+.mat-button.overflow-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.sort-text,
+.sort-arrow {
+  display: inline-block;
+  vertical-align: middle;
+}
 .page-title {
   color: rgba(0, 0, 0, 0.87);
   font-size: 25px;

@@ -49,6 +49,8 @@ exports.getAllPosts = (req, res, next) => {
   const currentPage = +req.body.pagination.page;
   const tags = req.body.filter.tags;
   const text = req.body.text.word;
+  const sortByDate = req.body.sortByDate;
+  console.log('req.body ', req.body);
   let filter = {};
 
   if (tags.length > 0) {
@@ -58,6 +60,9 @@ exports.getAllPosts = (req, res, next) => {
   }
   if (text !== '') {
     // filter.text = {$text: {$search: text}}
+  }
+  if (sortByDate !== '') {
+    console.log('sortByDate ', sortByDate);
   }
 
   console.log('filter  : ', filter);
