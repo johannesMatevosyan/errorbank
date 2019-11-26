@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Tag = require('../models/tag');
+const PostVote = require('../models/post-vote');
 const tranformPost = require('../utils/transform-post');
 
 exports.createPost = (req, res, next) => {
@@ -98,6 +99,7 @@ exports.getAllPosts = (req, res, next) => {
 exports.getPostById = (req, res, next) => {
   const postQuery = Post.findOne({ _id: req.params.id })
     .populate('authorId', 'name')
+    .populate('voteId', 'votes')
     .populate('tags', 'label');
 
   postQuery
@@ -105,7 +107,7 @@ exports.getPostById = (req, res, next) => {
       post.viewed++;
       return post.save();
     }).then((post) => {
-
+console.log(' >>>>>>> populate >>>>>>>  ', post);
       let transformPost = post.toObject();
       transformPost.author = transformPost.authorId;
       delete transformPost.authorId;
@@ -191,5 +193,38 @@ exports.getPostsByDate = (req, res, next) => {
       posts: post
     });
   });
+
+};
+
+
+exports.voteForPost = (req, res, next) => {
+  const query = { postId: req.body.postId };
+  const vote = {
+    type: req.body.type, date: req.body.date, userId: req.body.userId
+  };
+
+  PostVote.findOneAndUpdate(query, query, { upsert: true })
+    .then((postVote) => {
+      console.log('postVote ', postVote);
+      const index = postVote.votes.findIndex((vote) => {
+        return vote.userId === req.body.userId;
+      });
+      if (~index) {
+        postVote.votes.splice(index, 1);
+      } else {
+        postVote.votes.push(vote);
+      }
+      return Promise.all([postVote.save(), Post.update({ _id: req.body.postId }, { $set: { voteId: postVote._id } })]);
+    }).then(() => {
+      res.status(201).json({
+        message: 'Vote added successfully! ',
+      });
+    })
+    .catch((err)=> {
+      console.log('Error: ' + err);
+      return res.status(401).json({
+        message: 'Cannot save vote',
+      });
+    });
 
 };

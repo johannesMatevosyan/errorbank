@@ -434,9 +434,9 @@ footer {
   margin-top: 12px;
   float: left;
 }
-/*input.ng-invalid.ng-touched {*/
-  /*border: 1px solid red;*/
-/*}*/
+.is-voted {
+  color: #c62828;
+}
 
 
 @media screen and (min-width: 1200px) {

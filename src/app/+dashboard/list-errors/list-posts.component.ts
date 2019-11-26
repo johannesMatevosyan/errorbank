@@ -43,7 +43,8 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   constructor(private postsService: PostService,
               public authService: AuthService,
-              private sfService: SearchFilterService, private toastr: ToastrService) { }
+              private sfService: SearchFilterService,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.checkAuthenticationStatus();
@@ -68,11 +69,15 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   getAllPosts() {
 
     this.postsService.getAll(this.query);
-    this.subscription = this.authService.userIdentitySubject.subscribe(response => {
-      if (response) {
-        this.userIntegrity = response;
-      }
-    });
+    let userData =  this.authService.userIdentitySubject;
+    if (userData !== null) {
+      this.subscription = userData.subscribe(response => {
+        if (response) {
+          this.userIntegrity = response;
+        }
+      });
+    }
+
     this.subscription = this.postsService.postsSubject.subscribe(response => {
       if (response) {
         this.posts = response;

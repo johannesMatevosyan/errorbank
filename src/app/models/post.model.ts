@@ -10,4 +10,5 @@ export interface PostModel {
   tags?: Array<any>;
   author?: { _id: string, name: string};
   maxPosts?: number;
+  voteId?: {votes: Array<{type: 'up' | 'down', userId: string, postId: string}>};
 }

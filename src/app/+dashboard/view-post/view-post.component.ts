@@ -5,8 +5,9 @@ import {Subscription} from "rxjs/index";
 import {PostModel} from "@models/post.model";
 import {CommentService} from "@app/+shared/_services/comment.service";
 import {CommentModel} from "@models/comment.model";
-import {PublicUserService} from "@app/+shared/_services/public-user.service";
 import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
+import {AuthService} from "@app/+shared/_services/auth.service";
+import {CurrentDate} from "@utils/current-date";
 
 @Component({
   selector: 'app-view-post',
@@ -15,6 +16,7 @@ import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
 })
 export class ViewPostComponent implements OnInit, OnDestroy {
   subscription: Subscription;
+  userIntegrity;
   post: PostModel;
   comment: CommentModel;
   commentsArray: CommentModel[];
@@ -25,12 +27,14 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   constructor(private postService: PostService,
               private activatedRoute: ActivatedRoute,
               private postInfoService: PostInfoService,
+              public authService: AuthService,
               private commentService: CommentService) { }
 
   ngOnInit() {
     this.getSinglePost();
     this.getComment();
     this.getCommentByPost();
+    this.getUserId();
   }
 
   getSinglePost() {
@@ -38,6 +42,18 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postSubject.subscribe((response) => {
         if (response) {
+          console.log('getSinglePost ', response.voteId.votes);
+          const voteUp = response.voteId.votes.reduce((obj, v) => {
+            // return obj[v.type]++;
+            if (v.type === 'up') {
+              obj['up']++;
+            } else {
+              obj['down']++;
+            }
+            return obj;
+          }, { 'up': 0, 'down': 0 });
+          console.log('voteUp ', voteUp);
+
           this.post = response;
           this.postInfo.postId = response._id;
           this.postInfo.userId = response.author._id;
@@ -74,10 +90,24 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   }
 
-  vote(status: string) {
+  getUserId() {
+    this.subscription = this.authService.userIdentitySubject.subscribe(userId => {
+      if (userId) {
+        console.log('getUserId  : ', userId);
+        this.userIntegrity = userId;
+      }
+    });
+  }
+
+  vote(status: string, userId: string) {
+    if (!userId) {
+      alert('Please login to vote.');
+      return;
+    }
     this.activatedRoute.params.subscribe(paramsId => {
       if (paramsId.id) {
-        let vote = { vote: status, postId: paramsId.id };
+        let cd = new CurrentDate();
+        let vote = {type: status, postId: paramsId.id, userId: userId, date: cd.getCurrentDate()};
         this.postInfoService.voteForPost(vote);
       }
     });

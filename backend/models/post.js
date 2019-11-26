@@ -9,6 +9,7 @@ const postSchema = mongoose.Schema({
   tags: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Tag', required: false} ],
   authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   viewed: { type: Number, required: false, default: 0 },
+  voteId: {type: mongoose.Schema.Types.ObjectId, ref: 'PostVote', required: false},
 });
 
 postSchema.index({ title: 'text', content: 'text' });

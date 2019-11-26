@@ -29,6 +29,7 @@ const commentRoutes = require('./routes/comment');
 
 
 app.use("/posts", postRoutes);
+app.use("/post", postRoutes);
 app.use("/post-info", postInfoRoutes);
 app.use("/user", authRoutes);
 // app.use("/search", searchRoutes);
