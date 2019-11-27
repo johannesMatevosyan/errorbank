@@ -8,6 +8,8 @@ import { CurrentDate } from '@utils/current-date';
 import { ToastrService } from 'ngx-toastr';
 import {Subscription} from "rxjs/index";
 import {Router} from "@angular/router";
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-create-post',
@@ -26,7 +28,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(private fb: FormBuilder, private postService: PostService,
-      private router: Router, private toastr: ToastrService) { }
+      private router: Router, private toastr: ToastrService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.createPostForm = new FormGroup({
@@ -54,10 +56,26 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     if(event.key === ',') {
       let trim = this.string.replace(/,/g, '');
       this.tagsList.push({label: trim});
-      this.clonedTagsArray.push({label: trim});
-      this.addDynamicElement.push(this.fb.control({
-        'label' : trim
-      }));
+
+      if (this.clonedTagsArray.length <= 4) {
+        this.clonedTagsArray.push({label: trim});
+        this.addDynamicElement.push(this.fb.control({
+          'label' : trim
+        }));
+      } else {
+        const dialogRef = this.dialog.open(AlertComponent, {
+          width: '300px',
+          data: {
+            message: 'You are not allowed to add more tags',
+            type: 'tagLimit'
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('afterClosed ', result);
+        });
+      }
+
       this.tag = this.tagsList[this.tagsList.length-1];
       event.target.value = '';
       this.tagsList = [];

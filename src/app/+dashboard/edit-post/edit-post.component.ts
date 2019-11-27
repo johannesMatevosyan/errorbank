@@ -6,6 +6,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CurrentDate} from "@utils/current-date";
 import {extensionsArray} from "@utils/extensions";
 import {ToastrService} from "ngx-toastr";
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-edit-post',
@@ -18,6 +20,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   tagsList = [];
   clonedTagsArray = [];
+  tagsAreNotAllowed = false;
   tag: string;
   string;
   created: string;
@@ -25,7 +28,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
   post;
 
   constructor(private fb: FormBuilder, private postService: PostService, private router: Router,
-              private activatedRoute: ActivatedRoute, private toastr: ToastrService) { }
+              private activatedRoute: ActivatedRoute, private toastr: ToastrService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.editPostForm =  new FormGroup({
@@ -72,10 +75,26 @@ export class EditPostComponent implements OnInit, OnDestroy {
     if(event.key === ',') {
       let trim = this.string.replace(/,/g, '');
       this.tagsList.push({label: trim});
-      this.clonedTagsArray.push({label: trim});
-      this.tagsFormArray.push(this.fb.control({
-        'label' : trim
-      }));
+
+      if (this.clonedTagsArray.length <= 4) {
+        this.clonedTagsArray.push({label: trim});
+        this.tagsFormArray.push(this.fb.control({
+          'label': trim
+        }));
+      } else {
+        const dialogRef = this.dialog.open(AlertComponent, {
+          width: '300px',
+          data: {
+            message: 'You are not allowed to add more tags',
+            type: 'tagLimit'
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('afterClosed ', result);
+        });
+      }
+
       this.tag = this.tagsList[this.tagsList.length-1];
       event.target.value = '';
       this.tagsList = [];

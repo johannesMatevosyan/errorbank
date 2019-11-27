@@ -54,6 +54,7 @@
         autocomplete="off"
         (keyup)="addTag($event)"
         placeholder="tags">
+      <span class="tag-limit" *ngIf="tagsAreNotAllowed">You are not allowed to add more tags </span>
     </mat-form-field>
 
     <div class="tag-list">
@@ -76,7 +77,7 @@
       mat-raised-button
       class="erb-button-right"
       color="accent"
-      type="submit">Save Changes </button>
+      type="submit">Save Changes {{ tagsAreNotAllowed }} </button>
   </div>
 
 </form>

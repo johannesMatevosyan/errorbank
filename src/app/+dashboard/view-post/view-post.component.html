@@ -20,7 +20,7 @@
     <div class="post-vote" (click)="vote('up', userIntegrity)">
       <mat-icon class="is-voted">arrow_upward</mat-icon>
     </div>
-    <div class="vote-number">12</div>
+    <div class="vote-number">{{ votesDiff }}</div>
     <div class="post-vote" (click)="vote('down', userIntegrity)">
       <mat-icon>arrow_downward</mat-icon>
     </div>

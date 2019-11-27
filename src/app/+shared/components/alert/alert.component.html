@@ -1,7 +1,10 @@
 <div  mat-dialog-content>
   <h2 class="status-message accent-color">{{ message }}</h2>
 </div>
-<div class="alert-dialog-buttons" mat-dialog-actions>
-  <button mat-button mat-dialog-close (click)="onAlertResponse(false)">CANCEL</button>
-  <button mat-button mat-dialog-close (click)="onAlertResponse(true)">DELETE</button>
+<div *ngIf="data.type === 'confirmDelete'" class="alert-dialog-buttons" mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close (click)="onAlertResponse(false)">CANCEL</button>
+  <button mat-raised-button mat-dialog-close (click)="onAlertResponse(true)">DELETE</button>
+</div>
+<div *ngIf="data.type === 'tagLimit'" class="alert-dialog-buttons">
+  <button mat-raised-button mat-dialog-close>OK</button>
 </div>

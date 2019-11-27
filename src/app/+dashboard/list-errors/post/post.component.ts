@@ -14,7 +14,6 @@ export class PostComponent implements OnInit, OnDestroy {
   @Input() userIsAuthenticated;
   @Input() userIntegrity;
   @Output() deletePostById = new EventEmitter<String>();
-  alertModal = false;
   postId: string;
   numberOfComments = 0;
   numberOfViews = 0;
@@ -41,7 +40,10 @@ export class PostComponent implements OnInit, OnDestroy {
   deletePost(id) {
     const dialogRef = this.dialog.open(AlertComponent, {
       width: '300px',
-      data: {message: 'Are you sure you want to delete this post?'}
+      data: {
+        message: 'Are you sure you want to delete this post?',
+        type: 'confirmDelete'
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

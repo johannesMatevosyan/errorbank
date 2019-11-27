@@ -143,6 +143,9 @@ h1, h2, h3, h4, h5, h6, p {
 .mat-stroked-button {
   line-height: 22px !important;
 }
+.mat-dialog-content {
+  margin: 0 -24px 15px !important;
+}
 mat-form-field,
 textarea {
   width: 100%;
@@ -233,12 +236,15 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   line-height: 30px;
   margin-bottom: 10px;
 }
-.post-title {
-  color: #07C;
+.post-title,
+.post-title a {
+  color: #212529;
   font-size: 16px;
-  font-weight: 600;
+  font-family: "Nunito","Helvetica",Arial,sans-serif;
+  font-weight: 700;
   line-height: 1.2;
   margin-bottom: 5px;
+  text-decoration: none;
 }
 .post-content {
   color: #333333;
@@ -320,6 +326,13 @@ input[type=file] {
   font-size: 13px;
   font-style: italic;
   margin-bottom: 3px;
+}
+.tag-limit {
+  display: block;
+  font-family:Roboto, "Helvetica Neue", sans-serif;
+  font-size:10.5px;
+  font-style:normal;
+  color: #c62828;
 }
 
 .search-form input {

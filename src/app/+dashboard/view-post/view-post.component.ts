@@ -24,6 +24,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     postId : '',
     userId : ''
   };
+  votesDiff;
   constructor(private postService: PostService,
               private activatedRoute: ActivatedRoute,
               private postInfoService: PostInfoService,
@@ -43,7 +44,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.subscription = this.postService.postSubject.subscribe((response) => {
         if (response) {
           console.log('getSinglePost ', response.voteId.votes);
-          const voteUp = response.voteId.votes.reduce((obj, v) => {
+          const votesDiffObj = response.voteId.votes.reduce((obj, v) => {
             // return obj[v.type]++;
             if (v.type === 'up') {
               obj['up']++;
@@ -52,11 +53,13 @@ export class ViewPostComponent implements OnInit, OnDestroy {
             }
             return obj;
           }, { 'up': 0, 'down': 0 });
-          console.log('voteUp ', voteUp);
+          console.log('votesDiff ', votesDiffObj);
+
 
           this.post = response;
           this.postInfo.postId = response._id;
           this.postInfo.userId = response.author._id;
+          this.votesDiff = votesDiffObj.up - votesDiffObj.down;
         }
 
       });
