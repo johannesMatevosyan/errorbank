@@ -13,6 +13,7 @@ export class SearchFilterService {
   searchText: string = '';
   postsPerPage = 2;
   currentPage = 1;
+  fetchTagArray = [];
   query = {
     filter: {
       tags : [],
@@ -35,11 +36,12 @@ export class SearchFilterService {
     }
   };
   searchData: any;
-  tagSource = new BehaviorSubject(this.searchData);
+  tagList = new BehaviorSubject(this.searchData);
+  tagObject = new BehaviorSubject(this.searchData);
   textSource = new BehaviorSubject(this.searchData);
-  searchSource = new BehaviorSubject(this.searchData);
-  sortSource = new BehaviorSubject(this.searchData);
-  searchKey = this.searchSource.asObservable();
+  searchByTextResponse = new BehaviorSubject(this.searchData);
+  searchByTagResponse = new BehaviorSubject(this.searchData);
+  searchKey = this.searchByTextResponse.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -49,45 +51,66 @@ export class SearchFilterService {
     this.http.post(BACKEND_URL, this.query)
       .subscribe((searchResponse: any) => {
         this.textSource.next(searchText);
-        this.searchSource.next(searchResponse);
+        this.searchByTextResponse.next(searchResponse);
       });
 
   }
 
-  searchByTag(tagArr) {
-
-    let searchData = tagArr.map((item) => {
+  searchByTag(tagObj) {
+    this.query.filter.tags = [];
+    this.fetchTagArray.push(tagObj);
+    this.tagList.next(this.fetchTagArray);
+    let searchData = [];
+    searchData = this.fetchTagArray.map((item) => {
       return item.id;
     });
 
     this.query.filter.tags = searchData;
     this.http.post(BACKEND_URL, this.query)
       .subscribe((searchResponse: any) => {
-        this.tagSource.next(tagArr);
-        this.searchSource.next(searchResponse);
+        this.searchByTagResponse.next(searchResponse);
+      });
+  }
+
+  removeTagFromList(tag) {
+    this.query.filter.tags = [];
+    this.tagObject.next(tag);
+    let searchData = [];
+    this.fetchTagArray = this.fetchTagArray.filter((item) => {
+      return item.id !== tag.id;
+    });
+
+    searchData = this.fetchTagArray.map((item) => {
+      return item.id;
+    });
+
+
+    this.query.filter.tags = searchData;
+    this.http.post(BACKEND_URL, this.query)
+      .subscribe((searchResponse: any) => {
+        this.searchByTagResponse.next(searchResponse);
       });
   }
 
   sortByDate(sortOrder) {
-    this.query.sortByDate = sortOrder;
-    console.log(' ********** this.query ********** ', this.query);
-    this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
-      console.log(' ***** sortByDate ***** ', sort);
-    });
+  //   this.query.sortByDate = sortOrder;
+  //   this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
+  //     console.log(' ***** sortByDate ***** ', sort);
+  //   });
   }
-
+  //
   sortByLikes(sortOrder) {
-    this.query.sortByLikes = sortOrder;
-    this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
-      console.log(' ***** sortByLikes ***** ', sort);
-    });
+  //   this.query.sortByLikes = sortOrder;
+  //   this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
+  //     console.log(' ***** sortByLikes ***** ', sort);
+  //   });
   }
-
+  //
   sortByCommentCount(sortOrder) {
-    this.query.sortByComments = sortOrder;
-    this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
-      console.log(' ***** sortByLikes ***** ', sort);
-    });
+  //   this.query.sortByComments = sortOrder;
+  //   this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
+  //     console.log(' ***** sortByLikes ***** ', sort);
+  //   });
   }
 
 }

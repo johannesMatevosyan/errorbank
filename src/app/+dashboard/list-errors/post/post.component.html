@@ -12,9 +12,12 @@
   </p>
   <div class="tag-list" *ngIf="singlePost.tags?.length > 0">
     <h3 class="tag-list-title d-inline-block">Tags</h3>
-    <app-tag
-      [tagsArray]="singlePost.tags"
-      [removable]="false"></app-tag>
+    <ng-container *ngFor="let tag of singlePost.tags">
+      <app-tag
+        [singleTag]="tag"
+        [removable]="false"></app-tag>
+    </ng-container>
+
   </div>
 
   <div class="post-options">

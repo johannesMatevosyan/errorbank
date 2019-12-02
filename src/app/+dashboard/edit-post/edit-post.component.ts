@@ -90,9 +90,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
           }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('afterClosed ', result);
-        });
+        dialogRef.afterClosed().subscribe(result => {});
       }
 
       this.tag = this.tagsList[this.tagsList.length-1];

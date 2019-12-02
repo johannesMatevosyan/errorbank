@@ -5,9 +5,14 @@
 
     <div class="tag-list" *ngIf="tagsArray?.length > 0">
       <h3 class="tag-list-title">Tags </h3>
-      <app-tag
-        [tagsArray]="tagsArray"
-        [removable]="false"></app-tag>
+      <ng-container *ngFor="let tag of tagsArray">
+        <app-tag
+          [singleTag]="tag"
+          [removable]="false"
+          (addTagToList)="onAddTagToList($event)"
+          (removeTagFromList)="onRemoveTagFromList($event)"
+        ></app-tag>
+      </ng-container>
     </div>
     <div *ngIf="tagsArray?.length === 0">No tags to display </div>
 

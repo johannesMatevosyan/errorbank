@@ -51,7 +51,6 @@ exports.getAllPosts = (req, res, next) => {
   const tags = req.body.filter.tags;
   const text = req.body.text.word;
   const sortByDate = req.body.sortByDate;
-  console.log('req.body ', req.body);
   let filter = {};
 
   if (tags.length > 0) {
@@ -66,8 +65,6 @@ exports.getAllPosts = (req, res, next) => {
     console.log('sortByDate ', sortByDate);
   }
 
-  console.log('filter  : ', filter);
-
   const postQuery = Post.find(filter)
     .populate('authorId', 'name')
     .populate('tags', 'label')
@@ -80,7 +77,6 @@ exports.getAllPosts = (req, res, next) => {
     .then(([posts, total]) => {
 
       let mutated = tranformPost.newPost(posts);
-
       res.status(201).json({
         message: 'Posts are fetched successfully!!!',
         posts: mutated,
@@ -205,7 +201,6 @@ exports.voteForPost = (req, res, next) => {
 
   PostVote.findOneAndUpdate(query, query, { upsert: true })
     .then((postVote) => {
-      console.log('postVote ', postVote);
       const index = postVote.votes.findIndex((vote) => {
         return vote.userId === req.body.userId;
       });
@@ -221,7 +216,6 @@ exports.voteForPost = (req, res, next) => {
       });
     })
     .catch((err)=> {
-      console.log('Error: ' + err);
       return res.status(401).json({
         message: 'Cannot save vote',
       });

@@ -6,33 +6,20 @@ import {SearchFilterService} from "@app/+shared/_services/search-filter.service"
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.css']
 })
-export class TagComponent implements OnInit, OnChanges {
-  @Input() tagsArray;
+export class TagComponent implements OnInit {
+  @Input() singleTag;
   @Input() removable : boolean;
   @Output() removeTagFromList = new EventEmitter<Array<object>>();
-  @Output() sendTagObjects = new EventEmitter<Array<object>>();
+  @Output() addTagToList = new EventEmitter<any>();
   tags = [];
+
   constructor(private sfService: SearchFilterService) { }
 
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-  }
-
-  removeTag(tag: any) {
-
-    let clonedTagArray = [...this.tagsArray];
-    let arrayToSend = clonedTagArray.filter(item => item.label !== tag.label);
-    this.sfService.searchByTag(arrayToSend);
-    this.tagsArray.push(tag);
-    this.removeTagFromList.emit(this.tagsArray);
-  }
-
-  filterByTag(tagObj) {
-    console.log('tagId :', tagObj);
-    this.tagsArray = this.tagsArray.filter( obj => obj.id !== tagObj.id );
-    this.tags.push(tagObj);
-    this.sfService.searchByTag(this.tags);
+  addTag(tagObj) {
+    this.addTagToList.emit(tagObj);
+    this.sfService.searchByTag(tagObj);
   }
 }

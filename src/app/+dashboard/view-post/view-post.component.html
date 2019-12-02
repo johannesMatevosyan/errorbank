@@ -28,7 +28,11 @@
 
   <div class="tag-list d-inline-block v-align-middle pl-2">
     <h5 class="tag-list-title d-inline-block">tags</h5>
-    <app-tag [tagsArray]="post?.tags" [removable]="false"></app-tag>
+    <ng-container *ngFor="let tag of clonedTagsArray">
+      <app-tag
+        [singleTag]="tag"
+        [removable]="false"></app-tag>
+    </ng-container>
   </div>
 
 </section>

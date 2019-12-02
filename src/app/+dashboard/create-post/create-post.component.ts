@@ -41,10 +41,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     });
 
     this.selectedTagsArray = this.createPostForm.get('tagsArray') as FormArray;
-
-    this.createPostForm.statusChanges.subscribe(
-      (value) => console.log('statusChanges ', value)
-    );
   }
 
   get addDynamicElement() {
@@ -63,6 +59,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
           'label' : trim
         }));
       } else {
+
         const dialogRef = this.dialog.open(AlertComponent, {
           width: '300px',
           data: {
@@ -71,9 +68,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
           }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('afterClosed ', result);
-        });
+        dialogRef.afterClosed().subscribe(result => {});
       }
 
       this.tag = this.tagsList[this.tagsList.length-1];

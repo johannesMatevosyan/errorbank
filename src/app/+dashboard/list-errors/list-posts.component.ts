@@ -24,7 +24,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   searchPhrase: string = '';
   tagsArray: TagModel[] = [];
   filterByTagsArray: TagModel[] = [];
-  tagIdArray = [];
   posts: PostModel[] = [];
   query = {
     filter: {
@@ -50,7 +49,8 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.checkAuthenticationStatus();
     this.getAllPosts();
     this.searchPosts();
-    this.searchMethods();
+    this.searchByTagMethod();
+    this.searchByTextMethod();
   }
 
   checkAuthenticationStatus() {
@@ -87,24 +87,35 @@ export class ListPostsComponent implements OnInit, OnDestroy {
 
   searchPosts() {
     this.subscription = this.sfService.searchKey.subscribe(response => {
-      this.posts =  response ? response.search : [];
+      if (response) {
+        this.posts =  response.search;
+      } else {
+        this.posts = [];
+      }
+
     });
   }
 
-  searchMethods() {
-    this.subscription = this.sfService.searchSource.subscribe(response => {
+  searchByTagMethod() {
+    this.subscription = this.sfService.tagList.subscribe(response => {
+      if (response) {
+        this.filterByTagsArray = response;
+      }
+    });
+    this.subscription = this.sfService.searchByTagResponse.subscribe(response => {
       if (response) {
         this.posts = response.posts;
       }
     });
-    this.subscription = this.sfService.tagSource.subscribe(response => {
-      if (response) {
-        this.filterByTagsArray = response;
-        this.tagIdArray = response.map(tag => {
-          return tag.id;
-        });
-      }
-    });
+
+  }
+
+  removeTagFromList(tag) {
+    this.filterByTagsArray = this.filterByTagsArray.filter(item => item.label !== tag.label);
+    this.sfService.removeTagFromList(tag);
+  }
+
+  searchByTextMethod() {
     this.subscription = this.sfService.textSource.subscribe(response => {
       if (response) {
         this.searchPhrase = response;
@@ -113,9 +124,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onRemoveTagFromList(event) {
-    console.log('onRemoveTagFromList  ', event);
-  }
 
   onDeletePost(id) {
     this.postsService.delete(id).subscribe(response => {

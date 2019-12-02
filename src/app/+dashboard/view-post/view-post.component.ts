@@ -43,8 +43,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postSubject.subscribe((response) => {
         if (response) {
-          console.log('getSinglePost ', response.voteId.votes);
-          const votesDiffObj = response.voteId.votes.reduce((obj, v) => {
+          const votesDiffObj = response.voteId ? response.voteId.votes.reduce((obj, v) => {
             // return obj[v.type]++;
             if (v.type === 'up') {
               obj['up']++;
@@ -52,7 +51,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
               obj['down']++;
             }
             return obj;
-          }, { 'up': 0, 'down': 0 });
+          }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
           console.log('votesDiff ', votesDiffObj);
 
 

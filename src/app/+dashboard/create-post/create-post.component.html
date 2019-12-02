@@ -65,10 +65,12 @@
   </section>
 
   <section class="tag-list">
-    <app-tag
-      [tagsArray]="clonedTagsArray"
-      [removable]="true"
-      (filteredTags)="onRemoveTags($event)"></app-tag>
+    <ng-container *ngFor="let tag of clonedTagsArray">
+      <app-tag
+        [singleTag]="tag"
+        [removable]="true"
+        (filteredTags)="onRemoveTags($event)"></app-tag>
+    </ng-container>
   </section>
 
   <button
@@ -76,3 +78,4 @@
     color="accent"
     type="submit">Save Post</button>
 </form>
+

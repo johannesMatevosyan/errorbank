@@ -18,6 +18,7 @@ export class MainFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getAllTags();
+    this.addTagToFilter();
   }
 
   getAllTags() {
@@ -28,24 +29,38 @@ export class MainFilterComponent implements OnInit, OnDestroy {
   }
 
   sortPostsByDate() {
-    console.log('sortPostsByDate 1 : ', this.dateSort);
     this.dateSort = this.dateSort * (-1);
-    console.log('sortPostsByDate 2 : ', this.dateSort);
     this.sfService.sortByDate(this.dateSort);
   }
 
   sortPostsByLikes() {
-    console.log('sortPostsByLikes 1 : ', this.likeSort);
     this.likeSort = this.likeSort * (-1);
-    console.log('sortPostsByLikes 2 : ', this.likeSort);
     this.sfService.sortByLikes(this.likeSort);
   }
 
   sortPostsByCommentCount() {
-    console.log('sortPostsByLikes 1 : ', this.commentSort);
     this.commentSort = this.commentSort * (-1);
-    console.log('sortPostsByLikes 2 : ', this.commentSort);
     this.sfService.sortByCommentCount(this.commentSort);
+  }
+
+  onAddTagToList(tag) {
+    this.tagsArray = this.tagsArray.filter(item => {
+      return item.label !== tag.label;
+    });
+  }
+
+  onRemoveTagFromList(tag) {
+    this.tagsArray = this.tagsArray.filter(item => {
+      return item.label !== tag.label;
+    });
+  }
+
+  addTagToFilter() {
+    this.sfService.tagObject.subscribe(tag => {
+      if (tag) {
+        this.tagsArray.push(tag);
+      }
+    });
   }
 
   ngOnDestroy() {
