@@ -1,13 +1,26 @@
-<mat-list role="list"  class="list-horizontal">
-  <mat-list-item role="listitem" class="mat-list-item" routerLinkActive="mat-accent">
-    <a [routerLink]="'/user/profile/' + profile?._id" mat-button>Profile</a>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="mat-list-item" routerLinkActive="mat-accent">
-    <a [routerLink]="'/user/posts/'" mat-button>Posts</a>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="mat-list-item" routerLinkActive="mat-accent">
-    <a [routerLink]="'/user/favorite-posts/'" mat-button>Favourites</a>
-  </mat-list-item>
-</mat-list>
+<ul role="list"  class="list-horizontal mb-15">
+  <li>
+    <a
+      class="mat-primary"
+      routerLinkActive="mat-accent"
+      [routerLink]="'/user/profile/' + profile?._id"
+      mat-raised-button>Profile </a>
+  </li>
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/user/posts/' + profile?._id"
+      [routerLinkActive]="['mat-accent']"
+      mat-raised-button>Posts</a>
+  </li>
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/user/favorite-posts/'"
+      [routerLinkActive]="['mat-accent']"
+      mat-raised-button>Favourites</a>
+  </li>
+</ul>
 
 <router-outlet></router-outlet>
+

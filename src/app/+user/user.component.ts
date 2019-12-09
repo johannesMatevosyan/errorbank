@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from "rxjs/index";
+import {Router} from '@angular/router';
 import {ActivatedRoute} from "@angular/router";
 import {UserModel} from "@models/user.model";
 import {UserService} from "@app/+user/_services/user.service";
@@ -25,5 +26,6 @@ export class UserComponent implements OnInit {
       });
     });
   }
+
 
 }

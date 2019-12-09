@@ -103,7 +103,6 @@ exports.getPostById = (req, res, next) => {
       post.viewed++;
       return post.save();
     }).then((post) => {
-console.log(' >>>>>>> populate >>>>>>>  ', post);
       let transformPost = post.toObject();
       transformPost.author = transformPost.authorId;
       delete transformPost.authorId;
@@ -222,3 +221,4 @@ exports.voteForPost = (req, res, next) => {
     });
 
 };
+

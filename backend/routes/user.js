@@ -23,4 +23,6 @@ router.get('/list', authController.getAllUsers);
 
 router.get('/profile/:id', authController.getUserById);
 
+router.get('/posts/:id', authController.getPostsByAuthorId);
+
 module.exports = router;

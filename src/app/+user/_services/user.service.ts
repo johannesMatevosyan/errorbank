@@ -11,6 +11,7 @@ const BACKEND_URL = environment.apiUrl + '/user/';
 export class UserService {
   user: {};
   userStorage = new BehaviorSubject<any>(this.user);
+  userPosts = new BehaviorSubject<any>(this.user);
   constructor(private http: HttpClient) { }
 
   getAllUsersInfo() {
@@ -36,6 +37,15 @@ export class UserService {
   getUserById(userId){
     return this.http.get(BACKEND_URL + 'profile/' + userId).subscribe(userData => {
       this.userStorage.next(userData['user']);
+    });
+  }
+
+  getPostsUserById(userId){
+    return this.http.get(BACKEND_URL + 'posts/' + userId).subscribe(userPosts => {
+      if (userPosts) {
+        this.userPosts.next(userPosts['posts']);
+      }
+
     });
   }
 

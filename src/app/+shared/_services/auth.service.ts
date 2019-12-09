@@ -100,6 +100,7 @@ export class AuthService {
     this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user', user)
       .subscribe(response => {
         if (response !== null) {
+          console.log('response -- ', response);
           this.userIdentitySubject.next(response.user._id);
           this.userDataStorage.next(response.user);
         }

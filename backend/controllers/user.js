@@ -2,6 +2,7 @@ const request = require('superagent');
 const jwt = require('jsonwebtoken');
 const UserInfo = require('../models/user-info');
 const User = require('../models/user');
+const Post = require('../models/post');
 
 exports.githubSignIn = (req, res, next) => {
   const code = req.body.code;
@@ -157,10 +158,58 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 exports.getUserById = (req, res, next) => {
-  User.findOne({ _id: req.params.id }).then(singleUser => {
-    res.status(200).json({
-      message: `User with id:${req.params.id} fetched successfully!`,
-      user: singleUser
-    });
-  });
+  const userId = req.params.id;
+  console.log('userId : ', userId);
+  if(userId !== 'undefined' && userId !== null) {
+    console.log('IF : ', userId);
+    User.findOne({ _id: userId }).then(singleUser => {
+      if (!singleUser){
+        return res.status(401).json({
+          message: `Cannot find user by id: ${userId}`,
+        });
+      } else {
+        res.status(200).json({
+          message: `User with id:::${userId} fetched successfully! `,
+          user: singleUser
+        });
+      }
+
+    })
+      .catch(err => {
+        return res.status(401).json({
+          message: `Cannot find user with id: ${userId} - error:  ${err}`
+        });
+      });
+
+  }
+
+};
+
+
+/*** Get posts by User Id ***/
+
+exports.getPostsByAuthorId = (req, res, next) => {
+
+  console.log('exports.getPostsByAuthorId ', req.params.id);
+
+  const userId = req.params.id;
+
+  if(userId !== 'undefined' && userId !== null) {
+    const postQuery = Post.find({ authorId: userId }, {title: 1, created: 1, viewed: 1})
+      .populate('authorId', 'name')
+      .populate('tags', 'label');
+
+    postQuery
+      .then((post) => {
+        // let transformPost = post.toObject();
+        // transformPost.author = transformPost.authorId;
+        // delete transformPost.authorId;
+        console.log('exports.getPostsByAuthorId post ', post);
+        res.status(200).json({
+          message: `Posts with user id:${userId} fetched successfully !`,
+          posts: post
+        });
+      });
+  }
+
 };

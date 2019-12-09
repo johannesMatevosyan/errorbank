@@ -1,1 +1,33 @@
-<p>user-posts works!</p>
+
+<ng-container *ngIf="userPosts.length === 0">
+  <h2>User has no posts</h2>
+</ng-container>
+<ng-container *ngIf="userPosts.length > 0">
+
+  <a [routerLink]="'/view/' + post?._id" class="post-box" *ngFor="let post of userPosts">
+    <div class="user-post">
+      <h5 class="sp mb-7">
+        <span class="date"> Created: {{post.created?.split(' ')[0]}} </span>
+      </h5>
+      <h3 class="post-title">{{ post?.title }}</h3>
+    </div>
+    <div class="user-post-info">
+      <ul class="user-post-info-list">
+        <li>
+          <h5 class="user-post-stats-title">Commented</h5>
+          <div class="user-post-stats">
+            12
+          </div>
+        </li>
+        <li>
+          <h5 class="user-post-stats-title">Viewed</h5>
+          <div class="user-post-stats">
+            8
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </a>
+
+</ng-container>
