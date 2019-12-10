@@ -20,6 +20,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   post: PostModel;
   comment: CommentModel;
   commentsArray: CommentModel[];
+  clonedTagsArray = [];
   postInfo = {
     postId : '',
     userId : ''
@@ -44,7 +45,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.subscription = this.postService.postSubject.subscribe((response) => {
         if (response) {
           const votesDiffObj = response.voteId ? response.voteId.votes.reduce((obj, v) => {
-            // return obj[v.type]++;
             if (v.type === 'up') {
               obj['up']++;
             } else {
@@ -56,6 +56,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
 
           this.post = response;
+          this.clonedTagsArray = this.post.tags;
           this.postInfo.postId = response._id;
           this.postInfo.userId = response.author._id;
           this.votesDiff = votesDiffObj.up - votesDiffObj.down;

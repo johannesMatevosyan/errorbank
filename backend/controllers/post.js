@@ -97,7 +97,7 @@ exports.getAllPosts = (req, res, next) => {
           "numOfComments":{ $size: "$postComments" }
         }
       }
-    ], function(err, commentsArr){
+    ]).exec((err, commentsArr) => {
 
       postWithComments = mergeCommentNumber.addCommentCount(postsArr, commentsArr);
 

@@ -4,4 +4,5 @@ export interface UserModel {
   login: string;
   name: string;
   userId?: string;
+  githubId?: string;
 }

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const UserInfo = require('../models/user-info');
 const User = require('../models/user');
 const Post = require('../models/post');
+const addCommentNumber = require('../utils/add-comment-number');
 
 exports.githubSignIn = (req, res, next) => {
   const code = req.body.code;
@@ -193,22 +194,38 @@ exports.getPostsByAuthorId = (req, res, next) => {
   console.log('exports.getPostsByAuthorId ', req.params.id);
 
   const userId = req.params.id;
+  let postWithComments = [];
 
   if(userId !== 'undefined' && userId !== null) {
-    const postQuery = Post.find({ authorId: userId }, {title: 1, created: 1, viewed: 1})
+    const postQuery = Post.find({ authorId: userId })
       .populate('authorId', 'name')
       .populate('tags', 'label');
 
     postQuery
-      .then((post) => {
-        // let transformPost = post.toObject();
-        // transformPost.author = transformPost.authorId;
-        // delete transformPost.authorId;
-        console.log('exports.getPostsByAuthorId post ', post);
-        res.status(200).json({
-          message: `Posts with user id:${userId} fetched successfully !`,
-          posts: post
+      .then((postsArr) => {
+
+        return Post.aggregate([
+          {
+            $lookup: {
+              from: "comments", localField: "_id", foreignField: "postId", as: "postComments"
+            }
+          },
+          {
+            $project: {
+              "numOfComments":{ $size: "$postComments" }
+            }
+          }
+        ]).exec((err, commentsArr) => {
+
+          postWithComments = addCommentNumber.addCommentCount(postsArr, commentsArr);
+
+          res.status(200).json({
+            message: `Posts with user id:${userId} fetched successfully !`,
+            posts: postWithComments
+          });
+
         });
+
       });
   }
 
