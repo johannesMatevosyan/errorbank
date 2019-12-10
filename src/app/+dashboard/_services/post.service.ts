@@ -38,6 +38,7 @@ export class PostService {
                 tags: post.tags,
                 author: post.author,
                 viewed: post.viewed,
+                commented: post.numOfComments,
               };
             }),
             maxPosts: postData.maxPosts

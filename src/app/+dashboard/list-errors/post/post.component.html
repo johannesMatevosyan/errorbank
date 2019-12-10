@@ -1,7 +1,7 @@
 <div  class="post-box">
 
   <h5 class="sp mb-7">
-    <span class="date"> Date {{singlePost.created.split(' ')[0]}} </span>
+    <span class="date">Date {{singlePost.created.split(' ')[0]}} </span>
     <span class="author">Author: {{ singlePost?.author.name }}</span>
   </h5>
   <h3 class="post-title">
@@ -24,8 +24,8 @@
 
     <div class="wrap-post-info-box">
       <app-post-info
-        [numberOfComments]="numberOfComments"
-        [numberOfViews]="numberOfViews"
+        [numberOfComments]="singlePost?.commented"
+        [numberOfViews]="singlePost?.viewed"
       ></app-post-info>
     </div>
 

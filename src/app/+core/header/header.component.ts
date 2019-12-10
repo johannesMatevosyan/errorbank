@@ -47,12 +47,14 @@ export class HeaderComponent implements OnInit {
 
     if(this.userIsAuthenticated) {
       let userData = {
+        _id : localStorage.getItem("_id"),
         userId : localStorage.getItem("_id"),
         githubId : localStorage.getItem("githubId"),
         name : localStorage.getItem("name"),
         login : localStorage.getItem("login"),
       };
       this.profile = userData;
+      console.log('this.profile ', this.profile);
     }
   }
 

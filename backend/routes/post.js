@@ -1,5 +1,6 @@
 const express = require('express');
 const postsController = require('../controllers/post');
+const commentController = require('../controllers/comment');
 const checkAuth = require('../middleware/check-auth');
 const extractFile = require('../middleware/file');
 const router = express.Router();
@@ -19,4 +20,7 @@ router.delete('/delete/:id', checkAuth, postsController.deletePostById);
 
 router.post('/vote', postsController.voteForPost);
 
+router.get('/comment/:id', commentController.getCommentsByPostID);
+
 module.exports = router;
+

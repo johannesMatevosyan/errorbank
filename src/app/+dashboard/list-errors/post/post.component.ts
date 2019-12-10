@@ -15,27 +15,25 @@ export class PostComponent implements OnInit, OnDestroy {
   @Input() userIntegrity;
   @Output() deletePostById = new EventEmitter<String>();
   postId: string;
-  numberOfComments = 0;
-  numberOfViews = 0;
+  //numberOfComments = 0;
+  //numberOfViews = 0;
   subscription: Subscription;
   constructor(public postInfoService: PostInfoService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.postId = this.singlePost.id;
-    this.numberOfViews = this.singlePost.viewed;
-    if (this.postId) {
-      this.getPostInfo(this.postId);
-    }
+    //this.numberOfViews = this.singlePost.viewed;
   }
 
-  getPostInfo(id: string) {
-    this.subscription = this.postInfoService.postCommentedSubject.subscribe((response) => {
-      if (response) {
-        this.numberOfComments = response.commentsNumber;
-      }
-    });
-    this.postInfoService.getPostCommentsInfoById(id);
-  }
+  // getPostInfo(id: string) {
+  //   this.subscription = this.postInfoService.postCommentedSubject.subscribe((response) => {
+  //     if (response) {
+  //       console.log('response.commentsNumber ', response);
+  //       this.numberOfComments = response.commentsNumber;
+  //     }
+  //   });
+  //   this.postInfoService.getPostCommentsInfoById(id);
+  // }
 
   deletePost(id) {
     const dialogRef = this.dialog.open(AlertComponent, {

@@ -2,6 +2,7 @@ const Post = require('../models/post');
 const Tag = require('../models/tag');
 const PostVote = require('../models/post-vote');
 const tranformPost = require('../utils/transform-post');
+const mergeCommentNumber = require('../utils/merge-comment-number');
 
 exports.createPost = (req, res, next) => {
   const parseTagsArray = JSON.parse(req.body.tagsArray);
@@ -72,16 +73,41 @@ exports.getAllPosts = (req, res, next) => {
     .limit(pageSize);
 
   const countQuery = Post.count(filter);
+  let maxPosts;
+  let mutated;
+  let postWithComments = [];
+
 
   Promise.all([postQuery, countQuery])
     .then(([posts, total]) => {
+      maxPosts = total;
+      mutated = tranformPost.newPost(posts);
+      return mutated;
+  })
+  .then((postsArr) => {
 
-      let mutated = tranformPost.newPost(posts);
+    return Post.aggregate([
+      {
+        $lookup: {
+          from: "comments", localField: "_id", foreignField: "postId", as: "postComments"
+        }
+      },
+      {
+        $project: {
+          "numOfComments":{ $size: "$postComments" }
+        }
+      }
+    ], function(err, commentsArr){
+
+      postWithComments = mergeCommentNumber.addCommentCount(postsArr, commentsArr);
+
       res.status(201).json({
         message: 'Posts are fetched successfully!!!',
-        posts: mutated,
-        maxPosts: total
+        posts: postWithComments,
+        maxPosts: maxPosts
       });
+
+    });
 
   })
   .catch(err => {
