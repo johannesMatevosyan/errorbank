@@ -270,6 +270,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   max-height: 100%;
   display: inline-block;
   vertical-align: middle;
+  border: 1px solid #ddd;
 }
 
 /* end of styling post image */
@@ -455,10 +456,7 @@ footer {
   width: 200px;
   margin-top: 5px;
 }
-.post-info-box {
-  border: 1px solid #0077CC;
-  padding: 5px 5px;
-}
+
 .post-edit-box a {
   text-decoration: none;
   margin-left: 5px;

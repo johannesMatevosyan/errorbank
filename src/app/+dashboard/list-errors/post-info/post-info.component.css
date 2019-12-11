@@ -5,3 +5,6 @@
 .post-info-box strong{
   font-weight: bold;
 }
+.post-info-box {
+  padding: 5px 5px;
+}

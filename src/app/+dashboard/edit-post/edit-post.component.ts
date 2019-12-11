@@ -43,7 +43,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.loadPostById();
   }
 
-  get tagsFormArray() {
+  get dynamicElementArr() {
     return this.editPostForm.get('tagsArray') as FormArray
   }
 
@@ -78,7 +78,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
       if (this.clonedTagsArray.length <= 4) {
         this.clonedTagsArray.push({label: trim});
-        this.tagsFormArray.push(this.fb.control({
+        this.dynamicElementArr.push(this.fb.control({
           'label': trim
         }));
       } else {
@@ -100,11 +100,13 @@ export class EditPostComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRemoveTags(filteredArrayOfTags){
-    this.tagsFormArray.clear();
-    filteredArrayOfTags.forEach(tag => {
-      this.tagsFormArray.push(this.fb.group({label: tag.label}))
+  onRemoveTagFromList(tagObj) {
+    this.clonedTagsArray = this.clonedTagsArray.filter(item => {
+      return item.label !== tagObj.label;
     });
+    this.dynamicElementArr.removeAt(this.dynamicElementArr.value.findIndex(item => {
+      return item.label === tagObj.label;
+    }));
   }
 
   onImagePicked(event: Event) {
