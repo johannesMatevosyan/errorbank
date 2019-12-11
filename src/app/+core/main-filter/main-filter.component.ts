@@ -49,12 +49,6 @@ export class MainFilterComponent implements OnInit, OnDestroy {
     });
   }
 
-  onRemoveTagFromList(tag) {
-    this.tagsArray = this.tagsArray.filter(item => {
-      return item.label !== tag.label;
-    });
-  }
-
   addTagToFilter() {
     this.sfService.tagObject.subscribe(tag => {
       if (tag) {

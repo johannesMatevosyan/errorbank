@@ -43,7 +43,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     this.selectedTagsArray = this.createPostForm.get('tagsArray') as FormArray;
   }
 
-  get addDynamicElement() {
+  get dynamicElementArr() {
     return this.createPostForm.get('tagsArray') as FormArray
   }
 
@@ -55,7 +55,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
       if (this.clonedTagsArray.length <= 4) {
         this.clonedTagsArray.push({label: trim});
-        this.addDynamicElement.push(this.fb.control({
+        this.dynamicElementArr.push(this.fb.control({
           'label' : trim
         }));
       } else {
@@ -78,11 +78,13 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRemoveTags(filteredArrayOfTags){
-    this.addDynamicElement.clear();
-    filteredArrayOfTags.forEach(tag => {
-      this.addDynamicElement.push(this.fb.group({label: tag.label}))
-    });
+  onRemoveTagFromList(tagObj) {
+      this.clonedTagsArray = this.clonedTagsArray.filter(item => {
+        return item.label !== tagObj.label;
+      });
+    this.dynamicElementArr.removeAt(this.dynamicElementArr.value.findIndex(item => {
+      return item.label === tagObj.label;
+    }));
   }
 
   onImagePicked(event: Event) {

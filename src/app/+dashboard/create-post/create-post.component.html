@@ -69,7 +69,8 @@
       <app-tag
         [singleTag]="tag"
         [removable]="true"
-        (filteredTags)="onRemoveTags($event)"></app-tag>
+        (removeTagFromList)="onRemoveTagFromList($event)"
+      ></app-tag>
     </ng-container>
   </section>
 

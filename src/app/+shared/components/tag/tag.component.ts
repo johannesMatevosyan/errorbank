@@ -22,4 +22,8 @@ export class TagComponent implements OnInit {
     this.addTagToList.emit(tagObj);
     this.sfService.searchByTag(tagObj);
   }
+
+  removeTag(tagObj) {
+    this.removeTagFromList.emit(tagObj);
+  }
 }

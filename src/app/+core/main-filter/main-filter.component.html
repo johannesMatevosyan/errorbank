@@ -10,9 +10,9 @@
           [singleTag]="tag"
           [removable]="false"
           (addTagToList)="onAddTagToList($event)"
-          (removeTagFromList)="onRemoveTagFromList($event)"
         ></app-tag>
       </ng-container>
+      <!--          (removeTagFromList)="onRemoveTagFromList($event)"--->
     </div>
     <div *ngIf="tagsArray?.length === 0">No tags to display </div>
 
