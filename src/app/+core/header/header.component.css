@@ -30,10 +30,12 @@
   align-items: center;
   vertical-align: middle;
 }
+.profile-name a,
 .profile-name {
   font-size: 13px;
   color: #ffffff;
   margin-right: 10px;
+  text-decoration: none;
 }
 .profile-image {
   width: 50px;

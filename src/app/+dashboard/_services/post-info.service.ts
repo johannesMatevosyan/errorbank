@@ -25,6 +25,7 @@ export class PostInfoService {
     console.log('vote ', vote);
     this.http.post<VoteModel[]>(BACKEND_URL + 'vote', vote)
       .subscribe((responseData) => {
+        console.log('voteForPost ', responseData)
         this.votedSubject.next(responseData);
       });
   }

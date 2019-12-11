@@ -52,6 +52,7 @@ exports.getJWTToken = (req, res, next) => {
   let ID = req.body.id.toString();
   User.findOne({ githubId: ID })
     .then(user => {
+
       if (!user) {
         return res.status(401).json({
           message: 'User not found.',

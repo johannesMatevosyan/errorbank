@@ -30,7 +30,9 @@
       <ng-container *ngIf="userIsAuthenticated">
         <div class="profile-info">
 
-          <div class="profile-name">{{ profile?.name }}</div>
+          <div class="profile-name">
+            <a [routerLink]="'/user/profile/' + profile?._id">{{ profile?.name }}</a>
+          </div>
           <div class="profile-image">
             <a [routerLink]="'/user/profile/' + profile?._id">
               <img

@@ -217,27 +217,40 @@ exports.getPostsByDate = (req, res, next) => {
 
 };
 
-
 exports.voteForPost = (req, res, next) => {
-  const query = { postId: req.body.postId };
+  const query = {
+    postId: req.body.postId
+  };
   const vote = {
-    type: req.body.type, date: req.body.date, userId: req.body.userId
+    type: req.body.type,
+    date: req.body.date,
+    userId: req.body.userId
   };
 
-  PostVote.findOneAndUpdate(query, query, { upsert: true })
+  PostVote.findOneAndUpdate(query, query, { upsert: true, new: true })
     .then((postVote) => {
-      const index = postVote.votes.findIndex((vote) => {
-        return vote.userId === req.body.userId;
+      const index = postVote.votes.findIndex((v) => {
+        return v.userId == vote.userId;
       });
-      if (~index) {
-        postVote.votes.splice(index, 1);
+      if (index > -1) {
+        if (postVote.votes[index].type !== vote.type) {
+          postVote.votes[index] = vote;
+        } else {
+          postVote.votes.splice(index, 1);
+        }
       } else {
         postVote.votes.push(vote);
       }
-      return Promise.all([postVote.save(), Post.update({ _id: req.body.postId }, { $set: { voteId: postVote._id } })]);
-    }).then(() => {
+      return Promise.all([
+        postVote.save(),
+        Post.update({ _id: req.body.postId }, { $set: { voteId: postVote._id }})
+      ]);
+    }).then(([postVotes, post]) => {
+      return Post.findOne({_id: req.body.postId}).populate('voteId', 'votes');
+    }).then(post => {
       res.status(201).json({
-        message: 'Vote added successfully! ',
+        message: 'Vote added successfully!',
+        post: post
       });
     })
     .catch((err)=> {

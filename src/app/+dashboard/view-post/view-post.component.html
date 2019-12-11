@@ -14,15 +14,19 @@
 
     <div class="post-content">{{ post?.content }}</div>
 
-  </div><!--.post-content-box-->
+  </div><!--.post-content-box   *ngIf="userIntegrity === post.author?._id" -->
 
   <div class="post-vote-box d-inline-block v-align-middle">
     <div class="post-vote" (click)="vote('up', userIntegrity)">
-      <mat-icon class="is-voted">arrow_upward</mat-icon>
+      <mat-icon
+        [ngClass]="userIntegrity === post?.author?._id ? 'is-voted' : ''"
+      >arrow_upward</mat-icon>
     </div>
     <div class="vote-number">{{ votesDiff }}</div>
     <div class="post-vote" (click)="vote('down', userIntegrity)">
-      <mat-icon>arrow_downward</mat-icon>
+      <mat-icon
+        [ngClass]="userIntegrity === post?.author?._id ? 'is-voted' : ''"
+      >arrow_downward</mat-icon>
     </div>
   </div>
 

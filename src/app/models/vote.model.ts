@@ -1,5 +1,5 @@
 export interface VoteModel {
-  vote: string;
+  vote?: {};
   postId: string;
   userId: string;
 }
