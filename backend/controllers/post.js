@@ -63,26 +63,26 @@ exports.getAllPosts = (req, res, next) => {
     // filter.text = {$text: {$search: text}}
   }
   if (sortByDate !== '') {
-    console.log('sortByDate ', sortByDate);
+    console.log('sortByDate : ', sortByDate);
   }
 
   const postQuery = Post.find(filter)
     .populate('authorId', 'name')
     .populate('tags', 'label')
+    .populate('voteId', 'votes')
     .skip(pageSize * (currentPage - 1))
     .limit(pageSize);
 
   const countQuery = Post.count(filter);
   let maxPosts;
-  let mutated;
+  let transformedPost;
   let postWithComments = [];
-
 
   Promise.all([postQuery, countQuery])
     .then(([posts, total]) => {
       maxPosts = total;
-      mutated = tranformPost.newPost(posts);
-      return mutated;
+      transformedPost = tranformPost.newPost(posts);
+      return transformedPost;
   })
   .then((postsArr) => {
 
@@ -246,7 +246,8 @@ exports.voteForPost = (req, res, next) => {
         Post.update({ _id: req.body.postId }, { $set: { voteId: postVote._id }})
       ]);
     }).then(([postVotes, post]) => {
-      return Post.findOne({_id: req.body.postId}).populate('voteId', 'votes');
+      return Post.findOne({_id: req.body.postId})
+        .populate('voteId', 'votes');
     }).then(post => {
       res.status(201).json({
         message: 'Vote added successfully!',
@@ -255,9 +256,8 @@ exports.voteForPost = (req, res, next) => {
     })
     .catch((err)=> {
       return res.status(401).json({
-        message: 'Cannot save vote',
+        message: 'Cannot save vote..',
       });
     });
 
 };
-

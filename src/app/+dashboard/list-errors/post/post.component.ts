@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
 import {Subscription} from "rxjs/index";
 import {MatDialog} from "@angular/material";
 import {AlertComponent} from "@app/+shared/components/alert/alert.component";
@@ -15,11 +14,21 @@ export class PostComponent implements OnInit, OnDestroy {
   @Input() userIntegrity;
   @Output() deletePostById = new EventEmitter<String>();
   postId: string;
+  votes = 0;
   subscription: Subscription;
-  constructor(public postInfoService: PostInfoService, public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
     this.postId = this.singlePost.id;
+    let voteObj = this.singlePost.voted;
+    if (voteObj) {
+      if(Object.keys(voteObj).length > 0){
+        this.votes = voteObj.votes.length;
+      } else {
+        this.votes = 0;
+      }
+    }
+
   }
 
   deletePost(id) {

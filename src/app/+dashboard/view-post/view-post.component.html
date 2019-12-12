@@ -14,19 +14,19 @@
 
     <div class="post-content">{{ post?.content }}</div>
 
-  </div><!--.post-content-box   *ngIf="userIntegrity === post.author?._id" -->
+  </div> <!--.post-content-box   *ngIf="userIntegrity === post.author?._id" -->
 
   <div class="post-vote-box d-inline-block v-align-middle">
     <div class="post-vote" (click)="vote('up', userIntegrity)">
       <mat-icon
-        [ngClass]="userIntegrity === post?.author?._id ? 'is-voted' : ''"
-      >arrow_upward</mat-icon>
+        class="vote-arrow"
+        [ngClass]="userIntegrity === post?.author?._id ? 'is-voted' : ''">keyboard_arrow_up</mat-icon>
     </div>
     <div class="vote-number">{{ votesDiff }}</div>
     <div class="post-vote" (click)="vote('down', userIntegrity)">
       <mat-icon
-        [ngClass]="userIntegrity === post?.author?._id ? 'is-voted' : ''"
-      >arrow_downward</mat-icon>
+        class="vote-arrow"
+        [ngClass]="userIntegrity === post?.author?._id ? 'is-voted' : ''">keyboard_arrow_down</mat-icon>
     </div>
   </div>
 
@@ -41,9 +41,7 @@
 
 </section>
 <section class="comment-box-list">
-
   <app-comment-box [commentsArray]="commentsArray"></app-comment-box>
-
 </section>
 <app-comment [postInfo]="postInfo" (sendComment)="onPostComment($event)"></app-comment>
 

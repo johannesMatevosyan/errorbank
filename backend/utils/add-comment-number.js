@@ -2,9 +2,9 @@ module.exports = {
   addCommentCount: (postsArr, commentsArr) => {
     let transformedPosts = [];
 
-    postsArr = postsArr.map((element) => {
-      return element.toObject();
-    });
+    // postsArr = postsArr.map((element) => {
+    //   return element.toObject();
+    // });
 
     for (let i = 0; i < postsArr.length; i++) {
       let singlePost = postsArr[i];

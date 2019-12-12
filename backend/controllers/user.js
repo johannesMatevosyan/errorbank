@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const UserInfo = require('../models/user-info');
 const User = require('../models/user');
 const Post = require('../models/post');
+const tranformPost = require('../utils/transform-post');
 const addCommentNumber = require('../utils/add-comment-number');
 
 exports.githubSignIn = (req, res, next) => {
@@ -161,9 +162,7 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.getUserById = (req, res, next) => {
   const userId = req.params.id;
-  console.log('userId : ', userId);
   if(userId !== 'undefined' && userId !== null) {
-    console.log('IF : ', userId);
     User.findOne({ _id: userId }).then(singleUser => {
       if (!singleUser){
         return res.status(401).json({
@@ -192,18 +191,19 @@ exports.getUserById = (req, res, next) => {
 
 exports.getPostsByAuthorId = (req, res, next) => {
 
-  console.log('exports.getPostsByAuthorId ', req.params.id);
-
   const userId = req.params.id;
+  let transformedPost;
   let postWithComments = [];
 
   if(userId !== 'undefined' && userId !== null) {
     const postQuery = Post.find({ authorId: userId })
       .populate('authorId', 'name')
+      .populate('voteId', 'votes')
       .populate('tags', 'label');
 
     postQuery
-      .then((postsArr) => {
+      .then((posts) => {
+        transformedPost = tranformPost.newPost(posts);
 
         return Post.aggregate([
           {
@@ -218,7 +218,7 @@ exports.getPostsByAuthorId = (req, res, next) => {
           }
         ]).exec((err, commentsArr) => {
 
-          postWithComments = addCommentNumber.addCommentCount(postsArr, commentsArr);
+          postWithComments = addCommentNumber.addCommentCount(transformedPost, commentsArr);
 
           res.status(200).json({
             message: `Posts with user id:${userId} fetched successfully !`,
@@ -231,3 +231,4 @@ exports.getPostsByAuthorId = (req, res, next) => {
   }
 
 };
+

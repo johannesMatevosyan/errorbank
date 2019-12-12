@@ -38,6 +38,7 @@ export class PostService {
                 tags: post.tags,
                 author: post.author,
                 viewed: post.viewed,
+                voted: post.voteObj,
                 commented: post.numOfComments,
               };
             }),
@@ -76,7 +77,6 @@ export class PostService {
   getPostById(postId: string) {
     this.http.get<{post: PostModel}>(BACKEND_URL + '/get-id/' + postId)
       .subscribe((responseData) => {
-        console.log('responseData.post ', responseData.post);
         this.postSubject.next(responseData.post);
       });
   }

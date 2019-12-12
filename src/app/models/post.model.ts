@@ -12,4 +12,5 @@ export interface PostModel {
   author?: { _id: string, name: string};
   maxPosts?: number;
   voteId?: {votes: Array<{type: 'up' | 'down', userId: string, postId: string}>};
+  voteObj?: {votes: Array<{type: 'up' | 'down', userId: string, postId: string}>};
 }

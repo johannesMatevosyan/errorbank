@@ -14,6 +14,20 @@
     <div class="user-post-info">
       <ul class="user-post-info-list">
         <li>
+          <h5 class="user-post-stats-title">Votes</h5>
+          <div class="user-post-stats">
+            {{ post?.voteObj.votes?.length }}
+
+            <ng-container *ngIf="(post?.voteObj | json) != ({} | json)">
+              {{ post?.voteObj.votes.length }}
+            </ng-container>
+            <ng-container *ngIf="(post?.voteObj | json) == ({} | json)">
+              0
+            </ng-container>
+
+          </div>
+        </li>
+        <li>
           <h5 class="user-post-stats-title">Commented</h5>
           <div class="user-post-stats">
             {{ post?.numOfComments }}

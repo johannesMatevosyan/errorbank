@@ -498,6 +498,12 @@ footer {
 .is-voted {
   color: #c62828;
 }
+.post-vote .vote-arrow {
+  transform: scale(1.5);
+}
+.comment-vote-box .comment-vote {
+  transform: scale(1.2);
+}
 
 
 @media screen and (min-width: 1200px) {

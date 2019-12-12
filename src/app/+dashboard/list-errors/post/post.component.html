@@ -24,6 +24,7 @@
 
     <div class="wrap-post-info-box">
       <app-post-info
+        [numberOfVotes]="votes"
         [numberOfComments]="singlePost?.commented"
         [numberOfViews]="singlePost?.viewed"
       ></app-post-info>

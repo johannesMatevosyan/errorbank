@@ -109,10 +109,14 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(paramsId => {
       if (paramsId.id) {
         let cd = new CurrentDate();
-        let vote = {type: status as ('up' | 'down'), postId: paramsId.id as string, userId: userId, date: cd.getCurrentDate()};
+        let vote = {
+          type: status as ('up' | 'down'),
+          postId: paramsId.id as string,
+          userId: userId,
+          date: cd.getCurrentDate()
+        };
         this.postInfoService.voteForPost(vote);
         this.postInfoService.votedSubject.subscribe((response) => {
-          console.log('response  ', response);
 
           const votesDiffObj = response.post.voteId ? response.post.voteId.votes.reduce((obj, v) => {
             if (v.type === 'up') {
@@ -123,7 +127,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
             return obj;
           }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
 
-          console.log('votesDiff 2 ', votesDiffObj);
           this.votesDiff = votesDiffObj.up - votesDiffObj.down;
         });
       }

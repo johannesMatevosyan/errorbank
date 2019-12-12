@@ -27,7 +27,6 @@ export class HeaderComponent implements OnInit {
     this.checkAuthenticationStatus();
     this.loadSearchForm();
     this.authListenerSubs = this.authService.userDataStorage.subscribe(userData =>  {
-      console.log('userData ', userData);
       if (userData) {
         this.profile = userData;
       }
@@ -54,7 +53,6 @@ export class HeaderComponent implements OnInit {
         login : localStorage.getItem("login"),
       };
       this.profile = userData;
-      console.log('this.profile ', this.profile);
     }
   }
 
