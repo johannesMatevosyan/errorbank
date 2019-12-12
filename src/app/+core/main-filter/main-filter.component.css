@@ -21,4 +21,15 @@
   margin-left: 7px;
   margin-bottom: 7px;
 }
-
+.show-more-button {
+  width: 100%;
+  display: block;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 12px;
+}
+.show-more-button .show-more-button  {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 3px;
+}

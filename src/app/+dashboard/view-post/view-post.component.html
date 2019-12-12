@@ -14,19 +14,23 @@
 
     <div class="post-content">{{ post?.content }}</div>
 
-  </div> <!--.post-content-box   *ngIf="userIntegrity === post.author?._id" -->
+  </div>
 
   <div class="post-vote-box d-inline-block v-align-middle">
-    <div class="post-vote" (click)="vote('up', userIntegrity)">
+    <div class="post-vote" (click)="vote('up', userIntegrity, 'post')">
       <mat-icon
         class="vote-arrow"
-        [ngClass]="userIntegrity === post?.author?._id ? 'is-voted' : ''">keyboard_arrow_up</mat-icon>
+        [ngClass]="userIntegrity !== null &&
+            voteInfo?.isUserVoted &&
+            voteInfo?.type === 'up' ? 'is-voted' : ''">keyboard_arrow_up</mat-icon>
     </div>
     <div class="vote-number">{{ votesDiff }}</div>
-    <div class="post-vote" (click)="vote('down', userIntegrity)">
+    <div class="post-vote" (click)="vote('down', userIntegrity, 'post')">
       <mat-icon
         class="vote-arrow"
-        [ngClass]="userIntegrity === post?.author?._id ? 'is-voted' : ''">keyboard_arrow_down</mat-icon>
+        [ngClass]="userIntegrity !== null &&
+            voteInfo?.isUserVoted &&
+            voteInfo?.type === 'down' ? 'is-voted' : ''">keyboard_arrow_down</mat-icon>
     </div>
   </div>
 

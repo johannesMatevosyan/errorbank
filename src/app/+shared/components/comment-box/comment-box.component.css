@@ -1,6 +1,6 @@
 .comment-box {
   display: flex;
-  padding: 10px 15px 10px 10px;
+  padding: 5px 5px 5px 15px;
   font-size: 12px;
   border: 1px solid #bbbbbb;
   background-color: #dddddd;
@@ -18,7 +18,8 @@
 .comment-text-box {
   position: relative;
   flex: 1 0 auto;
-  padding-left: 5px;
+  margin-top: 10px;
+  padding-left: 7px;
   padding-bottom: 10px;
 }
 .comment-vote {
@@ -28,4 +29,10 @@
 }
 .comment-vote:hover {
   background-color: #bbbbbb;
+}
+.vote-number{
+  padding: 2px;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
 }

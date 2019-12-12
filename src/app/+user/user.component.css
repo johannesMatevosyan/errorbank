@@ -19,7 +19,7 @@
   height: 30px;
 }
 .user-post {
-  width: calc(100% - 142px);
+  width: calc(100% - 222px);
 }
 .user-post-info {
   margin-top: -9px;
@@ -33,3 +33,4 @@
 .user-post-info-list li{
   width: 70px;
 }
+

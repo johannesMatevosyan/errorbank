@@ -7,6 +7,7 @@ import {CommentService} from "@app/+shared/_services/comment.service";
 import {CommentModel} from "@models/comment.model";
 import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
 import {AuthService} from "@app/+shared/_services/auth.service";
+import {CheckVote} from "@utils/check-vote";
 import {CurrentDate} from "@utils/current-date";
 
 @Component({
@@ -16,7 +17,9 @@ import {CurrentDate} from "@utils/current-date";
 })
 export class ViewPostComponent implements OnInit, OnDestroy {
   subscription: Subscription;
-  userIntegrity;
+  userIntegrity = null;
+  isUserVoted;
+  voteInfo;
   post: PostModel;
   comment: CommentModel;
   commentsArray: CommentModel[];
@@ -58,8 +61,13 @@ export class ViewPostComponent implements OnInit, OnDestroy {
           this.clonedTagsArray = this.post.tags;
           this.postInfo.postId = response._id;
           this.postInfo.userId = response.author._id;
-          console.log('votesDiff 1 ', votesDiffObj);
           this.votesDiff = votesDiffObj.up - votesDiffObj.down;
+
+          if (response.voteId) {
+            let cv = new CheckVote();
+            this.voteInfo = cv.getCheckedVote(response.voteId.votes, this.userIntegrity);
+          }
+
         }
 
       });
@@ -101,7 +109,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     });
   }
 
-  vote(status: string, userId: string) {
+  vote(status: string, userId: string, relatedTo: string) {
     if (!userId) {
       alert('Please login to vote.');
       return;
@@ -113,10 +121,11 @@ export class ViewPostComponent implements OnInit, OnDestroy {
           type: status as ('up' | 'down'),
           postId: paramsId.id as string,
           userId: userId,
+          relatedTo: relatedTo,
           date: cd.getCurrentDate()
         };
         this.postInfoService.voteForPost(vote);
-        this.postInfoService.votedSubject.subscribe((response) => {
+        this.postInfoService.votedForPostSubject.subscribe((response) => {
 
           const votesDiffObj = response.post.voteId ? response.post.voteId.votes.reduce((obj, v) => {
             if (v.type === 'up') {
@@ -128,6 +137,13 @@ export class ViewPostComponent implements OnInit, OnDestroy {
           }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
 
           this.votesDiff = votesDiffObj.up - votesDiffObj.down;
+
+          if (response.voteId) {
+            console.log('response **************', response);
+            let cv = new CheckVote();
+            this.voteInfo = cv.getCheckedVote(response.voteId.votes, this.userIntegrity);
+          }
+
         });
       }
     });

@@ -13,6 +13,7 @@ export class MainFilterComponent implements OnInit, OnDestroy {
   likeSort = 1;
   commentSort = 1;
   tagsArray;
+  show = 5;
   subscription: Subscription;
   constructor(private coreService: CoreService, private sfService: SearchFilterService) { }
 

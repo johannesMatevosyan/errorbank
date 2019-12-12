@@ -223,8 +223,9 @@ exports.voteForPost = (req, res, next) => {
   };
   const vote = {
     type: req.body.type,
-    date: req.body.date,
-    userId: req.body.userId
+    userId: req.body.userId,
+    relatedTo: req.body.relatedTo,
+    date: req.body.date
   };
 
   PostVote.findOneAndUpdate(query, query, { upsert: true, new: true })

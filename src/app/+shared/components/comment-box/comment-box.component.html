@@ -1,11 +1,20 @@
 <ng-container *ngIf="commentsArray?.length > 0">
   <div class="comment-box" *ngFor="let singleComment of commentsArray;">
     <div class="comment-vote-box">
-      <div class="comment-vote">
-        <mat-icon>keyboard_arrow_up</mat-icon>
+      <div class="comment-vote" (click)="vote('up', userIntegrity, 'comment')">
+        <mat-icon
+          [ngClass]="userIntegrity !== null &&
+            voteInfo?.isUserVoted &&
+            voteInfo?.type === 'up' ? 'is-voted' : ''"
+        >keyboard_arrow_up</mat-icon>
       </div>
-      <div class="comment-vote">
-        <mat-icon>keyboard_arrow_down</mat-icon>
+      <div class="vote-number">{{ votesDiff }}</div>
+      <div class="comment-vote" (click)="vote('down', userIntegrity, 'comment')">
+        <mat-icon
+          [ngClass]="userIntegrity !== null &&
+            voteInfo?.isUserVoted &&
+            voteInfo?.type === 'down' ? 'is-voted' : ''"
+        >keyboard_arrow_down</mat-icon>
       </div>
     </div>
     <div class="comment-text-box">
