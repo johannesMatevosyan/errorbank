@@ -6,6 +6,8 @@ import {AuthService} from "@app/+shared/_services/auth.service";
 import {Subscription} from "rxjs/index";
 import {CheckVote} from "@utils/check-vote";
 import {PostService} from "@app/+dashboard/_services/post.service";
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-comment-box',
@@ -13,7 +15,7 @@ import {PostService} from "@app/+dashboard/_services/post.service";
   styleUrls: ['./comment-box.component.css']
 })
 export class CommentBoxComponent implements OnInit {
-  @Input() commentsArray;
+  @Input() singleComment;
   subscription: Subscription;
   userIntegrity;
   voteInfo;
@@ -25,6 +27,7 @@ export class CommentBoxComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private postService: PostService,
               private postInfoService: PostInfoService,
+              public dialog: MatDialog,
               public authService: AuthService,) { }
 
   ngOnInit() {
@@ -71,8 +74,17 @@ export class CommentBoxComponent implements OnInit {
   }
 
   vote(status: string, userId: string, relatedTo: string) {
+    console.log('vote form comment');
     if (!userId) {
-      alert('Please login to vote.');
+      const dialogRef = this.dialog.open(AlertComponent, {
+        width: '300px',
+        data: {
+          message: 'Please login to vote',
+          type: 'notAuthorized'
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {});
+
       return;
     }
     this.activatedRoute.params.subscribe(paramsId => {

@@ -1,5 +1,5 @@
-<ng-container *ngIf="commentsArray?.length > 0">
-  <div class="comment-box" *ngFor="let singleComment of commentsArray;">
+<ng-container *ngIf="singleComment">
+  <div class="comment-box">
     <div class="comment-vote-box">
       <div class="comment-vote" (click)="vote('up', userIntegrity, 'comment')">
         <mat-icon

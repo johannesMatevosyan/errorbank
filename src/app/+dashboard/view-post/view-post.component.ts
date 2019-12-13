@@ -9,6 +9,8 @@ import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
 import {AuthService} from "@app/+shared/_services/auth.service";
 import {CheckVote} from "@utils/check-vote";
 import {CurrentDate} from "@utils/current-date";
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-view-post',
@@ -33,6 +35,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private postInfoService: PostInfoService,
               public authService: AuthService,
+              public dialog: MatDialog,
               private commentService: CommentService) { }
 
   ngOnInit() {
@@ -111,7 +114,15 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   vote(status: string, userId: string, relatedTo: string) {
     if (!userId) {
-      alert('Please login to vote.');
+
+      const dialogRef = this.dialog.open(AlertComponent, {
+        width: '300px',
+        data: {
+          message: 'Please login to vote',
+          type: 'notAuthorized'
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {});
       return;
     }
     this.activatedRoute.params.subscribe(paramsId => {

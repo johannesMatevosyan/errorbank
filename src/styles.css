@@ -96,17 +96,17 @@ html, body {
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  font-family: 'nunitoregular', "Helvetica",Arial,sans-serif; }
+  font-family: 'Roboto', "Helvetica",Arial,sans-serif; }
 body {
   background-color: #f9f8fa;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  font-family: 'nunitoregular', "Helvetica",Arial,sans-serif;
+  font-family: 'Roboto', "Helvetica",Arial,sans-serif;
   margin: 0; }
 
 h1, h2, h3, h4, h5, h6, p {
-  font-family: 'nunitoregular', "Helvetica",Arial,sans-serif;
+  font-family: 'Roboto', "Helvetica",Arial,sans-serif;
 }
 
 .layout {
@@ -240,7 +240,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
 .post-title a {
   color: #212529;
   font-size: 16px;
-  font-family: "Nunito","Helvetica",Arial,sans-serif;
+  font-family: "Roboto","Helvetica",Arial,sans-serif;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 5px;

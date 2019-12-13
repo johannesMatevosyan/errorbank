@@ -45,7 +45,10 @@
 
 </section>
 <section class="comment-box-list">
-  <app-comment-box [commentsArray]="commentsArray"></app-comment-box>
+  <ng-container *ngFor="let comment of commentsArray">
+    <app-comment-box [singleComment]="comment"></app-comment-box>
+  </ng-container>
+
 </section>
 <app-comment [postInfo]="postInfo" (sendComment)="onPostComment($event)"></app-comment>
 
