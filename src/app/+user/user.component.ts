@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from "rxjs/index";
-import {Router} from '@angular/router';
 import {ActivatedRoute} from "@angular/router";
 import {UserModel} from "@models/user.model";
 import {UserService} from "@app/+user/_services/user.service";
@@ -13,12 +12,17 @@ import {UserService} from "@app/+user/_services/user.service";
 export class UserComponent implements OnInit {
   profile: UserModel;
   subscribeUser: Subscription;
+  selectedItem;
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.onSetActiveClass(event, 'profile');
     this.activatedRoute.params.subscribe(paramsId => {
       let userId = paramsId['id'];
-      this.userService.getUserById(userId);
+      if (userId) {
+        this.userService.getUserById(userId);
+      }
+
       this.subscribeUser = this.userService.userStorage.subscribe(user => {
         if (user) {
           this.profile = user;
@@ -27,5 +31,8 @@ export class UserComponent implements OnInit {
     });
   }
 
+  onSetActiveClass(event, newValue) {
+    this.selectedItem = newValue;
+  }
 
 }

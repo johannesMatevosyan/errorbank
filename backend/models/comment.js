@@ -5,6 +5,7 @@ const commentSchema = mongoose.Schema({
   postId: { type: mongoose.Schema.Types.ObjectId, required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   date: { type: String, required: true },
+  voteId: { type: mongoose.Schema.Types.ObjectId, ref: 'Vote', required: false },
 });
 
 module.exports = mongoose.model('Comment', commentSchema);

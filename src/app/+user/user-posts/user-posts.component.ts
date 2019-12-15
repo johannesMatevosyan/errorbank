@@ -19,7 +19,6 @@ export class UserPostsComponent implements OnInit {
       this.userService.getPostsUserById(userId);
       this.subscribeUser = this.userService.userPosts.subscribe(userPosts => {
         if (userPosts) {
-          console.log('userPosts >> ', userPosts);
           this.userPosts = userPosts.slice(0);
         }
       });

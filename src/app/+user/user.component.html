@@ -4,20 +4,24 @@
       class="mat-primary"
       routerLinkActive="mat-accent"
       [routerLink]="'/user/profile/' + profile?._id"
+      [ngClass]="{'mat-accent': selectedItem == 'profile'}"
+      (click)="onSetActiveClass($event, 'profile')"
       mat-raised-button>Profile </a>
   </li>
   <li>
     <a
       class="mat-primary"
       [routerLink]="'/user/posts/' + profile?._id"
-      [routerLinkActive]="['mat-accent']"
+      [ngClass]="{'mat-accent': selectedItem == 'posts'}"
+      (click)="onSetActiveClass($event, 'posts')"
       mat-raised-button>Posts</a>
   </li>
   <li>
     <a
       class="mat-primary"
       [routerLink]="'/user/favorite-posts/'"
-      [routerLinkActive]="['mat-accent']"
+      [ngClass]="{'mat-accent': selectedItem == 'favorite-posts'}"
+      (click)="onSetActiveClass($event, 'favorite-posts')"
       mat-raised-button>Favourites</a>
   </li>
 </ul>

@@ -10,32 +10,21 @@ const BACKEND_URL = environment.apiUrl + '/post/';
   providedIn: 'root'
 })
 export class PostInfoService {
-  // postCommentedSubject = new Subject<any>();
+
   votedForPostSubject = new Subject<any>();
   votedForCommentSubject = new Subject<any>();
   constructor(private http: HttpClient) { }
 
-  // getPostCommentsInfoById (postId) {
-  //   this.http.get<any>(BACKEND_URL + 'comment/' + postId)
-  //     .subscribe((responseData) => {
-  //       this.postCommentedSubject.next(responseData);
-  //    });
-  // }
-
   voteForPost(vote) {
-    console.log('vote ', vote);
     this.http.post<VoteModel[]>(BACKEND_URL + 'vote', vote)
       .subscribe((responseData) => {
-        console.log('voteForPost ', responseData)
         this.votedForPostSubject.next(responseData);
       });
   }
 
   voteForComment(vote) {
-    console.log('vote ', vote);
     this.http.post<VoteModel[]>(BACKEND_URL + 'vote', vote)
       .subscribe((responseData) => {
-        console.log('voteForComment ', responseData);
         this.votedForCommentSubject.next(responseData);
       });
   }

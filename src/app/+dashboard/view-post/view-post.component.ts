@@ -39,10 +39,10 @@ export class ViewPostComponent implements OnInit, OnDestroy {
               private commentService: CommentService) { }
 
   ngOnInit() {
+    this.getUserId();
     this.getSinglePost();
     this.getComment();
     this.getCommentByPost();
-    this.getUserId();
   }
 
   getSinglePost() {
@@ -51,25 +51,13 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.subscription = this.postService.postSubject.subscribe((response) => {
         if (response) {
           console.log('response ', response);
-          const votesDiffObj = response.voteId ? response.voteId.votes.reduce((obj, v) => {
-            if (v.type === 'up') {
-              obj['up']++;
-            } else {
-              obj['down']++;
-            }
-            return obj;
-          }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
 
           this.post = response;
           this.clonedTagsArray = this.post.tags;
           this.postInfo.postId = response._id;
           this.postInfo.userId = response.author._id;
-          this.votesDiff = votesDiffObj.up - votesDiffObj.down;
 
-          if (response.voteId) {
-            let cv = new CheckVote();
-            this.voteInfo = cv.getCheckedVote(response.voteId.votes, this.userIntegrity);
-          }
+          this.countVotes(response.voteId);
 
         }
 
@@ -77,9 +65,32 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     });
   }
 
+  countVotes(votesArr) {
+    const votesDiffObj = votesArr ? votesArr.votes.reduce((obj, v) => {
+      if (v.type === 'up') {
+        obj['up']++;
+      } else {
+        obj['down']++;
+      }
+      return obj;
+    }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
+
+    this.votesDiff = votesDiffObj.up - votesDiffObj.down;
+
+    if (votesArr) {
+      let cv = new CheckVote();
+      this.voteInfo = cv.getCheckedVote(votesArr.votes, this.userIntegrity);
+    }
+  }
+
   onPostComment(comment) {
     this.commentService.saveComment(comment);
-    this.commentsArray.push(comment);
+    this.commentService.commentSubject.subscribe((commentResponse) => {
+      if (commentResponse) {
+        this.commentsArray.push(commentResponse);
+      }
+    })
+
   }
 
   getComment(){
@@ -130,7 +141,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         let cd = new CurrentDate();
         let vote = {
           type: status as ('up' | 'down'),
-          postId: paramsId.id as string,
+          docId: paramsId.id as string,
           userId: userId,
           relatedTo: relatedTo,
           date: cd.getCurrentDate()
@@ -138,22 +149,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         this.postInfoService.voteForPost(vote);
         this.postInfoService.votedForPostSubject.subscribe((response) => {
 
-          const votesDiffObj = response.post.voteId ? response.post.voteId.votes.reduce((obj, v) => {
-            if (v.type === 'up') {
-              obj['up']++;
-            } else {
-              obj['down']++;
-            }
-            return obj;
-          }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
-
-          this.votesDiff = votesDiffObj.up - votesDiffObj.down;
-
-          if (response.voteId) {
-            console.log('response **************', response);
-            let cv = new CheckVote();
-            this.voteInfo = cv.getCheckedVote(response.voteId.votes, this.userIntegrity);
-          }
+          this.countVotes(response.post.voteId);
 
         });
       }

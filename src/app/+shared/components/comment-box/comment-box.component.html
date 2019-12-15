@@ -19,6 +19,7 @@
     </div>
     <div class="comment-text-box">
       <p> {{ singleComment?.text }}</p>
+      <p>singleComment?._id : {{ singleComment?._id }} </p>
       <h6 class="comment-box-author">
         <a [routerLink]="'/user/profile/' + singleComment?.userId._id">posted by: {{ singleComment?.userId.login }}</a>
       </h6>

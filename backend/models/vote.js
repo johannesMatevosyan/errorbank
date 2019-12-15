@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-const postVoteSchema = mongoose.Schema({
+const voteSchema = mongoose.Schema({
   votes: [{
     type: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    relatedTo: { type: String, required: true },
     date: { type: String, required: true }
   }],
-  postId: { type: String, required: true },
+  docId: { type: String, required: true },
+  relatedTo: { type: String, required: true },
 });
 
-module.exports = mongoose.model('PostVote', postVoteSchema);
+module.exports = mongoose.model('Vote', voteSchema);

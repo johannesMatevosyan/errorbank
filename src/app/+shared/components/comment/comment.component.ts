@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { CurrentDate } from '@utils/current-date';
 
 @Component({
@@ -9,6 +9,7 @@ import { CurrentDate } from '@utils/current-date';
 export class CommentComponent implements OnInit {
   @Input() postInfo;
   @Output() sendComment: EventEmitter<any> = new EventEmitter();
+  @ViewChild('comment', {static: false}) comment: ElementRef;
   constructor() { }
 
   ngOnInit() {
@@ -23,6 +24,7 @@ export class CommentComponent implements OnInit {
       date: cd.getCurrentDate()
     };
     this.sendComment.emit(comment);
+    this.comment.nativeElement.value = '';
   }
 
 }

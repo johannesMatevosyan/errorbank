@@ -20,61 +20,60 @@ export class CommentBoxComponent implements OnInit {
   userIntegrity;
   voteInfo;
   votesDiff = 0;
-  postInfo = {
-    postId : '',
-    userId : ''
-  };
   constructor(private activatedRoute: ActivatedRoute,
               private postService: PostService,
               private postInfoService: PostInfoService,
               public dialog: MatDialog,
-              public authService: AuthService,) { }
+              public authService: AuthService) { }
 
   ngOnInit() {
-    this.getSingleComment();
     this.getUserId();
+    this.getSingleComment();
   }
 
   getSingleComment() {
-    this.activatedRoute.params.subscribe(paramsId => {
-      this.postService.getPostById(paramsId.id);
-      this.subscription = this.postService.postSubject.subscribe((response) => {
-        if (response) {
-          console.log('response ', response);
-          const votesDiffObj = response.voteId ? response.voteId.votes.reduce((obj, v) => {
-            if (v.type === 'up') {
-              obj['up']++;
-            } else {
-              obj['down']++;
-            }
-            return obj;
-          }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
 
-          this.postInfo.postId = response._id;
-          this.postInfo.userId = response.author._id;
-          this.votesDiff = votesDiffObj.up - votesDiffObj.down;
+    this.subscription = this.postInfoService.votedForCommentSubject.subscribe((response) => {
 
-          if (response.voteId) {
-            let cv = new CheckVote();
-            this.voteInfo = cv.getCheckedVote(response.voteId.votes, this.userIntegrity);
-          }
+      if (this.singleComment._id !== response.post._id){
+        return;
+      }
+      this.countVotes(response.post.voteId);
 
-        }
-
-      });
     });
+
+
+  }
+
+  countVotes(votesArr) {
+    const votesDiffObj = votesArr ? votesArr.votes.reduce((obj, v) => {
+      if (v.type === 'up') {
+        obj['up']++;
+      } else {
+        obj['down']++;
+      }
+      return obj;
+    }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
+
+    this.votesDiff = votesDiffObj.up - votesDiffObj.down;
+
+    if (votesArr) {
+      let cv = new CheckVote();
+      this.voteInfo = cv.getCheckedVote(votesArr.votes, this.userIntegrity);
+    }
   }
 
   getUserId() {
     this.subscription = this.authService.userIdentitySubject.subscribe(userId => {
       if (userId) {
         this.userIntegrity = userId;
+        this.countVotes(this.singleComment.voteId);
       }
     });
   }
 
   vote(status: string, userId: string, relatedTo: string) {
-    console.log('vote form comment');
+
     if (!userId) {
       const dialogRef = this.dialog.open(AlertComponent, {
         width: '300px',
@@ -92,30 +91,13 @@ export class CommentBoxComponent implements OnInit {
         let cd = new CurrentDate();
         let vote = {
           type: status as ('up' | 'down'),
-          postId: paramsId.id as string,
+          docId: this.singleComment._id as string,
           userId: userId,
           relatedTo: relatedTo,
           date: cd.getCurrentDate()
         };
+
         this.postInfoService.voteForComment(vote);
-        this.postInfoService.votedForCommentSubject.subscribe((response) => {
-
-          const votesDiffObj = response.post.voteId ? response.post.voteId.votes.reduce((obj, v) => {
-            if (v.type === 'up') {
-              obj['up']++;
-            } else {
-              obj['down']++;
-            }
-            return obj;
-          }, { 'up': 0, 'down': 0 }) : { 'up': 0, 'down': 0 };
-
-          this.votesDiff = votesDiffObj.up - votesDiffObj.down;
-
-          if (response.post.voteId) {
-            let cv = new CheckVote();
-            this.voteInfo = cv.getCheckedVote(response.post.voteId.votes, this.userIntegrity);
-          }
-        });
       }
     });
 

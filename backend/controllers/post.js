@@ -1,6 +1,7 @@
 const Post = require('../models/post');
 const Tag = require('../models/tag');
-const PostVote = require('../models/post-vote');
+const Vote = require('../models/vote');
+const Comment = require('../models/comment');
 const tranformPost = require('../utils/transform-post');
 const mergeCommentNumber = require('../utils/merge-comment-number');
 
@@ -89,7 +90,7 @@ exports.getAllPosts = (req, res, next) => {
     return Post.aggregate([
       {
         $lookup: {
-          from: "comments", localField: "_id", foreignField: "postId", as: "postComments"
+          from: "comments", localField: "_id", foreignField: "docId", as: "postComments"
         }
       },
       {
@@ -219,36 +220,46 @@ exports.getPostsByDate = (req, res, next) => {
 
 exports.voteForPost = (req, res, next) => {
   const query = {
-    postId: req.body.postId
+    docId: req.body.docId,
+    relatedTo: req.body.relatedTo
   };
-  const vote = {
+  const voteObj = {
     type: req.body.type,
     userId: req.body.userId,
     relatedTo: req.body.relatedTo,
     date: req.body.date
   };
+  let model;
 
-  PostVote.findOneAndUpdate(query, query, { upsert: true, new: true })
-    .then((postVote) => {
-      const index = postVote.votes.findIndex((v) => {
-        return v.userId == vote.userId;
+  Vote.findOneAndUpdate(query, query, { upsert: true, new: true })
+    .then((vote) => {
+      const index = vote.votes.findIndex((v) => {
+        return v.userId == voteObj.userId;
       });
+
       if (index > -1) {
-        if (postVote.votes[index].type !== vote.type) {
-          postVote.votes[index] = vote;
+        if (vote.votes[index].type !== voteObj.type) {
+          vote.votes[index] = voteObj;
         } else {
-          postVote.votes.splice(index, 1);
+          vote.votes.splice(index, 1);
         }
       } else {
-        postVote.votes.push(vote);
+        vote.votes.push(voteObj);
       }
+      model = voteObj.relatedTo === 'post' && Post || Comment;
       return Promise.all([
-        postVote.save(),
-        Post.update({ _id: req.body.postId }, { $set: { voteId: postVote._id }})
+        vote.save(),
+        model.update(
+          { _id: req.body.docId },
+          { $set: { voteId: vote._id }}
+        )
       ]);
-    }).then(([postVotes, post]) => {
-      return Post.findOne({_id: req.body.postId})
+    })
+    .then(([Votes, post]) => {
+
+      return model.findOne({_id: req.body.docId })
         .populate('voteId', 'votes');
+
     }).then(post => {
       res.status(201).json({
         message: 'Vote added successfully!',
@@ -257,7 +268,7 @@ exports.voteForPost = (req, res, next) => {
     })
     .catch((err)=> {
       return res.status(401).json({
-        message: 'Cannot save vote..',
+        message: 'Cannot save vote. ' + err,
       });
     });
 
