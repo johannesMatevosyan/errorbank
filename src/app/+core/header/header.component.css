@@ -1,14 +1,15 @@
 .logo {
-  width: 15%;
+  width: 25%;
   padding-left: 15px;
 }
 .search-block {
   width: 40%;
 }
 .user-details {
-  width: 25%;
+  width: 35%;
   text-align: right;
 }
+
 
 .logo .logo-link {
   color: #ffffff;
@@ -18,7 +19,7 @@
   cursor: pointer;
 }
 .logo .logo-link:hover {
-  color: red;
+  color: #c62828;
 }
 .profile-info {
   display: inline-flex;
@@ -36,6 +37,10 @@
   color: #ffffff;
   margin-right: 10px;
   text-decoration: none;
+}
+.profile-name-link {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
 }
 .profile-image {
   width: 50px;

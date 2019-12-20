@@ -31,7 +31,7 @@
         <div class="profile-info">
 
           <div class="profile-name">
-            <a [routerLink]="'/user/profile/' + profile?._id">{{ profile?.name }}</a>
+            <a [routerLink]="'/user/profile/' + profile?._id" class="profile-name-link">{{ profile?.name }}</a>
           </div>
           <div class="profile-image">
             <a [routerLink]="'/user/profile/' + profile?._id">
@@ -50,7 +50,7 @@
             <span class="sandwich-bar"></span>
           </button>
           <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <button mat-menu-item><a [routerLink]="'/user/profile/' + profile?._id">Profile </a></button>
+            <button mat-menu-item><a [routerLink]="'/user/profile/' + profile?._id" class="profile-name-link">Profile</a></button>
             <button mat-menu-item (click)="onLogout()">Log Out</button>
           </mat-menu>
 

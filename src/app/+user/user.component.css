@@ -3,7 +3,7 @@
   font-weight: bold !important;
 }
 .active-list-item {
-  border: 1px solid red;
+  border: 1px solid #c62828;
 }
 .user-post-stats-title {
   text-transform: lowercase;

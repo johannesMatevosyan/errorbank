@@ -1,28 +1,24 @@
-<ul role="list"  class="list-horizontal mb-15">
+<ul role="list"  class="erb-tabs list-horizontal mb-15">
   <li>
     <a
       class="mat-primary"
-      routerLinkActive="mat-accent"
       [routerLink]="'/user/profile/' + profile?._id"
-      [ngClass]="{'mat-accent': selectedItem == 'profile'}"
-      (click)="onSetActiveClass($event, 'profile')"
-      mat-raised-button>Profile </a>
+      [ngClass]="{'active-tab': selectedItem == 'profile'}"
+      (click)="onSetActiveClass($event, 'profile')">Profile </a>
   </li>
   <li>
     <a
       class="mat-primary"
       [routerLink]="'/user/posts/' + profile?._id"
-      [ngClass]="{'mat-accent': selectedItem == 'posts'}"
-      (click)="onSetActiveClass($event, 'posts')"
-      mat-raised-button>Posts</a>
+      [ngClass]="{'active-tab': selectedItem == 'posts'}"
+      (click)="onSetActiveClass($event, 'posts')">Posts</a>
   </li>
   <li>
     <a
       class="mat-primary"
       [routerLink]="'/user/favorite-posts/'"
-      [ngClass]="{'mat-accent': selectedItem == 'favorite-posts'}"
-      (click)="onSetActiveClass($event, 'favorite-posts')"
-      mat-raised-button>Favourites</a>
+      [ngClass]="{'active-tab': selectedItem == 'favorite-posts'}"
+      (click)="onSetActiveClass($event, 'favorite-posts')">Favourites</a>
   </li>
 </ul>
 

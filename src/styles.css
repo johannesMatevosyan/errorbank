@@ -300,6 +300,10 @@ input[type=file] {
   height: 30px;
   line-height: 1;
   cursor: pointer;
+  background-color: #dddddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .remove-image:hover {
   color: #c62828;
@@ -408,13 +412,47 @@ input[type=file] {
 .list-horizontal li:first-child {
   margin-left: 0;
 }
-
-footer {
-  height: 50px;
-  background-color: #ddd;
-  border-top: 1px solid #bbb;
-  text-align: center;
+.erb-tabs{
+  display: flex;
 }
+.erb-tabs li {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.erb-tabs li a {
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 64px;
+  line-height: 36px;
+  padding: 0 32px;
+  border-radius: 0px;
+  overflow: visible;
+  box-shadow: none;
+  background-color: transparent !important;
+  color: #212121 !important;
+  border-bottom: 3px solid #212121 !important;
+}
+
+.erb-tabs li a:hover,
+.erb-tabs li a.active-tab {
+  color: #c62828 !important;
+  border-bottom: 3px solid #c62828 !important;
+}
+.tiny-element {
+  width: 0;
+  height: 0;
+}
+
 .text-left{
   text-align: left;
 }

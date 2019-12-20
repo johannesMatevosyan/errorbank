@@ -4,7 +4,12 @@
   <mat-card-content>
 
     <div class="tag-list" *ngIf="tagsArray?.length > 0">
-      <h3 class="tag-list-title">Tags </h3>
+
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Tags</mat-card-title>
+      </mat-card-header>
+
       <ng-container *ngFor="let tag of tagsArray|slice:0:show; let i=index">
         <app-tag
           [singleTag]="tag"

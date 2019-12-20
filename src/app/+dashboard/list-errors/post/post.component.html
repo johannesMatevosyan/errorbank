@@ -31,8 +31,8 @@
     </div>
 
     <div class="post-edit-box" *ngIf="userIsAuthenticated && userIntegrity === singlePost.author?._id">
-      <a [routerLink]="'/edit/' + singlePost.id" mat-button color="accent">Edit</a>
-      <a (click)="deletePost(singlePost.id)" mat-button color="accent">Delete</a>
+      <a [routerLink]="'/edit/' + singlePost.id" mat-button color="primary" title="Edit"><i class="material-icons">edit</i></a>
+      <a (click)="deletePost(singlePost.id)" mat-button color="accent" title="Delete"><i class="material-icons">close</i></a>
     </div>
 
   </div><!--.post-options-->
