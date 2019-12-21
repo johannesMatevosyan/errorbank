@@ -5,5 +5,7 @@ export interface UserModel {
   name: string;
   userId?: string;
   githubId?: string;
+  location?: string;
+  bio?: string;
   date?: string;
 }

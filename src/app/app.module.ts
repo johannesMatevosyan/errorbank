@@ -21,7 +21,7 @@ import {AlertComponent} from "@app/+shared/components/alert/alert.component";
     AppComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     ToastrModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,

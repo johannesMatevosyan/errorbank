@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 import {MatDialog} from "@angular/material";
+import {EditorSettings} from "@utils/editor-config";
 
 @Component({
   selector: 'app-create-post',
@@ -27,42 +28,48 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   createPostForm: FormGroup;
   imagePreview: string = '';
   subscription: Subscription;
+  options = new EditorSettings();
+  editorConfig: AngularEditorConfig;
 
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '600',
-    minHeight: '600',
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '0',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
-    placeholder: 'Enter text here... ',
-    defaultParagraphSeparator: '',
-    defaultFontName: '',
-    defaultFontSize: '',
-    fonts: [
-      {class: 'Roboto', name: 'Roboto'},
-      {class: 'arial', name: 'Arial'},
-      {class: 'times-new-roman', name: 'Times New Roman'},
-    ],
-    customClasses: [],
-    uploadUrl: 'v1/image',
-    sanitize: true,
-    toolbarPosition: 'top',
-    toolbarHiddenButtons: [
-      ['bold', 'italic'],
-      ['fontSize'],
-      ['insertImage', 'insertVideo']
-    ]
-  };
+  // editorConfig: AngularEditorConfig = {
+  //   editable: true,
+  //   spellcheck: true,
+  //   height: '600',
+  //   minHeight: '600',
+  //   maxHeight: 'auto',
+  //   width: 'auto',
+  //   minWidth: '0',
+  //   translate: 'yes',
+  //   enableToolbar: true,
+  //   showToolbar: true,
+  //   placeholder: 'Enter text here... ',
+  //   defaultParagraphSeparator: '',
+  //   defaultFontName: '',
+  //   defaultFontSize: '',
+  //   fonts: [
+  //     {class: 'Roboto', name: 'Roboto'},
+  //     {class: 'arial', name: 'Arial'},
+  //     {class: 'times-new-roman', name: 'Times New Roman'},
+  //   ],
+  //   customClasses: [],
+  //   uploadUrl: 'v1/image',
+  //   sanitize: true,
+  //   toolbarPosition: 'top',
+  //   toolbarHiddenButtons: [
+  //     ['bold', 'italic'],
+  //     ['fontSize'],
+  //     ['insertImage', 'insertVideo']
+  //   ]
+  // };
 
   constructor(private fb: FormBuilder, private postService: PostService,
       private router: Router, private toastr: ToastrService, public dialog: MatDialog) { }
 
   ngOnInit() {
+    let options = this.options.getEditorSettings();
+    console.log('options ', options);
+    this.editorConfig = options;
+
     this.createPostForm = new FormGroup({
       title: new FormControl(null, [Validators.required, Validators.minLength(2)]),
       content: new FormControl(null, [Validators.required, Validators.minLength(6)]),

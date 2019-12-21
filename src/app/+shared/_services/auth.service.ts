@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Router } from "@angular/router";
 import { UserModel } from "@models/user.model";
 import { environment } from "@env/environment";
 import {CurrentDate} from "@utils/current-date";
+import {isPlatformBrowser, isPlatformServer} from "@angular/common";
 
 const BACKEND_URL = environment.apiUrl;
 
@@ -21,15 +22,34 @@ export class AuthService {
   userInfoDataStorage = new Subject<any>();
   authStatusListener = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: any) { }
 
   getToken() {
-    // return this.token;
-    return localStorage.getItem('token');
+    let localToken;
+    if (isPlatformBrowser(this.platformId)) {
+      // localStorage will be available: we can use it.
+      console.log('Browser side');
+      localToken = localStorage.getItem('token');
+    }
+    if (isPlatformServer(this.platformId)) {
+      // localStorage will be null.
+      console.log('Server side');
+    }
+    return localToken;
   }
 
   getIsAuth() {
-    return this.isAuthenticated || !!localStorage.getItem('token');
+    let localToken;
+    if (isPlatformBrowser(this.platformId)) {
+      // localStorage will be available: we can use it.
+      console.log('Browser side');
+      localToken = localStorage.getItem('token');
+    }
+    if (isPlatformServer(this.platformId)) {
+      // localStorage will be null.
+      console.log('Server side');
+    }
+    return this.isAuthenticated || !!localToken;
   }
 
   getAuthStatusListener() {
@@ -83,12 +103,22 @@ export class AuthService {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
           this.token = response['token'];
-          localStorage.setItem("token", response['token']);
-          localStorage.setItem("_id", response['userData']['_id']);
-          localStorage.setItem("githubId", response['userData']['githubId']);
-          localStorage.setItem("name", response['userData']['name']);
-          localStorage.setItem("login", response['userData']['login']);
-          localStorage.setItem("date", response['userData']['date']);
+          if (isPlatformBrowser(this.platformId)) {
+            // localStorage will be available: we can use it.
+            console.log('Browser side');
+            localStorage.setItem("token", response['token']);
+            localStorage.setItem("_id", response['userData']['_id']);
+            localStorage.setItem("githubId", response['userData']['githubId']);
+            localStorage.setItem("name", response['userData']['name']);
+            localStorage.setItem("login", response['userData']['login']);
+            localStorage.setItem("date", response['userData']['date']);
+          }
+          if (isPlatformServer(this.platformId)) {
+            // localStorage will be null.
+            console.log('Server side');
+          }
+
+
         }
 
       });
@@ -137,18 +167,32 @@ export class AuthService {
   }
 
   private getAuthData() {
-    const token = localStorage.getItem("token");
-    const expirationDate = localStorage.getItem("expiration");
-    const userId = localStorage.getItem("_id");
-    this.userIdentitySubject.next(userId);
+    let token;
+    let expirationDate;
+    let userId;
 
-    if (!token || !expirationDate) {
-      return;
+    if (isPlatformBrowser(this.platformId)) {
+      // localStorage will be available: we can use it.
+      token = localStorage.getItem("token");
+      expirationDate = localStorage.getItem("expiration");
+      userId = localStorage.getItem("_id");
+
+
+      this.userIdentitySubject.next(userId);
+
+      if (!token || !expirationDate) {
+        return;
+      }
+      return {
+        token: token,
+        expirationDate: new Date(expirationDate)
+      }
     }
-    return {
-      token: token,
-      expirationDate: new Date(expirationDate)
+    if (isPlatformServer(this.platformId)) {
+      // localStorage will be null.
+      console.log('Server side');
     }
+
   }
 
   logout() {
@@ -162,7 +206,14 @@ export class AuthService {
   }
 
   private clearAuthData() {
-    localStorage.clear();
-    window.localStorage.clear();
+    if (isPlatformBrowser(this.platformId)) {
+      // localStorage will be available: we can use it.
+      localStorage.clear();
+      window.localStorage.clear();
+    }
+    if (isPlatformServer(this.platformId)) {
+      // localStorage will be null.
+      console.log('Server side');
+    }
   }
 }

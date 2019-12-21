@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import {isPlatformBrowser, isPlatformServer} from '@angular/common';
 import { AuthService } from "@app/+shared/_services/auth.service";
 import { Subscription } from "rxjs/index";
 import { SearchFilterService } from "@app/+shared/_services/search-filter.service";
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
               private fb: FormBuilder,
-              private sfService: SearchFilterService) {}
+              private sfService: SearchFilterService, @Inject(PLATFORM_ID) private platformId: any) {}
 
   ngOnInit() {
 
@@ -45,14 +46,23 @@ export class HeaderComponent implements OnInit {
       });
 
     if(this.userIsAuthenticated) {
-      let userData = {
-        _id : localStorage.getItem("_id"),
-        userId : localStorage.getItem("_id"),
-        githubId : localStorage.getItem("githubId"),
-        name : localStorage.getItem("name"),
-        login : localStorage.getItem("login"),
-      };
-      this.profile = userData;
+      if (isPlatformBrowser(this.platformId)) {
+        // localStorage will be available: we can use it.
+        console.log('Browser side');
+        let userData = {
+          _id : localStorage.getItem("_id"),
+          userId : localStorage.getItem("_id"),
+          githubId : localStorage.getItem("githubId"),
+          name : localStorage.getItem("name"),
+          login : localStorage.getItem("login"),
+        };
+        this.profile = userData;
+      }
+      if (isPlatformServer(this.platformId)) {
+        // localStorage will be null.
+        console.log('Server side');
+      }
+
     }
   }
 
