@@ -9,14 +9,13 @@
   height: 150px;
 }
 .user-profile-image img {
-  width: 150px;
-  height: 150px;
+  width: 152px;
+  height: 152px;
 }
 .user-profile-image {
   display: inline-block;
   vertical-align: top;
   width: 250px;
-  height: 150px;
   padding: 15px 10px;
   text-align: center;
 }

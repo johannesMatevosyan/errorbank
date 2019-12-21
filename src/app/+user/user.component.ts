@@ -25,7 +25,6 @@ export class UserComponent implements OnInit {
 
       this.subscribeUser = this.userService.userStorage.subscribe(user => {
         if (user) {
-          console.log('user 2 ', user);
           this.profile = user;
         }
       });

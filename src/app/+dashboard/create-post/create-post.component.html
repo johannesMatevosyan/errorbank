@@ -14,22 +14,27 @@
       createPostForm.get('title').touched &&
       formSubmitAttempt">Please enter title</mat-error>
   </mat-form-field>
-  <mat-form-field>
-          <textarea
-            matInput
-            cols="30" rows="10"
-            class="post-content-textarea"
-            name="content"
-            formControlName="content"
-            placeholder="content"></textarea>
+  <section>
+          <!--<textarea-->
+            <!--matInput-->
+            <!--cols="30" rows="10"-->
+            <!--class="post-content-textarea"-->
+            <!--name="content"-->
+            <!--formControlName="content"-->
+            <!--placeholder="content"></textarea>-->
+
+    <angular-editor
+      [config]="editorConfig"
+      formControlName="content"></angular-editor>
     <mat-error
       *ngIf="!createPostForm.get('content').valid &&
       createPostForm.get('content').touched &&
       formSubmitAttempt">Please enter Content</mat-error>
-  </mat-form-field>
+
+  </section>
 
   <section>
-    <div class="text-right">
+    <div class="text-right mt-4">
       <button
         mat-raised-button
         color="accent"

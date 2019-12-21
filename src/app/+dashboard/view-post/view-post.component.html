@@ -12,7 +12,7 @@
       <img [src]="post?.imagePath" alt="{{ post?.title }}">
     </div>
 
-    <div class="post-content">{{ post?.content }}</div>
+    <div class="post-content" [innerHTML]="post?.content"></div>
 
   </div>
 

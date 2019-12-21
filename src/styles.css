@@ -144,8 +144,11 @@ h1, h2, h3, h4, h5, h6, p {
   line-height: 22px !important;
 }
 .mat-dialog-content {
+  max-height: 75vh !important;
+  overflow: unset !important;
   margin: 0 -24px 15px !important;
 }
+
 mat-form-field,
 textarea {
   width: 100%;

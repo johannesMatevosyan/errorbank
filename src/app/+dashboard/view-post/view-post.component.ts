@@ -50,7 +50,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postSubject.subscribe((response) => {
         if (response) {
-          console.log('response ', response);
 
           this.post = response;
           this.clonedTagsArray = this.post.tags;

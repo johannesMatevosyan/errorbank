@@ -8,6 +8,7 @@ import {extensionsArray} from "@utils/extensions";
 import {ToastrService} from "ngx-toastr";
 import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 import {MatDialog} from "@angular/material";
+import {AngularEditorConfig} from "@kolkov/angular-editor";
 
 @Component({
   selector: 'app-edit-post',
@@ -26,6 +27,38 @@ export class EditPostComponent implements OnInit, OnDestroy {
   created: string;
   imagePreview;
   post;
+
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '600',
+    minHeight: '600',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '0',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Enter text here... ',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      {class: 'Roboto', name: 'Roboto'},
+      {class: 'arial', name: 'Arial'},
+      {class: 'times-new-roman', name: 'Times New Roman'},
+    ],
+    customClasses: [],
+    uploadUrl: 'v1/image',
+    sanitize: true,
+    toolbarPosition: 'top',
+    toolbarHiddenButtons: [
+      ['bold', 'italic'],
+      ['fontSize'],
+      ['insertImage', 'insertVideo']
+    ]
+  };
 
   constructor(private fb: FormBuilder, private postService: PostService, private router: Router,
               private activatedRoute: ActivatedRoute, private toastr: ToastrService, public dialog: MatDialog) { }
@@ -54,11 +87,12 @@ export class EditPostComponent implements OnInit, OnDestroy {
         this.post = response;
         this.editPostForm.controls['id'].setValue(paramsId.id ? paramsId.id : '');
         this.editPostForm.controls['title'].setValue(this.post.title ? this.post.title : '');
-        this.editPostForm.controls['content'].setValue(this.post.content ? this.post.content : '');
+        this.editPostForm.controls['content'].patchValue(this.post.content ? this.post.content : '');
         this.editPostForm.controls['created'].setValue(this.post.created ? this.post.created : '');
         this.clonedTagsArray = this.post.tags;
         this.imagePreview = this.post.imagePath ? this.post.imagePath : '';
         this.created = this.post.created;
+
         if (this.post.tags) {
           let filterTagsArray = this.post.tags.map(item => {
             return {label: item.label};

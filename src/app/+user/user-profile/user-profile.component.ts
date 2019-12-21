@@ -20,7 +20,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.userService.getUserInfoById(userId);
       this.subscribeUser = this.userService.userStorage.subscribe(user => {
         if (user) {
-          console.log('user 1 ', user);
           this.profile = user;
         }
 

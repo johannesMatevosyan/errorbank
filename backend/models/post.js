@@ -7,7 +7,7 @@ const postSchema = mongoose.Schema({
   created: { type: String, required: true },
   updated: { type: String, required: false },
   tags: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Tag', required: false} ],
-  authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserInfo', required: true },
   viewed: { type: Number, required: false, default: 0 },
   voteId: { type: mongoose.Schema.Types.ObjectId, ref: 'Vote', required: false },
 });

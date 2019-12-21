@@ -82,7 +82,6 @@ export class AuthService {
         if (response['token']) {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
-          console.log('getJwtToken ', response);
           this.token = response['token'];
           localStorage.setItem("token", response['token']);
           localStorage.setItem("_id", response['userData']['_id']);
@@ -101,7 +100,6 @@ export class AuthService {
     this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user-info', user)
       .subscribe(response => {
         if (response) {
-          console.log('response', response);
           this.userIdentitySubject.next(response.user._id);
           this.userInfoDataStorage.next(response.user);
         }
