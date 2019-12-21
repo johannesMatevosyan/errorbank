@@ -17,9 +17,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.activatedRoute.params.subscribe(paramsId => {
       let userId = paramsId['id'];
-      this.userService.getUserById(userId);
+      this.userService.getUserInfoById(userId);
       this.subscribeUser = this.userService.userStorage.subscribe(user => {
         if (user) {
+          console.log('user 1 ', user);
           this.profile = user;
         }
 

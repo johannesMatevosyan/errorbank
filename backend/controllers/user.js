@@ -49,9 +49,9 @@ exports.githubUser = (req, res, next) => {
 };
 
 exports.getJWTToken = (req, res, next) => {
-
+console.log('getJWTToken req.body ', req.body);
   let ID = req.body.id.toString();
-  User.findOne({ githubId: ID })
+  UserInfo.findOne({ githubId: ID })
     .then(user => {
 
       if (!user) {
@@ -85,6 +85,9 @@ exports.getJWTToken = (req, res, next) => {
 
 
 exports.saveUserInfo = (req, res, next) => {
+
+  console.log('saveUserInfo req.body: ', req.body);
+
   const query = { githubId: req.body.githubId };
   let fetchedUser;
   const userInfo = {
@@ -93,6 +96,7 @@ exports.saveUserInfo = (req, res, next) => {
     login: req.body.login,
     location: req.body.location,
     bio: req.body.bio,
+    date: req.body.date,
   };
   UserInfo.findOneAndUpdate(query, userInfo, { upsert: true }, (err, user) => {
     if (err){
@@ -124,7 +128,28 @@ exports.getAllUsersInfo = (req, res, next) => {
 };
 
 exports.getUserInfoById = (req, res, next) => {
+  const userId = req.params.id;
+  if(userId !== 'undefined' && userId !== null) {
+    UserInfo.findOne({ _id: userId }).then(singleUser => {
+      if (!singleUser){
+        return res.status(401).json({
+          message: `Cannot find user info by id: ${userId}`,
+        });
+      } else {
+        res.status(200).json({
+          message: `User info with id:::${userId} fetched successfully! `,
+          user: singleUser
+        });
+      }
 
+    })
+      .catch(err => {
+        return res.status(401).json({
+          message: `Cannot find user info with id: ${userId} - error:  ${err}`
+        });
+      });
+
+  }
 };
 
 exports.saveUser = (req, res, next) => {

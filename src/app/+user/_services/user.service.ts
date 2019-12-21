@@ -21,9 +21,8 @@ export class UserService {
   }
 
   getUserInfoById(userId) {
-    this.http.get(BACKEND_URL + 'info/' + userId)
-      .subscribe(response => {
-
+    this.http.get(BACKEND_URL + 'info/' + userId).subscribe(userData => {
+      this.userStorage.next(userData['user']);
       });
   }
 

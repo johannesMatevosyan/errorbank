@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Router } from "@angular/router";
 import { UserModel } from "@models/user.model";
 import { environment } from "@env/environment";
+import {CurrentDate} from "@utils/current-date";
 
 const BACKEND_URL = environment.apiUrl;
 
@@ -17,6 +18,7 @@ export class AuthService {
   userIdentitySubject = new BehaviorSubject<any>(this.data);
   isAuthenticated: boolean = false;
   userDataStorage = new Subject<any>();
+  userInfoDataStorage = new Subject<any>();
   authStatusListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -49,12 +51,14 @@ export class AuthService {
     this.http.post(BACKEND_URL + '/user/github/token', data)
       .subscribe((user) => {
         if (user && user['name']) {
+          let cd = new CurrentDate();
           const userInfo = {
-            'id': user['id'],
+            'githubId': user['id'],
             'name': user['name'],
             'login': user['login'],
             'location': user['location'],
             'bio': user['bio'],
+            'date': cd.getCurrentDate(),
           };
           const githubUser = {
             'githubId': user['id'],
@@ -78,12 +82,14 @@ export class AuthService {
         if (response['token']) {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
+          console.log('getJwtToken ', response);
           this.token = response['token'];
           localStorage.setItem("token", response['token']);
           localStorage.setItem("_id", response['userData']['_id']);
           localStorage.setItem("githubId", response['userData']['githubId']);
           localStorage.setItem("name", response['userData']['name']);
           localStorage.setItem("login", response['userData']['login']);
+          localStorage.setItem("date", response['userData']['date']);
         }
 
       });
@@ -92,8 +98,14 @@ export class AuthService {
 
 
   saveUserInfo(user) {
-    this.http.post(BACKEND_URL + '/user/save-user-info', user)
-      .subscribe(response => {});
+    this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user-info', user)
+      .subscribe(response => {
+        if (response) {
+          console.log('response', response);
+          this.userIdentitySubject.next(response.user._id);
+          this.userInfoDataStorage.next(response.user);
+        }
+      });
   }
 
   saveUser(user){

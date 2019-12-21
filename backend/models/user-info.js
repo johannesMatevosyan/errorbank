@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
   login: { type: String, required: true },
   location: { type: String, required: false },
   bio: { type: String, required: false },
+  date: { type: String, required: false },
 });
 
 module.exports = mongoose.model('UserInfo', userSchema);

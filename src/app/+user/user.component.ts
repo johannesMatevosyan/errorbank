@@ -20,11 +20,12 @@ export class UserComponent implements OnInit {
     this.activatedRoute.params.subscribe(paramsId => {
       let userId = paramsId['id'];
       if (userId) {
-        this.userService.getUserById(userId);
+        this.userService.getUserInfoById(userId);
       }
 
       this.subscribeUser = this.userService.userStorage.subscribe(user => {
         if (user) {
+          console.log('user 2 ', user);
           this.profile = user;
         }
       });

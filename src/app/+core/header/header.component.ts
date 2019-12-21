@@ -26,8 +26,9 @@ export class HeaderComponent implements OnInit {
 
     this.checkAuthenticationStatus();
     this.loadSearchForm();
-    this.authListenerSubs = this.authService.userDataStorage.subscribe(userData =>  {
+    this.authListenerSubs = this.authService.userInfoDataStorage.subscribe(userData =>  {
       if (userData) {
+        console.log('userData ', userData);
         this.profile = userData;
       }
 
@@ -44,6 +45,8 @@ export class HeaderComponent implements OnInit {
         this.userIsAuthenticated = isAuthenticated;
       });
 
+    console.log('this.userIsAuthenticated ', this.userIsAuthenticated);
+
     if(this.userIsAuthenticated) {
       let userData = {
         _id : localStorage.getItem("_id"),
@@ -52,6 +55,7 @@ export class HeaderComponent implements OnInit {
         name : localStorage.getItem("name"),
         login : localStorage.getItem("login"),
       };
+      console.log('userData 2 ', userData);
       this.profile = userData;
     }
   }
