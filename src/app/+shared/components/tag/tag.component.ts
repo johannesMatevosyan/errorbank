@@ -1,24 +1,29 @@
 import {Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter} from '@angular/core';
+import {SearchFilterService} from "@app/+shared/_services/search-filter.service";
 
 @Component({
   selector: 'app-tag',
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.css']
 })
-export class TagComponent implements OnInit, OnChanges {
-  @Input() tagsArray;
+export class TagComponent implements OnInit {
+  @Input() singleTag;
   @Input() removable : boolean;
-  @Output() filteredTags = new EventEmitter<Array<object>>();
+  @Output() removeTagFromList = new EventEmitter<Array<object>>();
+  @Output() addTagToList = new EventEmitter<any>();
   tags = [];
-  constructor() { }
+
+  constructor(private sfService: SearchFilterService) { }
 
   ngOnInit() {
   }
-  ngOnChanges(changes: SimpleChanges) {
-  }
-  removeTag(tag: any) {
 
-    this.tagsArray = this.tagsArray.filter(item => item.name !== tag.name);
-    this.filteredTags.emit(this.tagsArray);
+  addTag(tagObj) {
+    this.addTagToList.emit(tagObj);
+    this.sfService.searchByTag(tagObj);
+  }
+
+  removeTag(tagObj) {
+    this.removeTagFromList.emit(tagObj);
   }
 }

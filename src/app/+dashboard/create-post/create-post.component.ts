@@ -1,41 +1,88 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { PostModel } from '@models/post.model';
-import { Subscription } from 'rxjs';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import {FormGroup, FormBuilder, FormArray, Validators, FormControl} from '@angular/forms';
 import { PostService } from '@app/+dashboard/_services/post.service';
+
+import {extensionsArray} from '@app/+shared/utils/extensions';
 import { CurrentDate } from '@utils/current-date';
 import { ToastrService } from 'ngx-toastr';
+import {Subscription} from "rxjs/index";
+import {Router} from "@angular/router";
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
+import {MatDialog} from "@angular/material";
+import {EditorSettings} from "@utils/editor-config";
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnDestroy {
+  formSubmitAttempt = false;
   tagsList = [];
   clonedTagsArray = [];
   selectedTagsArray: FormArray;
   tag: string;
   string;
   createPostForm: FormGroup;
+  imagePreview: string = '';
   subscription: Subscription;
-  imagePreview: string;
+  options = new EditorSettings();
+  editorConfig: AngularEditorConfig;
 
-  constructor(private fb: FormBuilder, private postService: PostService, private toastr: ToastrService) { }
+  // editorConfig: AngularEditorConfig = {
+  //   editable: true,
+  //   spellcheck: true,
+  //   height: '600',
+  //   minHeight: '600',
+  //   maxHeight: 'auto',
+  //   width: 'auto',
+  //   minWidth: '0',
+  //   translate: 'yes',
+  //   enableToolbar: true,
+  //   showToolbar: true,
+  //   placeholder: 'Enter text here... ',
+  //   defaultParagraphSeparator: '',
+  //   defaultFontName: '',
+  //   defaultFontSize: '',
+  //   fonts: [
+  //     {class: 'Roboto', name: 'Roboto'},
+  //     {class: 'arial', name: 'Arial'},
+  //     {class: 'times-new-roman', name: 'Times New Roman'},
+  //   ],
+  //   customClasses: [],
+  //   uploadUrl: 'v1/image',
+  //   sanitize: true,
+  //   toolbarPosition: 'top',
+  //   toolbarHiddenButtons: [
+  //     ['bold', 'italic'],
+  //     ['fontSize'],
+  //     ['insertImage', 'insertVideo']
+  //   ]
+  // };
+
+  constructor(private fb: FormBuilder, private postService: PostService,
+      private router: Router, private toastr: ToastrService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.createPostForm = this.fb.group({
-      title: [''],
-      content: [''],
-      image: [''],
-      created: [''],
-      updated: ['null'],
+    let options = this.options.getEditorSettings();
+    console.log('options ', options);
+    this.editorConfig = options;
+
+    this.createPostForm = new FormGroup({
+      title: new FormControl(null, [Validators.required, Validators.minLength(2)]),
+      content: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      image: new FormControl(null),
+      created: new FormControl(null),
+      updated: new FormControl('null'),
       tagsArray: this.fb.array([]),
     });
+
     this.selectedTagsArray = this.createPostForm.get('tagsArray') as FormArray;
   }
 
-  get addDynamicElement() {
+  get dynamicElementArr() {
     return this.createPostForm.get('tagsArray') as FormArray
   }
 
@@ -43,11 +90,26 @@ export class CreatePostComponent implements OnInit {
     this.string = event.target.value.replace(/\s/g, "");
     if(event.key === ',') {
       let trim = this.string.replace(/,/g, '');
-      this.tagsList.push({name: trim});
-      this.clonedTagsArray.push({name: trim});
-      this.addDynamicElement.push(this.fb.control({
-        'name' : trim
-      }));
+      this.tagsList.push({label: trim});
+
+      if (this.clonedTagsArray.length <= 4) {
+        this.clonedTagsArray.push({label: trim});
+        this.dynamicElementArr.push(this.fb.control({
+          'label' : trim
+        }));
+      } else {
+
+        const dialogRef = this.dialog.open(AlertComponent, {
+          width: '300px',
+          data: {
+            message: 'You are not allowed to add more tags',
+            type: 'tagLimit'
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {});
+      }
+
       this.tag = this.tagsList[this.tagsList.length-1];
       event.target.value = '';
       this.tagsList = [];
@@ -55,15 +117,23 @@ export class CreatePostComponent implements OnInit {
     }
   }
 
-  onRemoveTags(filteredArrayOfTags){
-    this.addDynamicElement.clear();
-    filteredArrayOfTags.forEach(tag => {
-      this.addDynamicElement.push(this.fb.group({name: tag.name}))
-    });
+  onRemoveTagFromList(tagObj) {
+      this.clonedTagsArray = this.clonedTagsArray.filter(item => {
+        return item.label !== tagObj.label;
+      });
+    this.dynamicElementArr.removeAt(this.dynamicElementArr.value.findIndex(item => {
+      return item.label === tagObj.label;
+    }));
   }
 
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
+    const mimeTP = file.type;
+
+    if (extensionsArray.indexOf(mimeTP) === -1) {
+      alert('This file format is not accepted.');
+      return;
+    }
     this.createPostForm.patchValue({image: file});
     this.createPostForm.get('image').updateValueAndValidity();
     const reader = new FileReader();
@@ -73,8 +143,15 @@ export class CreatePostComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  removeImage() {
+    this.createPostForm.removeControl('image');
+    this.createPostForm.addControl('image', new FormControl(''));
+    this.createPostForm.controls['image'].patchValue({});
+    this.imagePreview = '';
+  }
+
   onSubmit() {
-    this.toastr.success('AAAAAAAAA!', 'Toastr fun!');
+
     let cd = new CurrentDate();
 
     this.createPostForm.controls['created'].setValue(cd.getCurrentDate());
@@ -82,7 +159,24 @@ export class CreatePostComponent implements OnInit {
       return false;
     }
 
-    this.postService.create(this.createPostForm.value);
+    this.formSubmitAttempt = true;
+
+    if (this.createPostForm.status === 'VALID') {
+      this.postService.create(this.createPostForm.value);
+      this.subscription = this.postService.isSubmitted.subscribe((submission) => {
+        if (submission) {
+          this.toastr.success('Success!', 'Post created successfully');
+          this.router.navigate(['/posts']);
+        }
+      });
+    }
+
+  }
+
+  ngOnDestroy() {
+    if(this.subscription){ // this if will detect undefined issue of timersub
+      this.subscription.unsubscribe();
+    }
   }
 
 }

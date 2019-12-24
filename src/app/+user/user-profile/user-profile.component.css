@@ -1,0 +1,34 @@
+.user-profile-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.user-profile-image {
+  display: inline-block;
+  vertical-align: top;
+  width: 150px;
+  height: 150px;
+}
+.user-profile-image img {
+  width: 152px;
+  height: 152px;
+}
+.user-profile-image {
+  display: inline-block;
+  vertical-align: top;
+  width: 250px;
+  padding: 15px 10px;
+  text-align: center;
+}
+.user-profile-info {
+  display: inline-block;
+  vertical-align: top;
+  width: 250px;
+  padding: 15px 10px;
+  text-align: center;
+}
+.user-profile-info-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}

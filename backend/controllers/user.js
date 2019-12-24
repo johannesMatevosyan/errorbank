@@ -2,9 +2,11 @@ const request = require('superagent');
 const jwt = require('jsonwebtoken');
 const UserInfo = require('../models/user-info');
 const User = require('../models/user');
+const Post = require('../models/post');
+const tranformPost = require('../utils/transform-post');
+const addCommentNumber = require('../utils/add-comment-number');
 
 exports.githubSignIn = (req, res, next) => {
-  const { query } = req.body;
   const code = req.body.code;
 
   if(!code) {
@@ -13,9 +15,6 @@ exports.githubSignIn = (req, res, next) => {
       message: 'Error: no code'
     });
   }
-
-  // Post
-  console.log('code: ', code);
   request
     .post('https://github.com/login/oauth/access_token')
     .send({
@@ -50,20 +49,22 @@ exports.githubUser = (req, res, next) => {
 };
 
 exports.getJWTToken = (req, res, next) => {
-
+console.log('getJWTToken req.body ', req.body);
   let ID = req.body.id.toString();
-  User.findOne({ userId: ID })
+  UserInfo.findOne({ githubId: ID })
     .then(user => {
+
       if (!user) {
         return res.status(401).json({
-          message: 'User not found',
+          message: 'User not found.',
         });
       }
 
       const token = jwt.sign({ // create token based on input
           id: user._id,
           login: user.login
-        }, 'secret_this_should_be_longer',
+        },
+        process.env.JWT_KEY,
         {expiresIn: '1h'}
       );
 
@@ -71,7 +72,7 @@ exports.getJWTToken = (req, res, next) => {
         message: 'User created!',
         token: token,
         expiresIn: 3600,
-        userId:  user._id
+        userData:  user,
       });
     })
     .catch(err => {
@@ -84,22 +85,25 @@ exports.getJWTToken = (req, res, next) => {
 
 
 exports.saveUserInfo = (req, res, next) => {
-  const query = { userId: req.body.id };
+
+  console.log('saveUserInfo req.body: ', req.body);
+
+  const query = { githubId: req.body.githubId };
   let fetchedUser;
   const userInfo = {
-    userId: req.body.id,
+    githubId: req.body.githubId,
     name: req.body.name,
     login: req.body.login,
     location: req.body.location,
     bio: req.body.bio,
+    date: req.body.date,
   };
   UserInfo.findOneAndUpdate(query, userInfo, { upsert: true }, (err, user) => {
     if (err){
-      console.log('err : ', err);
       return res.status(401).json({
-        message: 'Cannot save user info'
+        message: 'Cannot save user info!'
       });
-    }else{
+    } else {
       res.status(201).json({
         message: 'User info saved successfully',
         user: user
@@ -117,7 +121,6 @@ exports.getAllUsersInfo = (req, res, next) => {
       })
     })
     .catch(err => {
-      console.log('err', err);
       return res.status(401).json({
         message: 'Cannot find user info'
       });
@@ -125,21 +128,42 @@ exports.getAllUsersInfo = (req, res, next) => {
 };
 
 exports.getUserInfoById = (req, res, next) => {
+  const userId = req.params.id;
+  if(userId !== 'undefined' && userId !== null) {
+    UserInfo.findOne({ _id: userId }).then(singleUser => {
+      if (!singleUser){
+        return res.status(401).json({
+          message: `Cannot find user info by id: ${userId}`,
+        });
+      } else {
+        res.status(200).json({
+          message: `User info with id:::${userId} fetched successfully! `,
+          user: singleUser
+        });
+      }
 
+    })
+      .catch(err => {
+        return res.status(401).json({
+          message: `Cannot find user info with id: ${userId} - error:  ${err}`
+        });
+      });
+
+  }
 };
 
 exports.saveUser = (req, res, next) => {
-  const query = { userId: req.body.id };
+  const query = { githubId: req.body.githubId };
   let fetchedUser;
   const user = {
-    userId: req.body.id,
+    githubId: req.body.githubId,
     name: req.body.name,
     login: req.body.login,
   };
   User.findOneAndUpdate(query, user, { upsert: true }, (err, user) => {
     if (err){
       return res.status(401).json({
-        message: 'Cannot save user'
+        message: 'Cannot save user: ' + err,
       });
     }else{
       res.status(201).json({
@@ -162,5 +186,74 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 exports.getUserById = (req, res, next) => {
+  const userId = req.params.id;
+  if(userId !== 'undefined' && userId !== null) {
+    User.findOne({ _id: userId }).then(singleUser => {
+      if (!singleUser){
+        return res.status(401).json({
+          message: `Cannot find user by id: ${userId}`,
+        });
+      } else {
+        res.status(200).json({
+          message: `User with id:::${userId} fetched successfully! `,
+          user: singleUser
+        });
+      }
+
+    })
+      .catch(err => {
+        return res.status(401).json({
+          message: `Cannot find user with id: ${userId} - error:  ${err}`
+        });
+      });
+
+  }
 
 };
+
+
+/*** Get posts by User Id ***/
+
+exports.getPostsByAuthorId = (req, res, next) => {
+
+  const userId = req.params.id;
+  let transformedPost;
+  let postWithComments = [];
+
+  if(userId !== 'undefined' && userId !== null) {
+    const postQuery = Post.find({ authorId: userId })
+      .populate('authorId', 'name')
+      .populate('voteId', 'votes')
+      .populate('tags', 'label');
+
+    postQuery
+      .then((posts) => {
+        transformedPost = tranformPost.newPost(posts);
+
+        return Post.aggregate([
+          {
+            $lookup: {
+              from: "comments", localField: "_id", foreignField: "postId", as: "postComments"
+            }
+          },
+          {
+            $project: {
+              "numOfComments":{ $size: "$postComments" }
+            }
+          }
+        ]).exec((err, commentsArr) => {
+
+          postWithComments = addCommentNumber.addCommentCount(transformedPost, commentsArr);
+
+          res.status(200).json({
+            message: `Posts with user id:${userId} fetched successfully !`,
+            posts: postWithComments
+          });
+
+        });
+
+      });
+  }
+
+};
+

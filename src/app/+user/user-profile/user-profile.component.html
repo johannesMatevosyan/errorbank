@@ -1,0 +1,41 @@
+
+<div class="user-profile-wrapper">
+  <div class="user-profile-image">
+
+    <mat-card class="example-card">
+      <mat-card-content>
+        <img src="https://avatars0.githubusercontent.com/u/{{ profile?.githubId}}" alt="{{ profile?.name }}">
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+  <div class="user-profile-info">
+    <mat-card>
+
+      <ul class="user-profile-info-list">
+        <li>
+          <mat-icon mat-list-icon>location_city</mat-icon>
+          <h4 mat-line>{{profile?.location}}</h4>
+        </li>
+        <li>
+          <mat-icon mat-list-icon>account_circle</mat-icon>
+          <h4 mat-line>{{profile?.name}}</h4>
+        </li>
+        <li>
+          <mat-icon mat-list-icon>label</mat-icon>
+          <h4 mat-line>{{profile?.login}}</h4>
+        </li>
+        <li>
+          <mat-icon mat-list-icon>history</mat-icon>
+          <h4 mat-line>{{profile?.date.split(' ')[0]}} </h4>
+        </li>
+        <li>
+          <mat-icon mat-list-icon>textsms</mat-icon>
+          <h4 mat-line>{{profile?.bio}}</h4>
+        </li>
+      </ul>
+
+    </mat-card>
+
+  </div>
+</div>

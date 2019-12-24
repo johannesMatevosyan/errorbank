@@ -1,17 +1,24 @@
 <header>
   <mat-toolbar color="primary" class="space-between">
     <div class="logo">
-      <a routerLink="/get-all">ErrorBank.cc</a>
+      <a (click)="redirectTo('/posts')" class="logo-link">ErB</a>
     </div>
     <div class="search-block">
 
       <div class="relative search-form">
-        <input matInput type="text" placeholder="Search" #searchItem>
-        <button class="search-icon" (click)="search(searchItem.value)">
-          <i class="material-icons">search</i>
-        </button>
+        <form novalidate [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+          <input
+            matInput
+            type="text"
+            formControlName="searchItem"
+            placeholder="Search"
+          >
+          <button class="search-icon" type="submit">
+            <i class="material-icons">search</i>
+          </button>
+        </form>
       </div>
-&nbsp;&nbsp;
+
     </div>
     <div class="user-details">
 
@@ -23,9 +30,15 @@
       <ng-container *ngIf="userIsAuthenticated">
         <div class="profile-info">
 
-          <div class="profile-name">{{ profile.name }}</div>
+          <div class="profile-name">
+            <a [routerLink]="'/user/profile/' + profile?._id" class="profile-name-link">{{ profile?.name }}</a>
+          </div>
           <div class="profile-image">
-            <img src="https://avatars0.githubusercontent.com/u/{{ profile.id}}" alt="{{ profile.name }}">
+            <a [routerLink]="'/user/profile/' + profile?._id">
+              <img
+                src="https://avatars0.githubusercontent.com/u/{{ profile?.githubId}}"
+                alt="{{ profile?.name }}">
+            </a>
           </div>
 
         </div>
@@ -37,8 +50,7 @@
             <span class="sandwich-bar"></span>
           </button>
           <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <button mat-menu-item><a routerLink="/user/posts">Your posts</a></button>
-            <button mat-menu-item><a routerLink="/user/favorite-posts">Your favorites</a></button>
+            <button mat-menu-item><a [routerLink]="'/user/profile/' + profile?._id" class="profile-name-link">Profile</a></button>
             <button mat-menu-item (click)="onLogout()">Log Out</button>
           </mat-menu>
 
@@ -48,3 +60,4 @@
     </div>
   </mat-toolbar>
 </header>
+

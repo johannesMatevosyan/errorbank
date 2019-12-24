@@ -1,0 +1,11 @@
+mat-form-field,
+textarea.comment-field {
+  width: 100%;
+}
+textarea.comment-field {
+  background-color: #efe9e9;
+  height: 60px;
+  font-size: 13px;
+  padding: 7px;
+  margin-bottom: 1px;
+}

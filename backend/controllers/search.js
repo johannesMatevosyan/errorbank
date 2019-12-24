@@ -1,9 +1,9 @@
-const SearchPost = require('../models/post');
+const Post = require('../models/post');
 
 exports.searchKey = (req, res, next) => {
 
-  SearchPost.ensureIndexes({"$**" : "text"});
-  SearchPost.find({$text: { $search: req.body.key }}, function(err, search) {
+  Post.ensureIndexes({"$**" : "text"});
+  Post.find({$text: { $search: req.body.key }}, function(err, search) {
 
     if (err){
       return res.status(401).json({
@@ -18,3 +18,43 @@ exports.searchKey = (req, res, next) => {
   });
 
 };
+/*
+
+exports.searchByTag = (req, res, next) => {
+
+  const query = {
+    tags: {
+      $in : req.body.tags
+    }
+  };
+  const postQuery = Post.find(query)
+    .populate('authorId', 'name')
+    .populate('tags', 'label');
+
+  postQuery.exec(query, function(err, search) {
+
+    if (err){
+      return res.status(401).json({
+        message: 'Wrong search input: ' + err,
+      });
+    }else{
+      let transformedArray = [];
+
+      for (var i = 0; i < search.length; i++) {
+        let transformedPost = search[i].toObject();
+        transformedPost.author = transformedPost.authorId;
+        delete transformedPost.authorId;
+        transformedArray.push(transformedPost);
+      }
+
+      res.status(201).json({
+        message: 'Search performed successfully!!!',
+        searchTags: transformedArray
+      });
+    }
+  });
+
+};
+
+*/
+

@@ -17,11 +17,12 @@ export class LatestPostsComponent implements OnInit, OnDestroy {
     this.coreService.getAllByDate();
     this.subscription = this.coreService.postsSubject.subscribe(response => {
       this.postsByDate = response;
-      console.log('this.postsByDate ', this.postsByDate);
     });
   }
+
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
+    if(this.subscription){ // this if will detect undefined issue of timersub
+      this.subscription.unsubscribe();
+    }
   }
 }

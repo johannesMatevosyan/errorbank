@@ -4,30 +4,42 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Router} from "@angular/router";
+import {environment} from "@env/environment";
+
+const BACKEND_URL = environment.apiUrl + '/posts';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
   posts = [];
+  tagsArray = [];
+  postSubject = new Subject<PostModel>();
   postsSubject = new Subject<PostModel[]>();
+  isSubmitted = new Subject<boolean>();
+  isUpdated = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getAll(postsPerPage: number, currentPage: number) {
-    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
-    this.http.get<{posts: PostModel[]; maxPosts: number}>('http://localhost:3000/posts/get-all' + queryParams)
+  getAll(query) {
+
+    this.http.post<{posts: PostModel[]; maxPosts: number}>(BACKEND_URL, query)
       .pipe(
         map(postData => {
           return {
             posts: postData.posts.map(post => {
-              console.log('post : ', post);
               return {
                 id: post._id,
                 title: post.title,
                 content: post.content,
                 imagePath: post.imagePath,
                 created: post.created,
+                updated: post.updated,
+                tags: post.tags,
+                author: post.author,
+                viewed: post.viewed,
+                voted: post.voteObj,
+                commented: post.numOfComments,
               };
             }),
             maxPosts: postData.maxPosts
@@ -36,7 +48,6 @@ export class PostService {
       )
       .subscribe((transformedPostData) => {
 
-        console.log('transformedPostData ', transformedPostData);
         this.posts = transformedPostData.posts.slice(0);
         this.postsSubject.next(transformedPostData.posts);
       });
@@ -52,22 +63,25 @@ export class PostService {
     postData.append('updated', post.updated);
     postData.append('tagsArray', JSON.stringify(post.tagsArray));
 
-    this.http.post<PostModel[]>('http://localhost:3000/posts/create', postData)
+    this.http.post<PostModel[]>(BACKEND_URL + '/create', postData)
       .subscribe((responseData) => {
-        this.posts.push(post);
-        this.postsSubject.next(responseData);
+        if (responseData) {
+          this.posts.push(post);
+          this.postsSubject.next(responseData);
+          this.isSubmitted.next(true);
+        }
+
       });
   }
 
   getPostById(postId: string) {
-    this.http.get<{post: PostModel[]}>('http://localhost:3000/posts/get-id/' + postId)
+    this.http.get<{post: PostModel}>(BACKEND_URL + '/get-id/' + postId)
       .subscribe((responseData) => {
-        this.postsSubject.next(responseData.post);
+        this.postSubject.next(responseData.post);
       });
   }
 
   updatePostById(postId, post) {
-    console.log('update : ', post);
 
     const postData = new FormData();
     postData.append('title', post.title);
@@ -77,20 +91,16 @@ export class PostService {
     postData.append('updated', post.updated);
     postData.append('tagsArray', JSON.stringify(post.tagsArray));
 
-    this.http.put<{post: PostModel[]}>('http://localhost:3000/posts/update/' + postId, postData)
+    this.http.put<{post: PostModel[]}>(BACKEND_URL + '/update/' + postId, postData)
       .subscribe((responseData) => {
-        this.router.navigate(['/get-all']);
+        if (responseData) {
+          this.isUpdated.next(true);
+        }
       });
   }
 
   delete(postId: string) {
-    this.http.delete('http://localhost:3000/posts/delete/' + postId)
-      .subscribe(() => {
-        const updatedPosts = this.posts.filter(obj => {
-          return obj._id !== postId;
-        });
-        this.postsSubject.next(updatedPosts);
-      });
+    return this.http.delete(BACKEND_URL + '/delete/' + postId);
   }
 
 }

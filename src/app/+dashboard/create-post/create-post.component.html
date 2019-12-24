@@ -1,6 +1,5 @@
-<h2>Create post</h2>
+<h2 class="page-title">Create post</h2>
 
-<br>
 <form novalidate [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <input
@@ -8,33 +7,55 @@
       type="text"
       name="title"
       formControlName="title"
-      ngModel
-      required
       minlength="3"
       placeholder="title">
-    <mat-error>Please enter title</mat-error>
+    <mat-error
+      *ngIf="!createPostForm.get('title').valid &&
+      createPostForm.get('title').touched &&
+      formSubmitAttempt">Please enter title</mat-error>
   </mat-form-field>
-  <mat-form-field>
-          <textarea
-            matInput
-            cols="30" rows="10"
-            name="content"
-            formControlName="content"
-            required
-            placeholder="content"></textarea>
-    <mat-error>Please enter Content</mat-error>
-  </mat-form-field>
+  <section>
+          <!--<textarea-->
+            <!--matInput-->
+            <!--cols="30" rows="10"-->
+            <!--class="post-content-textarea"-->
+            <!--name="content"-->
+            <!--formControlName="content"-->
+            <!--placeholder="content"></textarea>-->
+
+    <angular-editor
+      [config]="editorConfig"
+      formControlName="content"></angular-editor>
+    <mat-error
+      *ngIf="!createPostForm.get('content').valid &&
+      createPostForm.get('content').touched &&
+      formSubmitAttempt">Please enter Content</mat-error>
+
+  </section>
 
   <section>
-    <div>
+    <div class="text-right mt-4">
       <button
-        mat-stroked-button
+        mat-raised-button
+        color="accent"
         type="button"
-        (click)="filePicker.click()">Pick Image </button>
-      <input type="file" #filePicker (change)="onImagePicked($event)">
+        (click)="filePicker.click()">Upload Image</button>
+      <input type="file"
+             class="tiny-element"
+             #filePicker
+             accept=".jpg,.jpe,.jpeg,.png"
+             (change)="onImagePicked($event)">
     </div>
-    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview !== null && createPostForm.get('image').valid">
-      <img [src]="imagePreview" [alt]="createPostForm.value.title">
+    <div>
+      <div class="post-img-box"
+           *ngIf="imagePreview !== '' && imagePreview !== null && createPostForm.get('image').valid">
+        <img [src]="imagePreview" [alt]="'Post image'">
+        <span
+          class="remove-image"
+          (click)="removeImage()"
+          mat-button
+          title="Remove image"><i class="material-icons">close</i></span>
+      </div>
     </div>
   </section>
 
@@ -48,17 +69,23 @@
         (keyup)="addTag($event)"
         placeholder="tags">
     </mat-form-field>
+
   </section>
 
   <section class="tag-list">
-    <app-tag
-      [tagsArray]="clonedTagsArray"
-      [removable]="true"
-      (filteredTags)="onRemoveTags($event)"></app-tag>
+    <ng-container *ngFor="let tag of clonedTagsArray">
+      <app-tag
+        [singleTag]="tag"
+        [removable]="true"
+        (removeTagFromList)="onRemoveTagFromList($event)"
+      ></app-tag>
+    </ng-container>
   </section>
-
-  <button
-    mat-raised-button
-    color="accent"
-    type="submit">Save Post</button>
+  <div class="text-right">
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit">Save Post</button>
+  </div>
 </form>
+

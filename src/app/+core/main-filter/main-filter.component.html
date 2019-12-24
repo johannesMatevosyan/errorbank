@@ -1,1 +1,72 @@
-<div class="main-filter-box">main-filter works!</div>
+
+<mat-card class="filter-sidebar">
+
+  <mat-card-content>
+
+    <div class="tag-list" *ngIf="tagsArray?.length > 0">
+
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Tags</mat-card-title>
+      </mat-card-header>
+
+      <ng-container *ngFor="let tag of tagsArray|slice:0:show; let i=index">
+        <app-tag
+          [singleTag]="tag"
+          [removable]="false"
+          (addTagToList)="onAddTagToList($event)"
+        ></app-tag>
+
+        <ng-container *ngIf="i==4 && show == 5">
+          <a mat-button
+             class="show-more-button"
+             (click)="show = tagsArray.length">
+            <span class="show-more-button">Show More</span>
+            <mat-icon class="sort-arrow">keyboard_arrow_down</mat-icon>
+          </a>
+        </ng-container>
+
+      </ng-container>
+      <ng-container *ngIf="show == tagsArray.length">
+        <a mat-button
+           class="show-more-button"
+           (click)="show = 5">
+          <span class="show-more-button"> show less</span>
+          <mat-icon class="sort-arrow">keyboard_arrow_up</mat-icon>
+        </a>
+      </ng-container>
+
+    </div>
+    <mat-card-subtitle *ngIf="tagsArray?.length === 0">No tags to display </mat-card-subtitle>
+
+    <mat-list class="sort-items">
+      <mat-list-item>
+        <span (click)="sortPostsByDate()" class="sort-item-title">
+          <span class="sort-text">Sort by date</span>
+          <mat-icon class="sort-arrow" *ngIf="dateSort === 1">keyboard_arrow_up</mat-icon>
+          <mat-icon class="sort-arrow" *ngIf="dateSort === -1">keyboard_arrow_down</mat-icon>
+        </span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <span (click)="sortPostsByLikes()" class="sort-item-title">
+          <span class="sort-text">Sort by likes</span>
+          <mat-icon class="sort-arrow" *ngIf="likeSort === 1">keyboard_arrow_up</mat-icon>
+          <mat-icon class="sort-arrow" *ngIf="likeSort === -1">keyboard_arrow_down</mat-icon>
+        </span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <span (click)="sortPostsByCommentCount()" class="sort-item-title">
+          <span class="sort-text">Sort by Comments</span>
+          <mat-icon class="sort-arrow" *ngIf="commentSort === 1">keyboard_arrow_up</mat-icon>
+          <mat-icon class="sort-arrow" *ngIf="commentSort === -1">keyboard_arrow_down</mat-icon>
+        </span>
+      </mat-list-item>
+    </mat-list>
+
+  </mat-card-content>
+</mat-card>
+
+
+

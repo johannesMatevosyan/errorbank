@@ -1,3 +1,35 @@
-.main-filter-box{
-  border: 1px solid #000000;
+.filter-sidebar {
+}
+.filter-sidebar .tag {
+  margin-bottom: 5px;
+}
+.sort-items .sort-item-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  padding: 3px;
+  cursor: pointer;
+}
+.sort-items .sort-item-title:hover {
+  background-color: #bbbbbb;
+}
+.filter-sidebar .tag-list .tag {
+  margin-left: 7px;
+  margin-bottom: 7px;
+}
+.show-more-button {
+  width: 100%;
+  display: block;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 12px;
+}
+.show-more-button .show-more-button  {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 3px;
 }

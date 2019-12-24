@@ -1,6 +1,6 @@
-<ng-container *ngIf="tagsArray?.length > 0">
-  <span *ngFor="let tag of tagsArray; let i = index;" class="tag" mat-button>
-    <span class="tag-text">{{ tag.name }}</span>
-    <span class="remove-tag" *ngIf="removable" (click)="removeTag(tag)">x</span></span>
+<ng-container *ngIf="singleTag">
+  <span class="tag" mat-raised-button>
+    <span class="tag-text" (click)="addTag(singleTag)">{{ singleTag.label }}</span>
+    <span class="remove-tag" *ngIf="removable" (click)="removeTag(singleTag)">x</span>
+  </span>
 </ng-container>
-

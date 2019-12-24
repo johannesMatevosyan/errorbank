@@ -1,15 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '@app/+shared/shared.module';
-import {
-  MatInputModule,
-  MatCardModule,
-  MatButtonModule,
-  MatToolbarModule,
-  MatExpansionModule,
-  MatMenuModule,
-  MatIconModule
-} from '@angular/material';
+import { AngularMaterialModule } from "@app/angular-material.module";
 import { HeaderComponent } from '@app/+core/header/header.component';
 import { FooterComponent } from '@app/+core/footer/footer.component';
 import { SidebarComponent } from '@app/+core/sidebar/sidebar.component';
@@ -18,23 +10,31 @@ import { ProfileDropdownComponent } from '@app/+core/profile-dropdown/profile-dr
 import { RelatedPostsComponent } from './sidebar/related-posts/related-posts.component';
 import { LatestPostsComponent } from './sidebar/latest-posts/latest-posts.component';
 import { CoreRoutingModule } from "@app/+core/core-routing.module";
-
-
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent, RelatedPostsComponent, LatestPostsComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    MainFilterComponent,
+    ProfileDropdownComponent,
+    RelatedPostsComponent,
+    LatestPostsComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,
     CoreRoutingModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatExpansionModule,
-    MatMenuModule,
-    MatIconModule,
+    AngularMaterialModule,
+    ReactiveFormsModule,
   ],
-  exports: [HeaderComponent, FooterComponent, SidebarComponent, MainFilterComponent, ProfileDropdownComponent],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    MainFilterComponent,
+    ProfileDropdownComponent
+  ],
 })
 export class CoreModule { }

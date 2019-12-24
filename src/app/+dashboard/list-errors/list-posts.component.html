@@ -1,31 +1,43 @@
-<a mat-raised-button [routerLink]="'/create'" color="accent">Create post </a>
 
-<br>
-<br>
-<ng-container *ngIf="posts?.length > 0">
+<section class="tag-list">
+  <span class="filter-tag" *ngFor="let filter of filterByTagsArray">
+    <span class="filter-text">{{filter.label}}</span>
+    <span class="remove-filter-tag" (click)="removeTagFromList(filter)">x</span>
+  </span>
+</section>
 
-  <div *ngFor="let post of posts" class="post-box mb-15">
+<div class="position-buttons">
 
-    <h5> Date {{post.created.split(' ')[0]}}</h5>
-    <h3 class="post-title">
-      <a [routerLink]="'/view/' + post.id">{{ post.title }}</a>
-    </h3>
-    <p>
-      {{ post.content }}
-    </p>
-    <div class="tag-list" *ngIf="post.tags?.length > 0">
-      <h3 class="tag-list-title">Tags </h3>
-      <app-tag [tagsArray]="post.tags" [removable]="false"></app-tag>
-    </div>
-
-    <div class="text-md-right">
-      <a mat-raised-button [routerLink]="'/edit/' + post.id" color="primary">Edit</a>
-      <a mat-raised-button (click)="deletePost(post.id)" color="accent">Delete </a>
-    </div>
-
+  <div class="search-result" *ngIf="searchPhrase !== ''">
+    Results for "{{ searchPhrase }}"
   </div>
 
-  <mat-paginator
+  <a mat-raised-button
+     class="erb-button-right"
+     *ngIf="userIsAuthenticated"
+     [routerLink]="'/create'"
+     color="accent">Create post </a>
+
+</div>
+
+<br><br>
+
+<ng-container *ngIf="posts?.length > 0">
+
+  <section class="post-box-wrapper">
+    <ng-container *ngFor="let post of posts">
+
+      <app-post
+        [singlePost]="post"
+        [userIsAuthenticated]="userIsAuthenticated"
+        [userIntegrity]="userIntegrity"
+        (deletePostById)="onDeletePost($event)"
+      ></app-post>
+
+    </ng-container>
+  </section>
+
+  <mat-paginator class="pagination"
     [length]="totalPosts"
     [pageSize]="postsPerPage"
     [pageSizeOptions]="pageSizeOptions"
@@ -34,8 +46,7 @@
   ></mat-paginator>
 
 </ng-container>
+
 <ng-container *ngIf="posts?.length === 0">
   <h1 class="mat-subheading-1 accent-color">No results!</h1>
 </ng-container>
-
-

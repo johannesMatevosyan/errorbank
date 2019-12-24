@@ -13,8 +13,8 @@ const routes: Routes = [{
   component: DashboardComponent,
   children: [
     {
-      path: 'get-all',
-      component: ListPostsComponent
+      path: 'posts',
+      component: ListPostsComponent,
     },
     {
       path: 'create',

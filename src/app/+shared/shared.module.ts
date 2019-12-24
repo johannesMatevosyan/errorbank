@@ -1,32 +1,35 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptor } from '@app/+shared/interceptors/auth.interceptor';
+import { AngularMaterialModule } from "@app/angular-material.module";
+import { RouterModule, Routes } from '@angular/router';
 import { PaginationComponent } from '@app/+shared/components/pagination/pagination.component';
-import { PostInfoComponent } from '@app/+shared/components/post-info/post-info.component';
 import { TagComponent } from '@app/+shared/components/tag/tag.component';
-import {
-  MatInputModule,
-  MatCardModule,
-  MatButtonModule,
-  MatToolbarModule,
-  MatExpansionModule,
-  MatIconModule
-} from '@angular/material';
-import {AuthService} from "@app/+shared/_services/auth.service";
+import { CommentComponent } from '@app/+shared/components/comment/comment.component';
+import { CommentBoxComponent } from '@app/+shared/components/comment-box/comment-box.component';
+import { ErrorComponent } from '@app/+shared/components/error/error.component';
+import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 
 @NgModule({
-  declarations: [PaginationComponent, PostInfoComponent, TagComponent],
+  declarations: [
+    PaginationComponent,
+    TagComponent,
+    CommentComponent,
+    CommentBoxComponent,
+    AlertComponent,
+    ErrorComponent
+  ],
   imports: [
     CommonModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatExpansionModule,
-    MatIconModule
+    AngularMaterialModule,
+    RouterModule,
   ],
-  providers: [AuthService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
-  exports: [PaginationComponent, PostInfoComponent, TagComponent],
+  exports: [
+    PaginationComponent,
+    TagComponent,
+    CommentComponent,
+    CommentBoxComponent,
+    AlertComponent,
+    ErrorComponent
+  ],
 })
 export class SharedModule { }
