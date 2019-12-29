@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    if(this.subscribeUser){ // this if will detect undefined issue of timersub
+    if (this.subscribeUser) { // this if will detect undefined issue of timersub
       this.subscribeUser.unsubscribe();
     }
   }

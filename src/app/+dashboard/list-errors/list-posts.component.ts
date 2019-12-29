@@ -15,6 +15,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./list-posts.component.css']
 })
 export class ListPostsComponent implements OnInit, OnDestroy {
+  selectedItem;
   totalPosts = 10;
   postsPerPage = 2;
   currentPage = 1;
@@ -141,6 +142,10 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.query.pagination.page = this.currentPage;
 
     this.postsService.getAll(this.query);
+  }
+
+  onSetActiveClass(event, newValue) {
+    this.selectedItem = newValue;
   }
 
   ngOnDestroy() {

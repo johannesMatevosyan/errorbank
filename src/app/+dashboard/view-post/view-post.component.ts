@@ -22,6 +22,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   userIntegrity = null;
   isUserVoted;
   voteInfo;
+  favType: boolean = false;
   post: PostModel;
   comment: CommentModel;
   commentsArray: CommentModel[];
@@ -147,17 +148,32 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         };
         this.postInfoService.voteForPost(vote);
         this.postInfoService.votedForPostSubject.subscribe((response) => {
-
-          this.countVotes(response.post.voteId);
-
+          if (response) {
+            this.countVotes(response.post.voteId);
+          }
         });
       }
     });
 
   }
 
+  favoritePost(postIdentity, userIdentity) {
+    this.favType = !this.favType;
+    let data = {
+      postId: postIdentity,
+      userId: userIdentity,
+      isFavourite: this.favType
+    };
+    this.postInfoService.favoritePost(data);
+    this.postInfoService.isFavouriteSubject.subscribe((response) => {
+      if (response) {
+        console.log('isFavouriteSubject ', response);
+      }
+    });
+  }
+
   ngOnDestroy() {
-    if(this.subscription){ // this if will detect undefined issue of timersub
+    if(this.subscription) { // this if will detect undefined issue of timersub
       this.subscription.unsubscribe();
     }
   }

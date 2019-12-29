@@ -70,7 +70,8 @@ export class AuthService {
     let data = {token: accessToken};
     this.http.post(BACKEND_URL + '/user/github/token', data)
       .subscribe((user) => {
-        if (user && user['name']) {
+        console.log('user: ', user);
+        if (user && user['login']) {
           let cd = new CurrentDate();
           const userInfo = {
             'githubId': user['id'],
@@ -129,6 +130,7 @@ export class AuthService {
   saveUserInfo(user) {
     this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user-info', user)
       .subscribe(response => {
+        console.log('saveUserInfo response : ', response);
         if (response) {
           this.userIdentitySubject.next(response.user._id);
           this.userInfoDataStorage.next(response.user);

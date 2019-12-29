@@ -12,6 +12,7 @@ const BACKEND_URL = environment.apiUrl + '/post/';
 export class PostInfoService {
 
   votedForPostSubject = new Subject<any>();
+  isFavouriteSubject = new Subject<any>();
   votedForCommentSubject = new Subject<any>();
   constructor(private http: HttpClient) { }
 
@@ -27,6 +28,10 @@ export class PostInfoService {
       .subscribe((responseData) => {
         this.votedForCommentSubject.next(responseData);
       });
+  }
+
+  favoritePost(fav) {
+    console.log(fav);
   }
 
 }

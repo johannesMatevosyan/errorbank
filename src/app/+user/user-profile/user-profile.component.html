@@ -15,11 +15,11 @@
       <ul class="user-profile-info-list">
         <li>
           <mat-icon mat-list-icon>location_city</mat-icon>
-          <h4 mat-line>{{profile?.location}}</h4>
+          <h4 mat-line>{{profile?.location ? profile?.location : 'Location not known'}}</h4>
         </li>
         <li>
           <mat-icon mat-list-icon>account_circle</mat-icon>
-          <h4 mat-line>{{profile?.name}}</h4>
+          <h4 mat-line>{{profile?.name ? profile?.name : 'name not known' }}</h4>
         </li>
         <li>
           <mat-icon mat-list-icon>label</mat-icon>
@@ -31,7 +31,7 @@
         </li>
         <li>
           <mat-icon mat-list-icon>textsms</mat-icon>
-          <h4 mat-line>{{profile?.bio}}</h4>
+          <h4 mat-line>{{profile?.bio ? profile?.bio : 'no bio info'}}</h4>
         </li>
       </ul>
 
