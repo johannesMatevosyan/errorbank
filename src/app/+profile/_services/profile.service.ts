@@ -20,13 +20,13 @@ export class ProfileService {
       });
   }
 
-  getUserById(userId){
+  getUserById(userId) {
     return this.http.get(BACKEND_URL + 'profile/' + userId).subscribe(userData => {
       this.userStorage.next(userData['user']);
     });
   }
 
-  getPostsUserById(userId){
+  getPostsUserById(userId) {
     return this.http.get(BACKEND_URL + 'posts/' + userId).subscribe(userPosts => {
       if (userPosts) {
         this.userPosts.next(userPosts['posts']);
