@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const UserInfo = require('../models/user-info');
 const User = require('../models/user');
 const Post = require('../models/post');
+const mongoose = require('mongoose')
 const tranformPost = require('../utils/transform-post');
 const addCommentNumber = require('../utils/add-comment-number');
 
@@ -257,3 +258,22 @@ exports.getPostsByAuthorId = (req, res, next) => {
 
 };
 
+exports.getFavoritePosts = (req, res, next) => {
+  console.log('req.param.id', req.params.id);
+  User.findById( mongoose.Types.ObjectId(req.params.id))
+      .then(user => {
+        console.log('user', user);
+        return Post.find({ _id: { $in: user.favourites } })
+      })
+      .then(posts => {
+        res.status(200).json({
+          message: 'Posts got by date successfully!',
+          posts
+        });
+      })
+      .catch((err)=> {
+        return res.status(401).json({
+          message: 'Something went wrong. ' + err,
+        });
+      });
+};

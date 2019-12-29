@@ -215,7 +215,6 @@ exports.getPostsByDate = (req, res, next) => {
       posts: post
     });
   });
-
 };
 
 exports.voteForPost = (req, res, next) => {

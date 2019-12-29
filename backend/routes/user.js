@@ -23,6 +23,8 @@ router.get('/list', authController.getAllUsers);
 
 router.get('/profile/:id', authController.getUserById);
 
+router.get('/posts/favourites/:id', authController.getFavoritePosts);
+
 router.get('/posts/:id', authController.getPostsByAuthorId);
 
 module.exports = router;

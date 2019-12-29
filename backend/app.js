@@ -3,8 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const app = express();
-//const MONGODB_URI = 'mongodb://localhost:27017/error-bank';
-const MONGODB_URI = "mongodb+srv://johannes:arsenalMongo@cluster0-lbtls.mongodb.net/test?retryWrites=true&w=majority";
+const MONGODB_URI = 'mongodb://localhost:27017/error-bank';
+// const MONGODB_URI = "mongodb+srv://johannes:arsenalMongo@cluster0-lbtls.mongodb.net/test?retryWrites=true&w=majority";
 
 
 app.use((req, res, next) => {
