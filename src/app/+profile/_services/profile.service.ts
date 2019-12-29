@@ -8,18 +8,12 @@ const BACKEND_URL = environment.apiUrl + '/user/';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class ProfileService {
   user: {};
   userStorage = new BehaviorSubject<any>(this.user);
   userPosts = new BehaviorSubject<any>(this.user);
   userFavorites = new BehaviorSubject<any>(this.user);
   constructor(private http: HttpClient) { }
-
-  getAllUsersInfo() {
-    this.http.get(BACKEND_URL + 'list-info')
-      .subscribe(response => {
-      });
-  }
 
   getUserInfoById(userId) {
     this.http.get(BACKEND_URL + 'info/' + userId).subscribe(userData => {
@@ -27,20 +21,13 @@ export class UserService {
       });
   }
 
-
-  getAllUsers(){
-    this.http.get(BACKEND_URL + 'list-info')
-      .subscribe(response => {
-      });
-  }
-
-  getUserById(userId){
+  getUserById(userId) {
     return this.http.get(BACKEND_URL + 'profile/' + userId).subscribe(userData => {
       this.userStorage.next(userData['user']);
     });
   }
 
-  getPostsUserById(userId){
+  getPostsUserById(userId) {
     return this.http.get(BACKEND_URL + 'posts/' + userId).subscribe(userPosts => {
       if (userPosts) {
         this.userPosts.next(userPosts['posts']);

@@ -31,7 +31,9 @@
         <div class="profile-info">
 
           <div class="profile-name">
-            <a [routerLink]="'/user/profile/' + profile?._id" class="profile-name-link">{{ profile?.name }}</a>
+            <a
+              [routerLink]="'/user/profile/' + profile?._id"
+              class="profile-name-link" *ngIf="profile">{{ profile.name === 'null' ? profile.login : profile.name }}</a>
           </div>
           <div class="profile-image">
             <a [routerLink]="'/user/profile/' + profile?._id">

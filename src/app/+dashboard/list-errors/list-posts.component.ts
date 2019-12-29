@@ -15,11 +15,16 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./list-posts.component.css']
 })
 export class ListPostsComponent implements OnInit, OnDestroy {
+  selectedItem;
   totalPosts = 10;
   postsPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
-  userIntegrity: string;
+  userIntegrity: {
+    currentUserId: '';
+    currentUserName: '';
+  };
+
   searchText: string = '';
   searchPhrase: string = '';
   tagsArray: TagModel[] = [];
@@ -71,9 +76,12 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.postsService.getAll(this.query);
     let userData =  this.authService.userIdentitySubject;
     if (userData !== null) {
-      this.subscription = userData.subscribe(response => {
-        if (response) {
-          this.userIntegrity = response;
+      this.subscription = userData.subscribe(userDataResponse => {
+        if (userDataResponse) {
+          this.userIntegrity = {
+            currentUserId: userDataResponse.userId,
+            currentUserName: userDataResponse.userName,
+          };
         }
       });
     }
@@ -141,6 +149,10 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.query.pagination.page = this.currentPage;
 
     this.postsService.getAll(this.query);
+  }
+
+  onSetActiveClass(event, newValue) {
+    this.selectedItem = newValue;
   }
 
   ngOnDestroy() {

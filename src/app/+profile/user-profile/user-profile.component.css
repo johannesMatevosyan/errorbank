@@ -32,3 +32,9 @@
   align-items: center;
   margin-bottom: 7px;
 }
+.user-profile-info-list li h4 {
+  text-align: right;
+}
+.user-profile-info-list li mat-icon {
+  cursor: pointer;
+}

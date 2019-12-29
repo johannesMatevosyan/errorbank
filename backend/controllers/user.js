@@ -50,7 +50,6 @@ exports.githubUser = (req, res, next) => {
 };
 
 exports.getJWTToken = (req, res, next) => {
-console.log('getJWTToken req.body ', req.body);
   let ID = req.body.id.toString();
   UserInfo.findOne({ githubId: ID })
     .then(user => {
@@ -87,8 +86,6 @@ console.log('getJWTToken req.body ', req.body);
 
 exports.saveUserInfo = (req, res, next) => {
 
-  console.log('saveUserInfo req.body: ', req.body);
-
   const query = { githubId: req.body.githubId };
   let fetchedUser;
   const userInfo = {
@@ -118,7 +115,7 @@ exports.getAllUsersInfo = (req, res, next) => {
   UserInfo.find().then(documents => {
       res.status(200).json({ // retrieve all posts from db
         message: 'Users info fetched successfully!',
-        posts: documents
+        users: documents
       })
     })
     .catch(err => {
@@ -181,7 +178,7 @@ exports.getAllUsers = (req, res, next) => {
   User.find().then(documents => {
     res.status(200).json({ // retrieve all posts from db
       message: 'Users fetched successfully!',
-      posts: documents
+      users: documents
     });
   });
 };

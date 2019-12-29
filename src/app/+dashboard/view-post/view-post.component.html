@@ -13,35 +13,45 @@
     </div>
 
     <div class="post-content" [innerHTML]="post?.content"></div>
-
   </div>
 
-  <div class="post-vote-box d-inline-block v-align-middle">
-    <div class="post-vote" (click)="vote('up', userIntegrity, 'post')">
-      <mat-icon
-        class="vote-arrow"
-        [ngClass]="userIntegrity !== null &&
+  <div class="post-options-box">
+
+    <div class="post-vote-box">
+      <div class="post-vote" (click)="vote('up', userIntegrity, 'post')">
+        <mat-icon
+          class="vote-arrow"
+          [ngClass]="userIntegrity !== null &&
             voteInfo?.isUserVoted &&
             voteInfo?.type === 'up' ? 'is-voted' : ''">keyboard_arrow_up</mat-icon>
-    </div>
-    <div class="vote-number">{{ votesDiff }}</div>
-    <div class="post-vote" (click)="vote('down', userIntegrity, 'post')">
-      <mat-icon
-        class="vote-arrow"
-        [ngClass]="userIntegrity !== null &&
+      </div>
+      <div class="vote-number">{{ votesDiff }}</div>
+      <div class="post-vote" (click)="vote('down', userIntegrity, 'post')">
+        <mat-icon
+          class="vote-arrow"
+          [ngClass]="userIntegrity !== null &&
             voteInfo?.isUserVoted &&
             voteInfo?.type === 'down' ? 'is-voted' : ''">keyboard_arrow_down</mat-icon>
+      </div>
     </div>
+
+    <div class="favourite">
+      <mat-icon *ngIf="favType" (click)="favoritePost('postId', 'userId')">favorite</mat-icon>
+      <mat-icon *ngIf="!favType" (click)="favoritePost('postId', 'userId')">favorite_border</mat-icon>
+    </div>
+
+    <div class="tag-list pl-2">
+      <h5 class="tag-list-title d-inline-block">tags</h5>
+      <ng-container *ngFor="let tag of clonedTagsArray">
+        <app-tag
+          [singleTag]="tag"
+          [removable]="false"></app-tag>
+      </ng-container>
+    </div>
+
   </div>
 
-  <div class="tag-list d-inline-block v-align-middle pl-2">
-    <h5 class="tag-list-title d-inline-block">tags</h5>
-    <ng-container *ngFor="let tag of clonedTagsArray">
-      <app-tag
-        [singleTag]="tag"
-        [removable]="false"></app-tag>
-    </ng-container>
-  </div>
+
 
 </section>
 <section class="comment-box-list">
@@ -52,4 +62,7 @@
   </ng-container>
 
 </section>
-<app-comment [postInfo]="postInfo" (sendComment)="onPostComment($event)"></app-comment>
+<app-comment
+  [postInfo]="postInfo"
+  [userData]="userIntegrity"
+  (sendComment)="onPostComment($event)"></app-comment>

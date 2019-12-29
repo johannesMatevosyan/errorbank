@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
     });
     this.sfService.searchKey.subscribe(message => {
       this.message = message;
-    })
+    });
   }
 
   checkAuthenticationStatus() {
@@ -49,6 +49,7 @@ export class HeaderComponent implements OnInit {
       if (isPlatformBrowser(this.platformId)) {
         // localStorage will be available: we can use it.
         console.log('Browser side');
+
         let userData = {
           _id : localStorage.getItem("_id"),
           userId : localStorage.getItem("_id"),

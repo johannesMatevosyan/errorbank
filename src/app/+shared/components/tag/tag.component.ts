@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter} from '@angular/core';
 import {SearchFilterService} from "@app/+shared/_services/search-filter.service";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-tag',
@@ -13,7 +14,7 @@ export class TagComponent implements OnInit {
   @Output() addTagToList = new EventEmitter<any>();
   tags = [];
 
-  constructor(private sfService: SearchFilterService) { }
+  constructor(private sfService: SearchFilterService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -21,6 +22,7 @@ export class TagComponent implements OnInit {
   addTag(tagObj) {
     this.addTagToList.emit(tagObj);
     this.sfService.searchByTag(tagObj);
+    this.router.navigate(['/posts']);
   }
 
   removeTag(tagObj) {

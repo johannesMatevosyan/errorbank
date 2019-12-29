@@ -22,13 +22,14 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   userIntegrity = null;
   isUserVoted;
   voteInfo;
+  favType: boolean = false;
   post: PostModel;
   comment: CommentModel;
   commentsArray: CommentModel[];
   clonedTagsArray = [];
   postInfo = {
     postId : '',
-    userId : ''
+    authorId : ''
   };
   votesDiff;
   constructor(private postService: PostService,
@@ -50,12 +51,10 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       this.postService.getPostById(paramsId.id);
       this.subscription = this.postService.postSubject.subscribe((response) => {
         if (response) {
-
           this.post = response;
           this.clonedTagsArray = this.post.tags;
           this.postInfo.postId = response._id;
-          this.postInfo.userId = response.author._id;
-
+          this.postInfo.authorId = response.author._id;
           this.countVotes(response.voteId);
 
         }
@@ -78,7 +77,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
     if (votesArr) {
       let cv = new CheckVote();
-      this.voteInfo = cv.getCheckedVote(votesArr.votes, this.userIntegrity);
+      this.voteInfo = cv.getCheckedVote(votesArr.votes, this.userIntegrity.userId);
     }
   }
 
@@ -88,11 +87,11 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       if (commentResponse) {
         this.commentsArray.push(commentResponse);
       }
-    })
+    });
 
   }
 
-  getComment(){
+  getComment() {
     this.subscription = this.commentService.commentSubject.subscribe((response) => {
       if (response) {
         this.comment = response;
@@ -104,9 +103,9 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(paramsId => {
       if (paramsId.id) {
         this.commentService.getCommentsByPostID(paramsId.id);
-        this.subscription = this.commentService.commentsSubject.subscribe((response) => {
-          if(response){
-            this.commentsArray = response;
+        this.subscription = this.commentService.commentsSubject.subscribe((commentResponse) => {
+          if (commentResponse) {
+            this.commentsArray = commentResponse;
           }
         });
       }
@@ -115,9 +114,9 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   getUserId() {
-    this.subscription = this.authService.userIdentitySubject.subscribe(userId => {
-      if (userId) {
-        this.userIntegrity = userId;
+    this.subscription = this.authService.userIdentitySubject.subscribe(userData => {
+      if (userData) {
+        this.userIntegrity = userData;
       }
     });
   }
@@ -147,13 +146,28 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         };
         this.postInfoService.voteForPost(vote);
         this.postInfoService.votedForPostSubject.subscribe((response) => {
-
-          this.countVotes(response.post.voteId);
-
+          if (response) {
+            this.countVotes(response.post.voteId);
+          }
         });
       }
     });
 
+  }
+
+  favoritePost(postIdentity, userIdentity) {
+    this.favType = !this.favType;
+    let data = {
+      postId: postIdentity,
+      userId: userIdentity,
+      isFavourite: this.favType
+    };
+    this.postInfoService.favoritePost(data);
+    this.postInfoService.isFavouriteSubject.subscribe((response) => {
+      if (response) {
+        console.log('isFavouriteSubject ', response);
+      }
+    });
   }
 
   ngOnDestroy() {

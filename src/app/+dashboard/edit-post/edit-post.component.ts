@@ -28,7 +28,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
   imagePreview;
   post;
 
-
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,

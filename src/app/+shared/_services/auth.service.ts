@@ -70,7 +70,7 @@ export class AuthService {
     let data = {token: accessToken};
     this.http.post(BACKEND_URL + '/user/github/token', data)
       .subscribe((user) => {
-        if (user && user['name']) {
+        if (user && user['login']) {
           let cd = new CurrentDate();
           const userInfo = {
             'githubId': user['id'],
@@ -130,17 +130,25 @@ export class AuthService {
     this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user-info', user)
       .subscribe(response => {
         if (response) {
-          this.userIdentitySubject.next(response.user._id);
+          let userData = {
+            userId: response.user._id,
+            userName: response.user.login
+          };
+          this.userIdentitySubject.next(userData);
           this.userInfoDataStorage.next(response.user);
         }
       });
   }
 
-  saveUser(user){
+  saveUser(user) {
     this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user', user)
       .subscribe(response => {
         if (response !== null) {
-          this.userIdentitySubject.next(response.user._id);
+          let userData = {
+            userId: response.user._id,
+            userName: response.user.login
+          };
+          this.userIdentitySubject.next(userData);
           this.userDataStorage.next(response.user);
         }
 
@@ -167,26 +175,28 @@ export class AuthService {
   }
 
   private getAuthData() {
-    let token;
-    let expirationDate;
-    let userId;
+    let tokenVal, expirationDate, id, name, userData;
 
     if (isPlatformBrowser(this.platformId)) {
       // localStorage will be available: we can use it.
-      token = localStorage.getItem("token");
+      tokenVal = localStorage.getItem("token");
       expirationDate = localStorage.getItem("expiration");
-      userId = localStorage.getItem("_id");
+      id = localStorage.getItem("_id");
+      name = localStorage.getItem("login");
+      userData = {
+        userId : id,
+        userName : name,
+      };
 
+      this.userIdentitySubject.next(userData);
 
-      this.userIdentitySubject.next(userId);
-
-      if (!token || !expirationDate) {
+      if (!tokenVal || !expirationDate) {
         return;
       }
       return {
-        token: token,
+        token: tokenVal,
         expirationDate: new Date(expirationDate)
-      }
+      };
     }
     if (isPlatformServer(this.platformId)) {
       // localStorage will be null.

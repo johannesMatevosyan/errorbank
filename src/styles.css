@@ -346,11 +346,13 @@ input[type=file] {
 .search-form input {
   width: 100%;
   display: block;
-  border: 1px solid #dddddd;
+  border: 1px solid #363636;
   height: 34px;
   color: #212121;
   background-color: #dddddd;
   padding-left: 7px;
+  padding-right: 80px;
+  font-size: 16px;
 }
 .search-form .search-icon {
   position: absolute;
@@ -364,10 +366,13 @@ input[type=file] {
   border-radius: 0px;
   font-size: 14px;
   height: 34px;
-  width: 44px;
-  border: 1px solid #dddddd;
+  width: 75px;
+  border: 1px solid #363636;
   cursor: pointer;
   outline: none;
+}
+.search-form .search-icon:hover {
+  background: #363636;
 }
 
 .tag-list .tag {
@@ -449,6 +454,7 @@ input[type=file] {
 .erb-tabs li a:hover,
 .erb-tabs li a.active-tab {
   color: #c62828 !important;
+  background-color: #fff !important;
   border-bottom: 3px solid #c62828 !important;
 }
 .tiny-element {
@@ -480,6 +486,14 @@ input[type=file] {
 .comment-box-list .comment-box:first-child {
   margin-top: 3px;
 }
+.post-options-box {
+  display: flex;
+  align-items: center;
+}
+.post-options-box .tag-list {
+  margin-left: auto;
+}
+
 .post-box-wrapper {
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
@@ -515,6 +529,12 @@ input[type=file] {
 }
 .post-box:hover {
   background-color: #e7f5ff;
+}
+.favourite {
+  cursor: pointer;
+}
+.favourite:hover {
+  color: #c62828;
 }
 
 

@@ -1,4 +1,20 @@
 
+
+<ul role="list"  class="erb-tabs list-horizontal mb-15">
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/posts'"
+      [routerLinkActive]="['active-tab']">Posts </a>
+  </li>
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/users/list'"
+      [routerLinkActive]="['active-tab']">Users</a>
+  </li>
+</ul>
+
 <section class="tag-list">
   <span class="filter-tag" *ngFor="let filter of filterByTagsArray">
     <span class="filter-text">{{filter.label}}</span>
@@ -6,7 +22,7 @@
   </span>
 </section>
 
-<div class="position-buttons">
+<div class="position-buttons mb-15">
 
   <div class="search-result" *ngIf="searchPhrase !== ''">
     Results for "{{ searchPhrase }}"
@@ -19,8 +35,6 @@
      color="accent">Create post </a>
 
 </div>
-
-<br><br>
 
 <ng-container *ngIf="posts?.length > 0">
 
