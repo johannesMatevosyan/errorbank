@@ -1,4 +1,3 @@
-
 <section class="tag-list">
   <span class="filter-tag" *ngFor="let filter of filterByTagsArray">
     <span class="filter-text">{{filter.label}}</span>
@@ -6,22 +5,20 @@
   </span>
 </section>
 
-<!--<ul role="list"  class="erb-tabs list-horizontal mb-15">-->
-  <!--<li>-->
-    <!--<a-->
-      <!--class="mat-primary"-->
-      <!--[routerLink]="'/posts'"-->
-      <!--[ngClass]="{'active-tab': selectedItem == 'posts'}"-->
-      <!--(click)="onSetActiveClass($event, 'posts')">Posts </a>-->
-  <!--</li>-->
-  <!--<li>-->
-    <!--<a-->
-      <!--class="mat-primary"-->
-      <!--[routerLink]="'/users/list'"-->
-      <!--[ngClass]="{'active-tab': selectedItem == 'users'}"-->
-      <!--(click)="onSetActiveClass($event, 'users')">Users</a>-->
-  <!--</li>-->
-<!--</ul>-->
+<ul role="list"  class="erb-tabs list-horizontal mb-15">
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/posts'"
+      [routerLinkActive]="['active-tab']">Posts </a>
+  </li>
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/users/list'"
+      [routerLinkActive]="['active-tab']">Users</a>
+  </li>
+</ul>
 
 <div class="position-buttons">
 

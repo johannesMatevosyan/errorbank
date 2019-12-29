@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Subject} from 'rxjs/index';
 import {environment} from '@env/environment';
 
-const BACKEND_URL = environment.apiUrl + '/users/';
+const BACKEND_URL = environment.apiUrl + '/user/';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class UsersService {
     this.http.get(BACKEND_URL + 'list-info')
       .subscribe(response => {
         if (response) {
-          this.userListSubject.next(response);
+          this.userListSubject.next(response['users']);
         }
       });
   }

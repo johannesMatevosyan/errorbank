@@ -14,22 +14,9 @@ export class ProfileService {
   userPosts = new BehaviorSubject<any>(this.user);
   constructor(private http: HttpClient) { }
 
-  getAllUsersInfo() {
-    this.http.get(BACKEND_URL + 'list-info')
-      .subscribe(response => {
-      });
-  }
-
   getUserInfoById(userId) {
     this.http.get(BACKEND_URL + 'info/' + userId).subscribe(userData => {
       this.userStorage.next(userData['user']);
-      });
-  }
-
-
-  getAllUsers(){
-    this.http.get(BACKEND_URL + 'list-info')
-      .subscribe(response => {
       });
   }
 

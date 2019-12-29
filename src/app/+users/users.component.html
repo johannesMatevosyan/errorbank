@@ -1,3 +1,17 @@
-users module +++
-<router-outlet></router-outlet>
 
+<ul role="list"  class="erb-tabs list-horizontal mb-15">
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/posts'"
+      [routerLinkActive]="['active-tab']">Posts </a>
+  </li>
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/users/list'"
+      [routerLinkActive]="['active-tab']">Users</a>
+  </li>
+</ul>
+
+<router-outlet></router-outlet>

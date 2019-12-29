@@ -117,7 +117,7 @@ exports.getAllUsersInfo = (req, res, next) => {
   UserInfo.find().then(documents => {
       res.status(200).json({ // retrieve all posts from db
         message: 'Users info fetched successfully!',
-        posts: documents
+        users: documents
       })
     })
     .catch(err => {
@@ -180,7 +180,7 @@ exports.getAllUsers = (req, res, next) => {
   User.find().then(documents => {
     res.status(200).json({ // retrieve all posts from db
       message: 'Users fetched successfully!',
-      posts: documents
+      users: documents
     });
   });
 };
