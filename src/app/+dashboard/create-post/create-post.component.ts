@@ -67,7 +67,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let options = this.options.getEditorSettings();
-    console.log('options ', options);
     this.editorConfig = options;
 
     this.createPostForm = new FormGroup({

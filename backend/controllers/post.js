@@ -84,38 +84,38 @@ exports.getAllPosts = (req, res, next) => {
       maxPosts = total;
       transformedPost = tranformPost.newPost(posts);
       return transformedPost;
-  })
-  .then((postsArr) => {
+    })
+    .then((postsArr) => {
 
-    return Post.aggregate([
-      {
-        $lookup: {
-          from: "comments", localField: "_id", foreignField: "docId", as: "postComments"
+      return Post.aggregate([
+        {
+          $lookup: {
+            from: "comments", localField: "_id", foreignField: "docId", as: "postComments"
+          }
+        },
+        {
+          $project: {
+            "numOfComments":{ $size: "$postComments" }
+          }
         }
-      },
-      {
-        $project: {
-          "numOfComments":{ $size: "$postComments" }
-        }
-      }
-    ]).exec((err, commentsArr) => {
+      ]).exec((err, commentsArr) => {
 
-      postWithComments = mergeCommentNumber.addCommentCount(postsArr, commentsArr);
+        postWithComments = mergeCommentNumber.addCommentCount(postsArr, commentsArr);
 
-      res.status(201).json({
-        message: 'Posts are fetched successfully!!!',
-        posts: postWithComments,
-        maxPosts: maxPosts
+        res.status(201).json({
+          message: 'Posts are fetched successfully!!!',
+          posts: postWithComments,
+          maxPosts: maxPosts
+        });
+
       });
 
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Failed to filter submitted tag ' + err,
+      });
     });
-
-  })
-  .catch(err => {
-    res.status(500).json({
-      message: 'Failed to filter submitted tag ' + err,
-    });
-  });
 
 };
 

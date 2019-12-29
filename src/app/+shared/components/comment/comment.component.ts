@@ -8,6 +8,7 @@ import { CurrentDate } from '@utils/current-date';
 })
 export class CommentComponent implements OnInit {
   @Input() postInfo;
+  @Input() userData;
   @Output() sendComment: EventEmitter<any> = new EventEmitter();
   @ViewChild('comment', {static: false}) comment: ElementRef;
   constructor() { }
@@ -20,7 +21,7 @@ export class CommentComponent implements OnInit {
     let comment = {
       text: text,
       postId: this.postInfo.postId,
-      userId: this.postInfo.userId,
+      userId: this.userData.userId,
       date: cd.getCurrentDate()
     };
     this.sendComment.emit(comment);

@@ -16,7 +16,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     this.usersService.getAllUsersInfo();
     this.subscribeUsersList = this.usersService.userListSubject.subscribe(usersList => {
       if (usersList) {
-        console.log('userListSubject: ', usersList);
         this.users = usersList.slice(0);
       }
     });

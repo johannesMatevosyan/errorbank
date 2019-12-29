@@ -25,6 +25,7 @@ export class CommentService {
   getCommentsByPostID(postId: string) {
     this.http.get<{comment: CommentModel[]}>(BACKEND_URL + 'get/' + postId)
       .subscribe((responseData) => {
+        console.log('responseData.comment ', responseData.comment);
         this.commentsSubject.next(responseData.comment);
       });
   }

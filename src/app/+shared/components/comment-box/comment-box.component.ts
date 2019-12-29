@@ -35,7 +35,7 @@ export class CommentBoxComponent implements OnInit {
 
     this.subscription = this.postInfoService.votedForCommentSubject.subscribe((response) => {
 
-      if (this.singleComment._id !== response.post._id){
+      if (this.singleComment._id !== response.post._id) {
         return;
       }
       this.countVotes(response.post.voteId);

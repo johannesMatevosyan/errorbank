@@ -62,4 +62,7 @@
   </ng-container>
 
 </section>
-<app-comment [postInfo]="postInfo" (sendComment)="onPostComment($event)"></app-comment>
+<app-comment
+  [postInfo]="postInfo"
+  [userData]="userIntegrity"
+  (sendComment)="onPostComment($event)"></app-comment>

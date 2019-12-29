@@ -28,7 +28,6 @@ export class HeaderComponent implements OnInit {
     this.checkAuthenticationStatus();
     this.loadSearchForm();
     this.authListenerSubs = this.authService.userInfoDataStorage.subscribe(userData =>  {
-      console.log('userData 1 ', userData);
       if (userData) {
         this.profile = userData;
       }
