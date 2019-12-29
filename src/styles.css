@@ -352,6 +352,7 @@ input[type=file] {
   background-color: #dddddd;
   padding-left: 7px;
   padding-right: 80px;
+  font-size: 16px;
 }
 .search-form .search-icon {
   position: absolute;

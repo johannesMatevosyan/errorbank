@@ -1,9 +1,4 @@
-<section class="tag-list">
-  <span class="filter-tag" *ngFor="let filter of filterByTagsArray">
-    <span class="filter-text">{{filter.label}}</span>
-    <span class="remove-filter-tag" (click)="removeTagFromList(filter)">x</span>
-  </span>
-</section>
+
 
 <ul role="list"  class="erb-tabs list-horizontal mb-15">
   <li>
@@ -20,7 +15,14 @@
   </li>
 </ul>
 
-<div class="position-buttons">
+<section class="tag-list">
+  <span class="filter-tag" *ngFor="let filter of filterByTagsArray">
+    <span class="filter-text">{{filter.label}}</span>
+    <span class="remove-filter-tag" (click)="removeTagFromList(filter)">x</span>
+  </span>
+</section>
+
+<div class="position-buttons mb-15">
 
   <div class="search-result" *ngIf="searchPhrase !== ''">
     Results for "{{ searchPhrase }}"
@@ -33,8 +35,6 @@
      color="accent">Create post </a>
 
 </div>
-
-<br><br>
 
 <ng-container *ngIf="posts?.length > 0">
 
