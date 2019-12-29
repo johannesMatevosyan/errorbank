@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {UserService} from "@app/+user/_services/user.service";
 import {Subscription} from "rxjs/index";
 import {ActivatedRoute} from "@angular/router";
+import { ProfileService } from '../_services/profile.service';
 
 @Component({
   selector: 'app-user-favorite-posts',
@@ -12,7 +12,7 @@ export class UserFavoritePostsComponent implements OnInit, OnDestroy {
   userPosts = [];
   subscribeUser: Subscription;
   constructor(
-    private userService: UserService,
+    private profileService: ProfileService,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -20,8 +20,8 @@ export class UserFavoritePostsComponent implements OnInit, OnDestroy {
     this.activatedRoute
       .params
       .subscribe(params => {
-        this.userService.getFavPostsUserById(params.id);
-        this.subscribeUser = this.userService.userFavorites.subscribe(userPosts => {
+        this.profileService.getFavPostsUserById(params.id);
+        this.subscribeUser = this.profileService.userFavorites.subscribe(userPosts => {
           if (userPosts) {
             this.userPosts = userPosts.slice(0);
           }

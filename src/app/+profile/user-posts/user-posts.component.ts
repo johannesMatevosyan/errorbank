@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {UserService,} from "@app/+user/_services/user.service";
 import {Subscription} from "rxjs/index";
 import {ActivatedRoute} from "@angular/router";
 import { ProfileService } from '../_services/profile.service';

@@ -20,7 +20,7 @@
       "@env/*": ["environments/*"],
       "@models/*": ["./app/models/*"],
       "@utils/*": ["./app/+shared/utils/*"],
-      "@services/*": ["./app/+shared/services/*"]
+      "@services/*": ["./app/+shared/_services/*"]
     },
     "lib": [
       "es2018",

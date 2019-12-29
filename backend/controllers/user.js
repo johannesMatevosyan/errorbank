@@ -257,7 +257,7 @@ exports.getPostsByAuthorId = (req, res, next) => {
 
 exports.getFavoritePosts = (req, res, next) => {
   console.log('req.param.id', req.params.id);
-  User.findById( mongoose.Types.ObjectId(req.params.id))
+  UserInfo.findById( mongoose.Types.ObjectId(req.params.id))
       .then(user => {
         console.log('user', user);
         return Post.find({ _id: { $in: user.favourites } })
