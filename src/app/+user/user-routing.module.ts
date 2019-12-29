@@ -18,7 +18,7 @@ const routes: Routes = [{
         component: UserPostsComponent
       },
       {
-        path: 'favorite-posts',
+        path: 'favourites/:id',
         component: UserFavoritePostsComponent
       }
     ]

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {UserService} from "@app/+user/_services/user.service";
 import {Subscription} from "rxjs/index";
 import {ActivatedRoute} from "@angular/router";
@@ -8,7 +8,7 @@ import {ActivatedRoute} from "@angular/router";
   templateUrl: './user-posts.component.html',
   styleUrls: ['./user-posts.component.css']
 })
-export class UserPostsComponent implements OnInit {
+export class UserPostsComponent implements OnInit, OnDestroy {
   userPosts = [];
   subscribeUser: Subscription;
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
@@ -23,7 +23,10 @@ export class UserPostsComponent implements OnInit {
         }
       });
     });
+  }
 
+  ngOnDestroy() {
+    this.subscribeUser.unsubscribe();
   }
 
 }

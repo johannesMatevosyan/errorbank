@@ -157,7 +157,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.subscription){ // this if will detect undefined issue of timersub
+    if (this.subscription) { // this if will detect undefined issue of timersub
       this.subscription.unsubscribe();
     }
   }

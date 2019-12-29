@@ -12,6 +12,7 @@ export class UserService {
   user: {};
   userStorage = new BehaviorSubject<any>(this.user);
   userPosts = new BehaviorSubject<any>(this.user);
+  userFavorites = new BehaviorSubject<any>(this.user);
   constructor(private http: HttpClient) { }
 
   getAllUsersInfo() {
@@ -45,6 +46,14 @@ export class UserService {
         this.userPosts.next(userPosts['posts']);
       }
 
+    });
+  }
+
+  getFavPostsUserById(userId) {
+    return this.http.get(BACKEND_URL + 'posts/favourites/' + userId).subscribe(userPosts => {
+      if (userPosts) {
+        this.userPosts.next(userPosts['posts']);
+      }
     });
   }
 

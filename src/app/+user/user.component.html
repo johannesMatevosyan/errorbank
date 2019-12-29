@@ -16,7 +16,7 @@
   <li>
     <a
       class="mat-primary"
-      [routerLink]="'/user/favorite-posts/'"
+      [routerLink]="'/user/favourites/' + profile?._id"
       [ngClass]="{'active-tab': selectedItem == 'favorite-posts'}"
       (click)="onSetActiveClass($event, 'favorite-posts')">Favourites</a>
   </li>

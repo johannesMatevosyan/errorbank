@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://error-bank.herokuapp.com',
+  // apiUrl: 'https://error-bank.herokuapp.com',
+  apiUrl: 'http://localhost:3000'
 };
 
 /*

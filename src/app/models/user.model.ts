@@ -8,4 +8,5 @@ export interface UserModel {
   location?: string;
   bio?: string;
   date?: string;
+  favourites: [];
 }
