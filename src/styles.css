@@ -346,11 +346,12 @@ input[type=file] {
 .search-form input {
   width: 100%;
   display: block;
-  border: 1px solid #dddddd;
+  border: 1px solid #363636;
   height: 34px;
   color: #212121;
   background-color: #dddddd;
   padding-left: 7px;
+  padding-right: 80px;
 }
 .search-form .search-icon {
   position: absolute;
@@ -364,10 +365,13 @@ input[type=file] {
   border-radius: 0px;
   font-size: 14px;
   height: 34px;
-  width: 44px;
-  border: 1px solid #dddddd;
+  width: 75px;
+  border: 1px solid #363636;
   cursor: pointer;
   outline: none;
+}
+.search-form .search-icon:hover {
+  background: #363636;
 }
 
 .tag-list .tag {
