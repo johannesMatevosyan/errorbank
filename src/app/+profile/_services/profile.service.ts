@@ -8,7 +8,7 @@ const BACKEND_URL = environment.apiUrl + '/user/';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class ProfileService {
   user: {};
   userStorage = new BehaviorSubject<any>(this.user);
   userPosts = new BehaviorSubject<any>(this.user);

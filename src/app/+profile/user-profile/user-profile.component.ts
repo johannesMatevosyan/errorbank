@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserService} from "@app/+user/_services/user.service";
+import {ProfileService} from "@app/+profile/_services/profile.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs/index";
 import {UserModel} from "@models/user.model";
@@ -12,13 +12,13 @@ import {UserModel} from "@models/user.model";
 export class UserProfileComponent implements OnInit, OnDestroy {
   profile: UserModel;
   subscribeUser: Subscription;
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
+  constructor(private profileService: ProfileService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(paramsId => {
       let userId = paramsId['id'];
-      this.userService.getUserInfoById(userId);
-      this.subscribeUser = this.userService.userStorage.subscribe(user => {
+      this.profileService.getUserInfoById(userId);
+      this.subscribeUser = this.profileService.userStorage.subscribe(user => {
         if (user) {
           this.profile = user;
         }

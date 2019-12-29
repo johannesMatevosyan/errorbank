@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from "@app/+user/_services/user.service";
-import {Subscription} from "rxjs/index";
-import {ActivatedRoute} from "@angular/router";
+import {ProfileService} from '@app/+profile/_services/profile.service';
+import {Subscription} from 'rxjs/index';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-user-posts',
@@ -11,13 +11,13 @@ import {ActivatedRoute} from "@angular/router";
 export class UserPostsComponent implements OnInit {
   userPosts = [];
   subscribeUser: Subscription;
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
+  constructor(private profileService: ProfileService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(paramsId => {
       let userId = paramsId['id'];
-      this.userService.getPostsUserById(userId);
-      this.subscribeUser = this.userService.userPosts.subscribe(userPosts => {
+      this.profileService.getPostsUserById(userId);
+      this.subscribeUser = this.profileService.userPosts.subscribe(userPosts => {
         if (userPosts) {
           this.userPosts = userPosts.slice(0);
         }

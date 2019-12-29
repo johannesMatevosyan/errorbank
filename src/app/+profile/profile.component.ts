@@ -2,28 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import {Subscription} from "rxjs/index";
 import {ActivatedRoute} from "@angular/router";
 import {UserModel} from "@models/user.model";
-import {UserService} from "@app/+user/_services/user.service";
+import {ProfileService} from "@app/+profile/_services/profile.service";
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
-export class UserComponent implements OnInit {
+export class ProfileComponent implements OnInit {
   profile: UserModel;
   subscribeUser: Subscription;
   selectedItem;
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
+  constructor(private profileService: ProfileService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.onSetActiveClass(event, 'profile');
     this.activatedRoute.params.subscribe(paramsId => {
       let userId = paramsId['id'];
       if (userId) {
-        this.userService.getUserInfoById(userId);
+        this.profileService.getUserInfoById(userId);
       }
 
-      this.subscribeUser = this.userService.userStorage.subscribe(user => {
+      this.subscribeUser = this.profileService.userStorage.subscribe(user => {
         if (user) {
           this.profile = user;
         }
