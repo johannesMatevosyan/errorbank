@@ -168,9 +168,15 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   color: #c62828;
 }
 .blue-bg-color {
-  background-color: #212121;
+  background-color: #007bff;
 }
 .blue-color {
+  color: #007bff;
+}
+.primary-bg-color {
+  background-color: #212121;
+}
+.primary-color {
   color: #212121;
 }
 .pl-15 {

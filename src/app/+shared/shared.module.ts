@@ -8,6 +8,7 @@ import { CommentComponent } from '@app/+shared/components/comment/comment.compon
 import { CommentBoxComponent } from '@app/+shared/components/comment-box/comment-box.component';
 import { ErrorComponent } from '@app/+shared/components/error/error.component';
 import {AlertComponent} from "@app/+shared/components/alert/alert.component";
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {AlertComponent} from "@app/+shared/components/alert/alert.component";
     CommentComponent,
     CommentBoxComponent,
     AlertComponent,
-    ErrorComponent
+    ErrorComponent,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,

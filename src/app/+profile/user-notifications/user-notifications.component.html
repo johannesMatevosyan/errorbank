@@ -1,0 +1,13 @@
+<ng-container *ngIf="notificationsArr.length === 0">
+  <h2>No notifications</h2>
+</ng-container>
+<ng-container *ngIf="notificationsArr.length > 0">
+  <mat-card>
+    <ul>
+      <li *ngFor="let singeNote of notificationsArr">
+        <app-profile-note [note]="singeNote"></app-profile-note>
+      </li>
+    </ul>
+  </mat-card>
+</ng-container>
+

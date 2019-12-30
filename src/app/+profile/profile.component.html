@@ -20,6 +20,13 @@
       [ngClass]="{'active-tab': selectedItem == 'favourites'}"
       (click)="onSetActiveClass('favourites')">Favourites</a>
   </li>
+  <li>
+    <a
+      class="mat-primary"
+      [routerLink]="'/user/notifications/' + profile?._id"
+      [ngClass]="{'active-tab': selectedItem == 'notifications'}"
+      (click)="onSetActiveClass('notifications')">Notifications</a>
+  </li>
 </ul>
 
 <router-outlet></router-outlet>

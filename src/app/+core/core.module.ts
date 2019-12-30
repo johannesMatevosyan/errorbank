@@ -11,6 +11,7 @@ import { RelatedPostsComponent } from './sidebar/related-posts/related-posts.com
 import { LatestPostsComponent } from './sidebar/latest-posts/latest-posts.component';
 import { CoreRoutingModule } from "@app/+core/core-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
+import { NoteComponent } from './header/note/note.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ReactiveFormsModule } from "@angular/forms";
     MainFilterComponent,
     ProfileDropdownComponent,
     RelatedPostsComponent,
-    LatestPostsComponent
+    LatestPostsComponent,
+    NoteComponent
   ],
   imports: [
     CommonModule,

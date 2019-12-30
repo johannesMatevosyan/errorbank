@@ -7,10 +7,19 @@ import { ProfileComponent } from '@app/+profile/profile.component';
 import { UserPostsComponent } from '@app/+profile/user-posts/user-posts.component';
 import { UserFavoritePostsComponent } from '@app/+profile/user-favorite-posts/user-favorite-posts.component';
 import { UserProfileComponent } from '@app/+profile/user-profile/user-profile.component';
+import { UserNotificationsComponent } from './user-notifications/user-notifications.component';
+import { ProfileNoteComponent } from './user-notifications/profile-note/profile-note.component';
 
 
 @NgModule({
-  declarations: [ProfileComponent, UserPostsComponent, UserFavoritePostsComponent, UserProfileComponent],
+  declarations: [
+    ProfileComponent,
+    UserPostsComponent,
+    UserFavoritePostsComponent,
+    UserProfileComponent,
+    UserNotificationsComponent,
+    ProfileNoteComponent
+  ],
   imports: [
     CommonModule,
     AngularMaterialModule,

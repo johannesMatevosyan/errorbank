@@ -4,6 +4,7 @@ import { UserPostsComponent } from '@app/+profile/user-posts/user-posts.componen
 import { ProfileComponent } from '@app/+profile/profile.component';
 import { UserFavoritePostsComponent } from '@app/+profile/user-favorite-posts/user-favorite-posts.component';
 import { UserProfileComponent } from '@app/+profile/user-profile/user-profile.component';
+import { UserNotificationsComponent } from '@app/+profile/user-notifications/user-notifications.component';
 
 const routes: Routes = [{
     path: '',
@@ -20,6 +21,10 @@ const routes: Routes = [{
       {
         path: 'favourites/:id',
         component: UserFavoritePostsComponent
+      },
+      {
+        path: 'notifications/:id',
+        component: UserNotificationsComponent
       }
     ]
 }];
