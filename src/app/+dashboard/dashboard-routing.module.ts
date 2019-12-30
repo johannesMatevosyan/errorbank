@@ -13,6 +13,11 @@ const routes: Routes = [{
   component: DashboardComponent,
   children: [
     {
+      path: '',
+      redirectTo: 'posts',
+      pathMatch: 'full'
+    },
+    {
       path: 'posts',
       component: ListPostsComponent,
     },

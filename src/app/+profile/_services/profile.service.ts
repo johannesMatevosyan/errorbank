@@ -10,15 +10,19 @@ const BACKEND_URL = environment.apiUrl + '/user/';
 })
 export class ProfileService {
   user: {};
+  data: any;
   userStorage = new BehaviorSubject<any>(this.user);
   userPosts = new BehaviorSubject<any>(this.user);
+  usersFavoritePostIds = new BehaviorSubject<any>(this.data);
   userFavorites = new BehaviorSubject<any>(this.user);
   constructor(private http: HttpClient) { }
 
   getUserInfoById(userId) {
     this.http.get(BACKEND_URL + 'info/' + userId).subscribe(userData => {
+      console.log('userData[user] ', userData['user']);
       this.userStorage.next(userData['user']);
-      });
+      this.usersFavoritePostIds.next(userData['user']['favourites']);
+    });
   }
 
   getUserById(userId) {

@@ -14,7 +14,6 @@ const BACKEND_USER_URL = environment.apiUrl + '/user/';
 export class PostInfoService {
 
   votedForPostSubject = new Subject<any>();
-  isFavouriteSubject = new Subject<any>();
   votedForCommentSubject = new Subject<any>();
   constructor(private http: HttpClient) { }
 

@@ -11,6 +11,7 @@ import {CheckVote} from "@utils/check-vote";
 import {CurrentDate} from "@utils/current-date";
 import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 import {MatDialog} from "@angular/material";
+import {ProfileService} from '@app/+profile/_services/profile.service';
 
 @Component({
   selector: 'app-view-post',
@@ -27,23 +28,27 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   comment: CommentModel;
   commentsArray: CommentModel[];
   clonedTagsArray = [];
+  favPostsIdArray = [];
   postInfo = {
     postId : '',
     authorId : ''
   };
   votesDiff;
+  subscribeUser: Subscription;
   constructor(private postService: PostService,
               private activatedRoute: ActivatedRoute,
               private postInfoService: PostInfoService,
               public authService: AuthService,
               public dialog: MatDialog,
-              private commentService: CommentService) { }
+              private commentService: CommentService,
+              private profileService: ProfileService) { }
 
   ngOnInit() {
     this.getUserId();
     this.getSinglePost();
     this.getComment();
     this.getCommentByPost();
+    this.getFavoritePosts();
   }
 
   getSinglePost() {
@@ -115,6 +120,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   getUserId() {
     this.subscription = this.authService.userIdentitySubject.subscribe(userData => {
+      console.log('userData0 ', userData );
       if (userData) {
         this.userIntegrity = userData;
       }
@@ -162,10 +168,21 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       userId: userIdentity,
     };
     this.postInfoService.favoritePost(data);
-    this.postInfoService.isFavouriteSubject.subscribe((response) => {
-      if (response) {
-        console.log('isFavouriteSubject ', response);
+  }
+
+  getFavoritePosts() {
+    this.profileService.getUserInfoById(this.userIntegrity.userId);
+    this.subscribeUser = this.profileService.usersFavoritePostIds.subscribe(posts => {
+      if (posts) {
+        this.favPostsIdArray = posts.slice(0);
+        let found = this.favPostsIdArray.includes(this.postInfo.postId);
+        if (found) {
+          this.favType = true;
+        } else {
+          this.favType = false;
+        }
       }
+
     });
   }
 

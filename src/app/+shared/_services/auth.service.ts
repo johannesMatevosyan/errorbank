@@ -129,6 +129,7 @@ export class AuthService {
   saveUserInfo(user) {
     this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user-info', user)
       .subscribe(response => {
+        console.log('response ', response);
         if (response) {
           let userData = {
             userId: response.user._id,
