@@ -120,7 +120,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   getUserId() {
     this.subscription = this.authService.userIdentitySubject.subscribe(userData => {
-      console.log('userData0 ', userData );
       if (userData) {
         this.userIntegrity = userData;
       }

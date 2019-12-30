@@ -19,7 +19,6 @@ export class ProfileService {
 
   getUserInfoById(userId) {
     this.http.get(BACKEND_URL + 'info/' + userId).subscribe(userData => {
-      console.log('userData[user] ', userData['user']);
       this.userStorage.next(userData['user']);
       this.usersFavoritePostIds.next(userData['user']['favourites']);
     });

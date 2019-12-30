@@ -32,11 +32,8 @@ export class PostInfoService {
   }
 
   favoritePost(fav) {
-    console.log(fav);
     this.http.post<FavModel>(BACKEND_USER_URL + 'posts/favourites/' + fav.postId, fav)
-      .subscribe((responseData) => {
-        console.log('favoritePost ', responseData);
-      });
+      .subscribe((responseData) => {});
   }
 
 }

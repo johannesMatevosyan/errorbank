@@ -274,14 +274,12 @@ exports.setFavoritePosts = (req, res, next) => {
 
         if (isPostFound !== null) {
           pullQuery.then(result => {
-            console.log('result 2 ', result);
             res.status(200).json({
               message: `Favorite post id removed from DB!`
             });
           });
         } else {
           pushQuery.then(result => {
-            console.log('result 3  ', result);
             res.status(200).json({
               message: `Favorite post id pushed to DB!`
             });
