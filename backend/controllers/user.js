@@ -259,31 +259,36 @@ exports.setFavoritePosts = (req, res, next) => {
 
   let userId = req.body.userId;
   let postId = req.body.postId;
-  let pull = { $pull: {favourites: [postId]} };
-  let push = { $pull: {favourites: [postId]} };
+  let pull = { $pull: { favourites: postId } };
+  let push = { $push: { favourites: [postId] } };
   let pullQuery = UserInfo.updateOne({ _id: userId }, pull );
   let pushQuery = UserInfo.updateOne({ _id: userId }, push );
+  let user = UserInfo.exists({ _id: userId });
+  let usersPost = UserInfo.findOne({ favourites: postId });
 
-  pullQuery.then(result => {
+  user.then(isUserFound => {
 
-    if (result.n > 0) {
+    if (isUserFound) {
 
-      pushQuery.then(result => {
-        if (result.n > 0) {
-          res.status(200).json({
-            message: `Favorite post pushed to DB!`
+      usersPost.then(isPostFound => {
+
+        if (isPostFound !== null) {
+          pullQuery.then(result => {
+            console.log('result 2 ', result);
+            res.status(200).json({
+              message: `Favorite post id removed from DB!`
+            });
           });
         } else {
-          res.status(401).json({
-            message: 'Could not add favorite post!!'
+          pushQuery.then(result => {
+            console.log('result 3  ', result);
+            res.status(200).json({
+              message: `Favorite post id pushed to DB!`
+            });
           });
         }
       });
 
-    } else {
-      res.status(401).json({
-        message: 'Could not find post to favorite!'
-      });
     }
 
   }).catch(error => {

@@ -160,7 +160,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     let data = {
       postId: postIdentity,
       userId: userIdentity,
-      isFavourite: this.favType
     };
     this.postInfoService.favoritePost(data);
     this.postInfoService.isFavouriteSubject.subscribe((response) => {

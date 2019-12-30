@@ -47,8 +47,8 @@ export class ProfileComponent implements OnInit {
       this.activeRoute = 'profile';
     } else if (this.router.url.indexOf('/user/posts') > -1) {
       this.activeRoute = 'posts';
-    } else if (this.router.url.indexOf('/user/favorite-posts') > -1) {
-      this.activeRoute = 'favorite-posts';
+    } else if (this.router.url.indexOf('/user/favourites') > -1) {
+      this.activeRoute = 'favourites';
     }
     this.onSetActiveClass(this.activeRoute);
   }
