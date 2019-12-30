@@ -39,7 +39,7 @@ export class ProfileService {
   getFavPostsUserById(userId) {
     return this.http.get(BACKEND_URL + 'posts/favourites/' + userId).subscribe(userPosts => {
       if (userPosts) {
-        this.userFavorites.next(userPosts['posts']);
+        this.userFavorites.next(userPosts['favouritePosts']);
       }
     });
   }

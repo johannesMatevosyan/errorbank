@@ -39,6 +39,10 @@
   text-decoration: none;
 }
 .profile-name-link {
+  display: block;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 0 16px;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
 }

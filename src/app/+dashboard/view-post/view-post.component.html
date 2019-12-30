@@ -36,8 +36,8 @@
     </div>
 
     <div class="favourite">
-      <mat-icon *ngIf="favType" (click)="favoritePost('postId', 'userId')">favorite</mat-icon>
-      <mat-icon *ngIf="!favType" (click)="favoritePost('postId', 'userId')">favorite_border</mat-icon>
+      <mat-icon *ngIf="favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">favorite</mat-icon>
+      <mat-icon *ngIf="!favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">favorite_border</mat-icon>
     </div>
 
     <div class="tag-list pl-2">
@@ -50,8 +50,6 @@
     </div>
 
   </div>
-
-
 
 </section>
 <section class="comment-box-list">
@@ -66,3 +64,5 @@
   [postInfo]="postInfo"
   [userData]="userIntegrity"
   (sendComment)="onPostComment($event)"></app-comment>
+
+

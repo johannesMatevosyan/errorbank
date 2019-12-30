@@ -4,7 +4,7 @@ const UserInfo = require('../models/user-info');
 const User = require('../models/user');
 const Post = require('../models/post');
 const mongoose = require('mongoose')
-const tranformPost = require('../utils/transform-post');
+const transformPost = require('../utils/transform-post');
 const addCommentNumber = require('../utils/add-comment-number');
 
 exports.githubSignIn = (req, res, next) => {
@@ -226,7 +226,7 @@ exports.getPostsByAuthorId = (req, res, next) => {
 
     postQuery
       .then((posts) => {
-        transformedPost = tranformPost.newPost(posts);
+        transformedPost = transformPost.newPost(posts);
 
         return Post.aggregate([
           {
@@ -255,22 +255,87 @@ exports.getPostsByAuthorId = (req, res, next) => {
 
 };
 
-exports.getFavoritePosts = (req, res, next) => {
-  console.log('req.param.id', req.params.id);
-  UserInfo.findById( mongoose.Types.ObjectId(req.params.id))
-      .then(user => {
-        console.log('user', user);
-        return Post.find({ _id: { $in: user.favourites } })
-      })
-      .then(posts => {
-        res.status(200).json({
-          message: 'Posts got by date successfully!',
-          posts
-        });
-      })
-      .catch((err)=> {
-        return res.status(401).json({
-          message: 'Something went wrong. ' + err,
-        });
+exports.setFavoritePosts = (req, res, next) => {
+
+  let userId = req.body.userId;
+  let postId = req.body.postId;
+  let pull = { $pull: {favourites: [postId]} };
+  let push = { $pull: {favourites: [postId]} };
+  let pullQuery = UserInfo.updateOne({ _id: userId }, pull );
+  let pushQuery = UserInfo.updateOne({ _id: userId }, push );
+
+  pullQuery.then(result => {
+
+    if (result.n > 0) {
+
+      pushQuery.then(result => {
+        if (result.n > 0) {
+          res.status(200).json({
+            message: `Favorite post pushed to DB!`
+          });
+        } else {
+          res.status(401).json({
+            message: 'Could not add favorite post!!'
+          });
+        }
       });
+
+    } else {
+      res.status(401).json({
+        message: 'Could not find post to favorite!'
+      });
+    }
+
+  }).catch(error => {
+    res.status(500).json({
+      message: "Failed to add favorite post : " + error,
+    });
+  });
+
+
+};
+
+exports.getFavoritePosts = (req, res, next) => {
+
+  let transformedPost;
+  let favouritePosts = [];
+
+  UserInfo.findById( mongoose.Types.ObjectId(req.params.id))
+    .then(user => {
+
+      return Post.find({ _id: { $in: user.favourites } })
+        .populate('authorId', 'name')
+        .populate('voteId', 'votes')
+        .populate('tags', 'label')
+        .then((posts) => {
+          transformedPost = transformPost.newPost(posts);
+
+          return Post.aggregate([
+            {
+              $lookup: {
+                from: "comments", localField: "_id", foreignField: "postId", as: "postComments"
+              }
+            },
+            {
+              $project: {
+                "numOfComments":{ $size: "$postComments" }
+              }
+            }
+          ]).exec((err, commentsArr) => {
+
+            favouritePosts = addCommentNumber.addCommentCount(transformedPost, commentsArr);
+            res.status(200).json({
+              message: 'User\s favourite posts are fetched successfully!',
+              favouritePosts
+            });
+
+          });
+
+        });
+    })
+    .catch((err)=> {
+      return res.status(401).json({
+        message: 'Something went wrong. ' + err,
+      });
+    });
 };

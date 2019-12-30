@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { DashboardComponent } from '@app/+dashboard/dashboard.component';
 import { CreatePostComponent } from '@app/+dashboard/create-post/create-post.component';
 import { ListPostsComponent } from '@app/+dashboard/list-errors/list-posts.component';
-import { EditPostComponent } from "@app/+dashboard/edit-post/edit-post.component";
-import { ViewPostComponent } from "@app/+dashboard/view-post/view-post.component";
+import { EditPostComponent } from '@app/+dashboard/edit-post/edit-post.component';
+import { ViewPostComponent } from '@app/+dashboard/view-post/view-post.component';
 import { AuthGuard } from '@app/+shared/guards/auth.guard';
 
 

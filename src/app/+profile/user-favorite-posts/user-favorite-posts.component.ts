@@ -9,7 +9,7 @@ import { ProfileService } from '../_services/profile.service';
   styleUrls: ['./user-favorite-posts.component.css']
 })
 export class UserFavoritePostsComponent implements OnInit, OnDestroy {
-  userPosts = [];
+  userFavouritePosts = [];
   subscribeUser: Subscription;
   constructor(
     private profileService: ProfileService,
@@ -23,7 +23,7 @@ export class UserFavoritePostsComponent implements OnInit, OnDestroy {
         this.profileService.getFavPostsUserById(params.id);
         this.subscribeUser = this.profileService.userFavorites.subscribe(userPosts => {
           if (userPosts) {
-            this.userPosts = userPosts.slice(0);
+            this.userFavouritePosts = userPosts.slice(0);
           }
         });
       });

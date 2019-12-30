@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs/index";
-import {environment} from "@env/environment";
-import {HttpClient} from "@angular/common/http";
-import {VoteModel} from "@models/vote.model";
+import { Subject } from 'rxjs/index';
+import { environment } from '@env/environment';
+import { HttpClient } from '@angular/common/http';
+import { VoteModel } from '@models/vote.model';
+import { FavModel } from '@models/fav.model';
 
 const BACKEND_URL = environment.apiUrl + '/post/';
+const BACKEND_USER_URL = environment.apiUrl + '/user/';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +34,10 @@ export class PostInfoService {
 
   favoritePost(fav) {
     console.log(fav);
+    this.http.post<FavModel>(BACKEND_USER_URL + 'posts/favourites/' + fav.postId, fav)
+      .subscribe((responseData) => {
+        console.log('favoritePost ', responseData);
+      });
   }
 
 }

@@ -1,7 +1,0 @@
-@import "../user.component.css";
-.post-box {
-  display: flex;
-  text-decoration: none;
-  color: #212121;
-  padding: 10px 0px 5px 15px;
-}
