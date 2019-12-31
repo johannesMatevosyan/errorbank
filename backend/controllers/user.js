@@ -65,7 +65,7 @@ exports.getJWTToken = (req, res, next) => {
           login: user.login
         },
         process.env.JWT_KEY,
-        {expiresIn: '1h'}
+        { expiresIn: '1h' }
       );
 
       res.status(201).json({
@@ -80,14 +80,10 @@ exports.getJWTToken = (req, res, next) => {
         message: 'Auth Failed'
       });
     });
-
 };
 
-
 exports.saveUserInfo = (req, res, next) => {
-
   const query = { githubId: req.body.githubId };
-  let fetchedUser;
   const userInfo = {
     githubId: req.body.githubId,
     name: req.body.name,
@@ -96,6 +92,7 @@ exports.saveUserInfo = (req, res, next) => {
     bio: req.body.bio,
     date: req.body.date,
   };
+
   UserInfo.findOneAndUpdate(query, userInfo, { upsert: true }, (err, user) => {
     if (err){
       return res.status(401).json({
@@ -106,7 +103,6 @@ exports.saveUserInfo = (req, res, next) => {
         message: 'User info saved successfully',
         user: user
       });
-      fetchedUser = user;
     }
   });
 };
@@ -127,7 +123,7 @@ exports.getAllUsersInfo = (req, res, next) => {
 
 exports.getUserInfoById = (req, res, next) => {
   const userId = req.params.id;
-  if(userId !== 'undefined' && userId !== null) {
+  if (userId !== 'undefined' && userId !== null) {
     UserInfo.findOne({ _id: userId }).then(singleUser => {
       if (!singleUser){
         return res.status(401).json({
@@ -139,14 +135,12 @@ exports.getUserInfoById = (req, res, next) => {
           user: singleUser
         });
       }
-
     })
-      .catch(err => {
-        return res.status(401).json({
-          message: `Cannot find user info with id: ${userId} - error:  ${err}`
-        });
+    .catch(err => {
+      return res.status(401).json({
+        message: `Cannot find user info with id: ${userId} - error:  ${err}`
       });
-
+    });
   }
 };
 
@@ -171,7 +165,6 @@ exports.saveUser = (req, res, next) => {
       fetchedUser = user;
     }
   });
-
 };
 
 exports.getAllUsers = (req, res, next) => {
@@ -185,7 +178,7 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.getUserById = (req, res, next) => {
   const userId = req.params.id;
-  if(userId !== 'undefined' && userId !== null) {
+  if (userId !== 'undefined' && userId !== null) {
     User.findOne({ _id: userId }).then(singleUser => {
       if (!singleUser){
         return res.status(401).json({
@@ -197,16 +190,13 @@ exports.getUserById = (req, res, next) => {
           user: singleUser
         });
       }
-
     })
-      .catch(err => {
-        return res.status(401).json({
-          message: `Cannot find user with id: ${userId} - error:  ${err}`
-        });
+    .catch(err => {
+      return res.status(401).json({
+        message: `Cannot find user with id: ${userId} - error:  ${err}`
       });
-
+    });
   }
-
 };
 
 
@@ -218,7 +208,7 @@ exports.getPostsByAuthorId = (req, res, next) => {
   let transformedPost;
   let postWithComments = [];
 
-  if(userId !== 'undefined' && userId !== null) {
+  if (userId !== 'undefined' && userId !== null) {
     const postQuery = Post.find({ authorId: userId })
       .populate('authorId', 'name')
       .populate('voteId', 'votes')

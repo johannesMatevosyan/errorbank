@@ -10,6 +10,7 @@ import { ErrorComponent } from '@app/+shared/components/error/error.component';
 import { AlertComponent } from '@app/+shared/components/alert/alert.component';
 import { ClickOutsideDirective } from '@app/+shared/directives/clickOutside.directive';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { NotificationService  } from '../+profile/_services/notification.service';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
     CommonModule,
     AngularMaterialModule,
     RouterModule,
+  ],
+  providers: [
+    NotificationService
   ],
   exports: [
     PaginationComponent,
