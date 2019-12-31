@@ -20,6 +20,10 @@
   line-height: 1;
   border-radius: 0;
   transition: color .15s ease-in-out,background-color .15s ease-in-out, border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tag-text {
   vertical-align: middle;

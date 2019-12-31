@@ -2,7 +2,15 @@
 
   <h5 class="sp mb-15">
     <span class="date"> Date {{post?.created.split(' ')[0]}} </span>
-    <span class="author">Author: {{ post?.author.name }}</span>
+
+    <div class="post-aux">
+      <span class="author">Author: {{ post?.author.name }}</span>
+      <div class="favourite">
+        <mat-icon *ngIf="favType" color="accent" (click)="favoritePost(post?._id, userIntegrity?.userId)">notification_important</mat-icon>
+        <mat-icon *ngIf="!favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">notification_important</mat-icon>
+      </div>
+    </div>
+
   </h5>
 
   <h2 class="post-title text-center">{{ post?.title }}</h2>
@@ -23,7 +31,7 @@
           class="vote-arrow"
           [ngClass]="userIntegrity !== null &&
             voteInfo?.isUserVoted &&
-            voteInfo?.type === 'up' ? 'is-voted' : ''">keyboard_arrow_up</mat-icon>
+            voteInfo?.type === 'up' ? 'is-voted' : ''">thumb_up</mat-icon>
       </div>
       <div class="vote-number">{{ votesDiff }}</div>
       <div class="post-vote" (click)="vote('down', userIntegrity, 'post')">
@@ -31,14 +39,10 @@
           class="vote-arrow"
           [ngClass]="userIntegrity !== null &&
             voteInfo?.isUserVoted &&
-            voteInfo?.type === 'down' ? 'is-voted' : ''">keyboard_arrow_down</mat-icon>
+            voteInfo?.type === 'down' ? 'is-voted' : ''">thumb_down</mat-icon>
       </div>
     </div>
 
-    <div class="favourite">
-      <mat-icon *ngIf="favType" color="accent" (click)="favoritePost(post?._id, userIntegrity?.userId)">report_problem</mat-icon>
-      <mat-icon *ngIf="!favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">report_problem</mat-icon>
-    </div>
 
     <div class="tag-list pl-2">
       <h5 class="tag-list-title d-inline-block">tags</h5>
