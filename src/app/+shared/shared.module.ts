@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AngularMaterialModule } from "@app/angular-material.module";
+import { AngularMaterialModule } from '@app/angular-material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { PaginationComponent } from '@app/+shared/components/pagination/pagination.component';
 import { TagComponent } from '@app/+shared/components/tag/tag.component';
 import { CommentComponent } from '@app/+shared/components/comment/comment.component';
 import { CommentBoxComponent } from '@app/+shared/components/comment-box/comment-box.component';
 import { ErrorComponent } from '@app/+shared/components/error/error.component';
-import {AlertComponent} from "@app/+shared/components/alert/alert.component";
+import { AlertComponent } from '@app/+shared/components/alert/alert.component';
+import { ClickOutsideDirective } from '@app/+shared/directives/clickOutside.directive';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     CommentBoxComponent,
     AlertComponent,
     ErrorComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ClickOutsideDirective
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     CommentComponent,
     CommentBoxComponent,
     AlertComponent,
-    ErrorComponent
+    ErrorComponent,
+    ClickOutsideDirective
   ],
 })
 export class SharedModule { }

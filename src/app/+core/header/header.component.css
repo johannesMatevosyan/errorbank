@@ -42,20 +42,23 @@
 .profile-name a:hover{
   color: #c62828;
 }
-.notifications {
+.notifications-box{
+  position: relative;
   width: 25px;
   height: 25px;
   margin-left: 7px;
   margin-right: 5px;
+}
+.notifications-bell {
   cursor: pointer;
 }
-.notifications:hover mat-icon {
+.notifications-bell:hover mat-icon {
   color: #c62828;
 }
 .notifications-window {
   position: absolute;
-  top: 45px;
-  right: 5px;
+  top: 22px;
+  right: -5px;
   background: #ffffff;
   width: 310px;
   max-height: 400px;

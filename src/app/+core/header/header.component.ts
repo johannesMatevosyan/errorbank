@@ -78,6 +78,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  hideDropdown() {
+      this.isOpen = false;
+  }
+
   onSubmit() {
     this.sfService.searchByText(this.searchForm.value)
   }
@@ -95,6 +99,7 @@ export class HeaderComponent implements OnInit {
         postTitle: 'Rx Visualizer - Animated playground for Rx Observables',
         content: 'One remark: using Object.create() to create a "copy" of objects coming from an unbounded stream will produce an unbounded prototype chain',
         date: '29-12-2019',
+        commentId: '26268484sadads1f2',
         type: 'comment',
         checked: true,
       },
@@ -104,6 +109,7 @@ export class HeaderComponent implements OnInit {
         postTitle: 'okokookokok',
         content: 'Software is Changing the World. QCon empowers software development by facilitating the spread of knowledge and innovation in the developer community',
         date: '30-12-2019',
+        commentId: '26268484sadads1f2',
         type: 'comment',
         checked: false,
       },
@@ -113,6 +119,7 @@ export class HeaderComponent implements OnInit {
         postTitle: 'RxEmber — an experimental set of helpers for Ember and RxJS',
         content: 'What Every Hipster Should Know About Functional Reactive Programming',
         date: '31-12-2019',
+        commentId: '26268484sadads1f2',
         type: 'comment',
         checked: false,
       },
@@ -122,6 +129,7 @@ export class HeaderComponent implements OnInit {
         postTitle: 'RxEmber — an experimental set of helpers for Ember and RxJS',
         content: 'What Every Hipster Should Know About Functional Reactive Programming',
         date: '31-12-2019',
+        commentId: '26268484sadads1f2',
         type: 'comment',
         checked: true,
       },
@@ -131,6 +139,7 @@ export class HeaderComponent implements OnInit {
         postTitle: 'RxEmber — an experimental set of helpers for Ember and RxJS',
         content: 'What Every Hipster Should Know About Functional Reactive Programming',
         date: '31-12-2019',
+        commentId: '26268484sadads1f2',
         type: 'comment',
         checked: false,
       },
@@ -140,6 +149,7 @@ export class HeaderComponent implements OnInit {
         postTitle: 'okokookokok',
         content: 'Software is Changing the World. QCon empowers software development by facilitating the spread of knowledge and innovation in the developer community',
         date: '30-12-2019',
+        commentId: '26268484sadads1f2',
         type: 'comment',
         checked: false,
       },

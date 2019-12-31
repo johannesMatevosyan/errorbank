@@ -40,18 +40,26 @@
                 alt="{{ profile?.login }}">
             </a>
           </div>
-          <div class="notifications" (click)="toggleNotifications()">
-            <mat-icon *ngIf="notificationsArr.length > 0">notifications</mat-icon>
-            <mat-icon *ngIf="notificationsArr.length === 0">notifications_none</mat-icon>
+          <div
+            class="notifications-box"
+            (clickOutside)="hideDropdown()"
+            appClickOutside>
+            <div class="notifications-bell" (click)="toggleNotifications()">
+              <mat-icon *ngIf="notificationsArr.length > 0">notifications</mat-icon>
+              <mat-icon *ngIf="notificationsArr.length === 0">notifications_none</mat-icon>
+            </div>
+
+            <div
+              class="notifications-window"
+              *ngIf="isOpen">
+              <ul>
+                <li *ngFor="let singeNote of notificationsArr">
+                  <app-note [note]="singeNote"></app-note>
+                </li>
+              </ul>
+            </div>
           </div>
 
-           <div class="notifications-window" *ngIf="isOpen">
-             <ul>
-               <li *ngFor="let singeNote of notificationsArr">
-                 <app-note [note]="singeNote"></app-note>
-               </li>
-             </ul>
-           </div>
 
         </div>
         <div class="sandwich-box">

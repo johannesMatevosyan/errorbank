@@ -36,8 +36,8 @@
     </div>
 
     <div class="favourite">
-      <mat-icon *ngIf="favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">favorite</mat-icon>
-      <mat-icon *ngIf="!favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">favorite_border</mat-icon>
+      <mat-icon *ngIf="favType" color="accent" (click)="favoritePost(post?._id, userIntegrity?.userId)">report_problem</mat-icon>
+      <mat-icon *ngIf="!favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">report_problem</mat-icon>
     </div>
 
     <div class="tag-list pl-2">

@@ -4,6 +4,7 @@ export interface NotificationModel {
   postTitle: string;
   content: string;
   date: string;
+  commentId: string;
   type: string;
   checked: boolean;
 }
