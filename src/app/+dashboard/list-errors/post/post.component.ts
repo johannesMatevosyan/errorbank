@@ -41,14 +41,14 @@ export class PostComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result.response) {
+      if (result && result.response) {
         this.deletePostById.emit(id);
       }
     });
   }
 
   ngOnDestroy() {
-    if(this.subscription){ // this if will detect undefined issue of timersub
+    if (this.subscription) { // this if will detect undefined issue of timersub
       this.subscription.unsubscribe();
     }
   }

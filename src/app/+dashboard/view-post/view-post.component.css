@@ -12,6 +12,8 @@
 }
 .post-content-box {
   overflow: hidden;
+  padding-top: 5px;
+  padding-bottom: 8px;
 }
 .post-img-box {
   background: #f9f8fa;
