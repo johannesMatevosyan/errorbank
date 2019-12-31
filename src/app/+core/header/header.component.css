@@ -31,7 +31,8 @@
 .profile-info-main-link {
   display: inline-flex;
   align-items: center;
-  padding: 3px 5px;
+  padding: 3px 12px 3px 8px;
+  margin-right: 5px;
   text-decoration: none;
 }
 .profile-info-main-link:hover {
@@ -46,7 +47,7 @@
 .profile-name {
   font-size: 13px;
   color: #ffffff;
-  margin-right: 5px;
+  margin-left: 10px;
   text-decoration: none;
 }
 .profile-name a:hover{
