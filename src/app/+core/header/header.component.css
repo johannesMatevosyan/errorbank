@@ -26,6 +26,16 @@
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
+  margin-right: 12px;
+}
+.profile-info-main-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 5px;
+  text-decoration: none;
+}
+.profile-info-main-link:hover {
+  background: #363636;
 }
 .sandwich-box {
   display: inline-flex;

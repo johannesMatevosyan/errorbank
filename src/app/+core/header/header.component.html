@@ -29,24 +29,24 @@
 
       <ng-container *ngIf="userIsAuthenticated">
         <div class="profile-info">
+          <a [routerLink]="'/user/profile/' + profile?._id" class="profile-info-main-link">
 
-          <div class="profile-name">
-            <a [routerLink]="'/user/profile/' + profile?._id">{{ profile?.login}}</a>
-          </div>
-          <div class="profile-image">
-            <a [routerLink]="'/user/profile/' + profile?._id">
-              <img
-                src="https://avatars0.githubusercontent.com/u/{{ profile?.githubId}}"
-                alt="{{ profile?.login }}">
-            </a>
-          </div>
+            <div class="profile-name">
+              <span>{{ profile?.login}}</span>
+            </div>
+            <div class="profile-image">
+                <img
+                  src="https://avatars0.githubusercontent.com/u/{{ profile?.githubId}}"
+                  alt="{{ profile?.login }}">
+            </div>
+          </a>
           <div
             class="notifications-box"
             (clickOutside)="hideDropdown()"
             appClickOutside>
             <div class="notifications-bell" (click)="toggleNotifications()">
-              <mat-icon *ngIf="notificationsArr.length > 0">notifications</mat-icon>
-              <mat-icon *ngIf="notificationsArr.length === 0">notifications_none</mat-icon>
+              <mat-icon *ngIf="notificationsArr.length > 0" title="notifications">notifications</mat-icon>
+              <mat-icon *ngIf="notificationsArr.length === 0" title="notifications">notifications_none</mat-icon>
             </div>
 
             <div
@@ -59,22 +59,11 @@
               </ul>
             </div>
           </div>
-
-
         </div>
-        <div class="sandwich-box">
-
-          <button mat-button [matMenuTriggerFor]="beforeMenu" class="sandwich">
-            <span class="sandwich-bar"></span>
-            <span class="sandwich-bar"></span>
-            <span class="sandwich-bar"></span>
-          </button>
-          <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <button mat-menu-item><a [routerLink]="'/user/profile/' + profile?._id" class="profile-name-link">Profile</a></button>
-            <button mat-menu-item (click)="onLogout()">Log Out</button>
-          </mat-menu>
-
-        </div>
+        <a
+           mat-raised-button
+           (click)="onLogout()"
+           color="accent" title="Log Out"><mat-icon>power_off</mat-icon></a>
       </ng-container>
 
     </div>

@@ -1,24 +1,29 @@
 <ng-container *ngIf="singleComment">
   <div class="comment-box">
-    <div class="comment-vote-box">
-      <div class="comment-vote" (click)="vote('up', userIntegrity, 'comment')">
-        <mat-icon
-          [ngClass]="userIntegrity !== null &&
-            voteInfo?.isUserVoted &&
-            voteInfo?.type === 'up' ? 'is-voted' : ''"
-        >keyboard_arrow_up</mat-icon>
-      </div>
-      <div class="vote-number">{{ votesDiff }}</div>
-      <div class="comment-vote" (click)="vote('down', userIntegrity, 'comment')">
-        <mat-icon
-          [ngClass]="userIntegrity !== null &&
-            voteInfo?.isUserVoted &&
-            voteInfo?.type === 'down' ? 'is-voted' : ''"
-        >keyboard_arrow_down</mat-icon>
-      </div>
-    </div>
+
     <div class="comment-text-box">
       <p> {{ singleComment?.text }}</p>
+    </div>
+
+    <div class="comment-options-box">
+      <div class="comment-vote-box">
+        <div class="comment-vote" (click)="vote('up', userIntegrity, 'comment')">
+          <mat-icon
+            [ngClass]="userIntegrity !== null &&
+            voteInfo?.isUserVoted &&
+            voteInfo?.type === 'up' ? 'is-voted' : ''"
+          >thumb_up</mat-icon>
+        </div>
+        <div class="vote-number">{{ votesDiff }}</div>
+        <div class="comment-vote" (click)="vote('down', userIntegrity, 'comment')">
+          <mat-icon
+            [ngClass]="userIntegrity !== null &&
+            voteInfo?.isUserVoted &&
+            voteInfo?.type === 'down' ? 'is-voted' : ''"
+          >thumb_down</mat-icon>
+        </div>
+      </div>
+
       <h6 class="comment-box-author">
         <a [routerLink]="'/user/profile/' + singleComment?.userData.userId">posted by: {{ singleComment?.userData.userName }}</a>
       </h6>

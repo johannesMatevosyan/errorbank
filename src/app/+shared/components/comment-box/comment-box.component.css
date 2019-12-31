@@ -1,26 +1,25 @@
 .comment-box {
-  display: flex;
-  padding: 5px 5px 5px 15px;
+  padding: 10px 10px 5px 10px;
   font-size: 12px;
   border: 1px solid #bbbbbb;
   background-color: #dddddd;
 }
 .comment-box-author {
-  position: absolute;
-  bottom: 0;
-  right: 5px;
   font-weight: bold;
   font-style: italic;
 }
 .comment-vote-box {
-  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70px;
+  height: 20px;
 }
 .comment-text-box {
   position: relative;
-  flex: 1 0 auto;
-  margin-top: 10px;
-  padding-left: 7px;
-  padding-bottom: 10px;
+  font-size: 12px;
+  line-height: 13px;
+  margin-bottom: 7px;
 }
 .comment-vote {
   font-size: 20px;
@@ -35,4 +34,9 @@
   font-size: 13px;
   font-weight: bold;
   text-align: center;
+}
+.comment-options-box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
