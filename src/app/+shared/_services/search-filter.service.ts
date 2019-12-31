@@ -98,19 +98,19 @@ export class SearchFilterService {
   //     console.log(' ***** sortByDate ***** ', sort);
   //   });
   }
-  //
+
   sortByLikes(sortOrder) {
   //   this.query.sortByLikes = sortOrder;
   //   this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
   //     console.log(' ***** sortByLikes ***** ', sort);
   //   });
   }
-  //
+
   sortByCommentCount(sortOrder) {
-  //   this.query.sortByComments = sortOrder;
-  //   this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
-  //     console.log(' ***** sortByLikes ***** ', sort);
-  //   });
+    this.query.sortByComments = sortOrder;
+    this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
+      console.log(' ***** sortByLikes ***** ', sort);
+    });
   }
 
 }

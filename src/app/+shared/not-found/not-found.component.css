@@ -1,0 +1,16 @@
+.not-found-box {
+  padding-bottom: 45px;
+}
+.not-found-number {
+  font-size: 165px;
+  font-weight: 700;
+  line-height: 220px;
+  text-transform: uppercase;
+}
+.not-found-subtitle {
+  font-size: 22px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 0px;
+  margin-bottom: 15px;
+}
