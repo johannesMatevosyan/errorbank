@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NotFoundComponent } from '@app/+shared/not-found/not-found.component';
+import { NotFoundComponent } from '@app/+shared/components/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'users', loadChildren: '@app/+users/users.module#UsersModule' },

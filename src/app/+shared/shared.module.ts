@@ -9,7 +9,7 @@ import { CommentBoxComponent } from '@app/+shared/components/comment-box/comment
 import { ErrorComponent } from '@app/+shared/components/error/error.component';
 import { AlertComponent } from '@app/+shared/components/alert/alert.component';
 import { ClickOutsideDirective } from '@app/+shared/directives/clickOutside.directive';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NotificationService  } from '../+profile/_services/notification.service';
 
 @NgModule({
