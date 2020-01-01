@@ -132,7 +132,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     });
   }
 
-
   onDeletePost(id) {
     this.postsService.delete(id).subscribe(response => {
       if (response) {

@@ -16,7 +16,6 @@ export class UserNotificationsComponent implements OnInit {
     this.getProfileNotifications();
   }
 
-
   getProfileNotifications() {
     this.notificationService
         .getNotifications()

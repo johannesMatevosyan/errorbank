@@ -1,17 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {PostService} from "@app/+dashboard/_services/post.service";
-import {Subscription} from "rxjs/index";
-import {PostModel} from "@models/post.model";
-import {CommentService} from "@app/+shared/_services/comment.service";
-import {CommentModel} from "@models/comment.model";
-import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
-import {AuthService} from "@app/+shared/_services/auth.service";
-import {CheckVote} from "@utils/check-vote";
-import {CurrentDate} from "@utils/current-date";
-import {AlertComponent} from "@app/+shared/components/alert/alert.component";
-import {MatDialog} from "@angular/material";
+import {ActivatedRoute, Router} from '@angular/router';
+import {PostService} from '@app/+dashboard/_services/post.service';
+import {Subscription} from 'rxjs/index';
+import {PostModel} from '@models/post.model';
+import {CommentService} from '@app/+shared/_services/comment.service';
+import {CommentModel} from '@models/comment.model';
+import {PostInfoService} from '@app/+dashboard/_services/post-info.service';
+import {AuthService} from '@app/+shared/_services/auth.service';
+import {CheckVote} from '@utils/check-vote';
+import {CurrentDate} from '@utils/current-date';
+import {AlertComponent} from '@app/+shared/components/alert/alert.component';
+import {MatDialog} from '@angular/material';
 import {ProfileService} from '@app/+profile/_services/profile.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-view-post',
@@ -34,14 +35,18 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     authorId : ''
   };
   votesDiff;
+  userIsAuthenticated = false;
+  authStatusSub: Subscription;
   subscribeUser: Subscription;
   constructor(private postService: PostService,
               private activatedRoute: ActivatedRoute,
               private postInfoService: PostInfoService,
               public authService: AuthService,
+              private router: Router,
               public dialog: MatDialog,
               private commentService: CommentService,
-              private profileService: ProfileService) { }
+              private profileService: ProfileService,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getUserId();
@@ -49,6 +54,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     this.getComment();
     this.getCommentByPost();
     this.getFavoritePosts();
+    this.checkAuthenticationStatus();
   }
 
   getSinglePost() {
@@ -182,6 +188,28 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         }
       }
 
+    });
+  }
+
+  checkAuthenticationStatus() {
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService.getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+      },error => {
+        console.error('error: ', error);
+      }, () => {
+        console.log('onCompleted');
+      });
+
+  }
+
+  deletePost(id) {
+    this.postService.delete(id).subscribe(response => {
+      if (response) {
+        this.toastr.success('Success!', 'Post deleted successfully ');
+        this.router.navigate(['/posts']);
+      }
     });
   }
 

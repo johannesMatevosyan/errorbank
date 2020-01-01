@@ -52,11 +52,17 @@
             <div
               class="notifications-window"
               *ngIf="isOpen">
-              <ul>
-                <li *ngFor="let singeNote of notificationsArr">
-                  <app-note [note]="singeNote"></app-note>
-                </li>
-              </ul>
+              <ng-container *ngIf="notificationsArr.length === 0">
+                <h2 class="accent-color text-center">No notifications</h2>
+              </ng-container>
+              <ng-container *ngIf="notificationsArr.length > 0">
+                <ul>
+                  <li *ngFor="let singeNote of notificationsArr">
+                    <app-note [note]="singeNote"></app-note>
+                  </li>
+                </ul>
+              </ng-container>
+
             </div>
           </div>
         </div>
