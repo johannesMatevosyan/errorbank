@@ -199,7 +199,7 @@ exports.deletePostById = (req, res, next) => {
         res.status(401).json({
           message: 'Not Authorized to delete!!'
         });
-      } 
+      }
     })
     .catch(error => {
       res.status(500).json({
@@ -228,6 +228,7 @@ exports.voteForPost = (req, res, next) => {
     relatedTo: req.body.relatedTo,
     date: req.body.date
   };
+  console.log('req.body ', req.body);
   let model;
 
   Vote.findOneAndUpdate(query, query, { upsert: true, new: true })

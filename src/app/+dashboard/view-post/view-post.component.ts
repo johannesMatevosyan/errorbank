@@ -182,11 +182,9 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       if (posts) {
         this.favPostsIdArray = posts.slice(0);
 
-
-
         this.activatedRoute.params.subscribe(paramsId => {
           this.postService.getPostById(paramsId.id);
-          let found = this.favPostsIdArray.includes(paramsId.id);
+          const found = this.favPostsIdArray.includes(paramsId.id);
           if (found) {
             this.favType = true;
           } else {
