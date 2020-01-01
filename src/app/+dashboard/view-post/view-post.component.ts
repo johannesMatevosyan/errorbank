@@ -66,6 +66,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
           this.clonedTagsArray = this.post.tags;
           this.postInfo.postId = response._id;
           this.postInfo.authorId = response.author._id;
+          console.log('response._id ', response._id);
           this.countVotes(response.voteId);
 
         }
@@ -180,12 +181,19 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     this.subscribeUser = this.profileService.usersFavoritePostIds.subscribe(posts => {
       if (posts) {
         this.favPostsIdArray = posts.slice(0);
-        let found = this.favPostsIdArray.includes(this.postInfo.postId);
-        if (found) {
-          this.favType = true;
-        } else {
-          this.favType = false;
-        }
+
+
+
+        this.activatedRoute.params.subscribe(paramsId => {
+          this.postService.getPostById(paramsId.id);
+          let found = this.favPostsIdArray.includes(paramsId.id);
+          if (found) {
+            this.favType = true;
+          } else {
+            this.favType = false;
+          }
+        });
+
       }
 
     });
