@@ -214,6 +214,16 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
 .v-align-top {
   vertical-align: top;
 }
+.no-result {
+  width: 100%;
+  background: #ffffff;
+  color: #c62828;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px 15px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
 .sandwich .sandwich-bar {
   display: block;
   background-color: #fff;

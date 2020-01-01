@@ -1,5 +1,7 @@
 <ng-container *ngIf="notificationsArr.length === 0">
-  <h2 class="accent-color text-center">No notifications</h2>
+  <div class="no-result">
+    <h2>No notifications</h2>
+  </div>
 </ng-container>
 <ng-container *ngIf="notificationsArr.length > 0">
   <mat-card>

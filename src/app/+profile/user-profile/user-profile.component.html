@@ -23,7 +23,11 @@
         </li>
         <li>
           <mat-icon title="User name" mat-list-icon>label</mat-icon>
-          <h4 mat-line>{{profile?.login}}</h4>
+          <h4 mat-line><a
+            class="blue-color"
+            href="https://github.com/{{profile?.login}}"
+            target="_blank"
+          >{{profile?.login}}</a></h4>
         </li>
         <li>
           <mat-icon title="Member since" mat-list-icon>history</mat-icon>

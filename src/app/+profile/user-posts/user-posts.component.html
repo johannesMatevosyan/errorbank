@@ -1,6 +1,8 @@
 
 <ng-container *ngIf="userPosts.length === 0">
-  <h2 class="accent-color text-center">User has no posts</h2>
+  <div class="no-result">
+    <h2>User has no posts</h2>
+  </div>
 </ng-container>
 <ng-container *ngIf="userPosts.length > 0">
 

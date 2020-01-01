@@ -35,6 +35,9 @@
 .user-profile-info-list li h4 {
   text-align: right;
 }
+.user-profile-info-list li h4 a{
+  text-decoration: none;
+}
 .user-profile-info-list li mat-icon {
   cursor: pointer;
 }
