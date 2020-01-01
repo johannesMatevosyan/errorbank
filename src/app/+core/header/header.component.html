@@ -1,7 +1,7 @@
 <header>
   <mat-toolbar color="primary" class="space-between">
     <div class="logo">
-      <a (click)="redirectTo('/posts')" class="logo-link">ErB</a>
+      <a [routerLink]="'/posts'" class="logo-link">ErB</a>
     </div>
     <div class="search-block">
 
@@ -45,7 +45,9 @@
             class="notifications-box"
             (clickOutside)="hideDropdown()"
             appClickOutside>
+
             <div class="notifications-bell" (click)="toggleNotifications()">
+              <span class="unread-notifications" *ngIf="unreadNotifications !== 0">{{ unreadNotifications }}</span>
               <mat-icon *ngIf="notificationsArr.length > 0" title="notifications">notifications</mat-icon>
               <mat-icon *ngIf="notificationsArr.length === 0" title="notifications">notifications_none</mat-icon>
             </div>

@@ -8,20 +8,13 @@
       name="title"
       formControlName="title"
       minlength="3"
-      placeholder="title">
+      placeholder="Title">
     <mat-error
       *ngIf="!createPostForm.get('title').valid &&
       createPostForm.get('title').touched &&
       formSubmitAttempt">Please enter title</mat-error>
   </mat-form-field>
   <section>
-          <!--<textarea-->
-            <!--matInput-->
-            <!--cols="30" rows="10"-->
-            <!--class="post-content-textarea"-->
-            <!--name="content"-->
-            <!--formControlName="content"-->
-            <!--placeholder="content"></textarea>-->
 
     <angular-editor
       [config]="editorConfig"
@@ -67,7 +60,7 @@
         name="tags"
         autocomplete="off"
         (keyup)="addTag($event)"
-        placeholder="tags">
+        placeholder="Tags (enter tag names separated by comma)">
     </mat-form-field>
 
   </section>

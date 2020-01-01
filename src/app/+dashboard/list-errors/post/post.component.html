@@ -28,11 +28,11 @@
       ></app-post-info>
     </div>
 
-    <div class="post-edit-box" *ngIf="userIsAuthenticated && userIntegrity.currentUserId === singlePost.author?._id">
-      <a [routerLink]="'/edit/' + singlePost.id" mat-button color="primary" title="Edit"><i class="material-icons">edit</i></a>
-      <a (click)="deletePost(singlePost.id)" mat-button color="accent" title="Delete"><i class="material-icons">close</i></a>
-    </div>
+    <!--<div class="post-edit-box" *ngIf="userIsAuthenticated && userIntegrity.currentUserId === singlePost.author?._id">-->
+      <!--<a [routerLink]="'/edit/' + singlePost.id" mat-button color="primary" title="Edit"><i class="material-icons">edit</i></a>-->
+      <!--<a (click)="deletePost(singlePost.id)" mat-button color="accent" title="Delete"><i class="material-icons">close</i></a>-->
+    <!--</div>-->
 
-  </div><!--.post-options-->
+  </div><!--.post-options -->
 
 </div>

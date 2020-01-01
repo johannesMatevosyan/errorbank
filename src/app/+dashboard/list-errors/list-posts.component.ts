@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit } from '@angular/core';
 import { PostService } from '@app/+dashboard/_services/post.service';
 import { PageEvent } from '@angular/material';
-import { PostModel } from "@models/post.model";
-import { Subscription } from "rxjs/index";
-import { SearchFilterService } from "@app/+shared/_services/search-filter.service";
-import { AuthService } from "@app/+shared/_services/auth.service";
-import { TagModel } from "@models/tag.model";
-import { PostInfoService } from "@app/+dashboard/_services/post-info.service";
-import {ToastrService} from "ngx-toastr";
+import { PostModel } from '@models/post.model';
+import { Subscription } from 'rxjs/index';
+import { SearchFilterService } from '@app/+shared/_services/search-filter.service';
+import { AuthService } from '@app/+shared/_services/auth.service';
+import { TagModel } from '@models/tag.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-dashboard',
@@ -20,6 +19,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   postsPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  pageIndex = 0;
   userIntegrity: {
     currentUserId: '';
     currentUserName: '';
@@ -45,6 +45,8 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   authStatusSub: Subscription;
   subscription: Subscription;
+  // MatPaginator Output
+  pageEvent: PageEvent;
   constructor(private postsService: PostService,
               public authService: AuthService,
               private sfService: SearchFilterService,
@@ -56,6 +58,8 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.searchPosts();
     this.searchByTagMethod();
     this.searchByTextMethod();
+
+    console.log('pageEvent ', this.pageEvent);
   }
 
   checkAuthenticationStatus() {
@@ -86,9 +90,11 @@ export class ListPostsComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.subscription = this.postsService.postsSubject.subscribe(response => {
+    this.subscription = this.postsService.getPostUpdateListener().subscribe(response => {
+      console.log('postsSubject response ', response);
       if (response) {
-        this.posts = response;
+        this.totalPosts = response.postCount;
+        this.posts = response.posts;
       }
     });
   }
@@ -148,6 +154,12 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.query.pagination.page = this.currentPage;
 
     this.postsService.getAll(this.query);
+    this.subscription = this.postsService.postsSubject.subscribe(response => {
+      console.log('postsSubject ', response);
+      if (response) {
+        this.posts = response;
+      }
+    });
   }
 
   onSetActiveClass(event, newValue) {
@@ -155,7 +167,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.subscription){// this if will detect undefined issue of timersub
+    if (this.subscription) {// this if will detect undefined issue of timersub
       this.subscription.unsubscribe();
     }
   }

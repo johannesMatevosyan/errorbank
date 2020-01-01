@@ -11,7 +11,6 @@ import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 export class PostComponent implements OnInit, OnDestroy {
   @Input() singlePost;
   @Input() userIsAuthenticated;
-  @Input() userIntegrity;
   @Output() deletePostById = new EventEmitter<String>();
   postId: string;
   votes = 0;
@@ -22,7 +21,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.postId = this.singlePost.id;
     let voteObj = this.singlePost.voted;
     if (voteObj) {
-      if(Object.keys(voteObj).length > 0){
+      if (Object.keys(voteObj).length > 0) {
         this.votes = voteObj.votes.length;
       } else {
         this.votes = 0;

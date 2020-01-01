@@ -43,21 +43,22 @@
 
       <app-post
         [singlePost]="post"
-        [userIsAuthenticated]="userIsAuthenticated"
-        [userIntegrity]="userIntegrity"
         (deletePostById)="onDeletePost($event)"
       ></app-post>
 
     </ng-container>
   </section>
 
-  <mat-paginator class="pagination"
-    [length]="totalPosts"
-    [pageSize]="postsPerPage"
-    [pageSizeOptions]="pageSizeOptions"
-    (page)="onChangedPage($event)"
-    *ngIf="posts.length > 0"
-  ></mat-paginator>
+    <mat-paginator class="pagination"
+                   [length]="totalPosts"
+                   [pageSize]="postsPerPage"
+                   [pageSizeOptions]="pageSizeOptions"
+                   [pageIndex]="pageIndex"
+                   [showFirstLastButtons]="true"
+                   (page)="onChangedPage($event)"
+                   *ngIf="posts.length > 0"
+    ></mat-paginator>
+
 
 </ng-container>
 

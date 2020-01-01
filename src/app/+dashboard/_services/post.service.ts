@@ -14,6 +14,7 @@ const BACKEND_URL = environment.apiUrl + '/posts';
 export class PostService {
   posts = [];
   tagsArray = [];
+  postsUpdated = new Subject<any>();
   postSubject = new Subject<PostModel>();
   postsSubject = new Subject<PostModel[]>();
   isSubmitted = new Subject<boolean>();
@@ -47,10 +48,19 @@ export class PostService {
         })
       )
       .subscribe((transformedPostData) => {
-
-        this.posts = transformedPostData.posts.slice(0);
-        this.postsSubject.next(transformedPostData.posts);
+        this.posts = transformedPostData.posts;
+        this.postsUpdated.next({
+          posts: [...this.posts],
+          postCount: transformedPostData.maxPosts
+        });
+        // this.posts = transformedPostData.posts.slice(0);
+        // this.postsSubject.next(transformedPostData.posts);
       });
+  }
+
+
+  getPostUpdateListener() {
+    return this.postsUpdated.asObservable();
   }
 
   create(post) {
@@ -66,7 +76,7 @@ export class PostService {
     this.http.post<PostModel[]>(BACKEND_URL + '/create', postData)
       .subscribe((responseData) => {
         if (responseData) {
-          this.posts.push(post);
+          // this.posts.push(post);
           this.postsSubject.next(responseData);
           this.isSubmitted.next(true);
         }
