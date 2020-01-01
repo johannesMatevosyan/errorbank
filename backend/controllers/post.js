@@ -183,29 +183,29 @@ exports.updatePostById = (req, res, next) => {
       });
     })
     .catch(error => console.log(`Error in promises: ${error}`));
-
 };
 
 exports.deletePostById = (req, res, next) => {
 
-  Post.deleteOne({ _id: req.params.id, authorId: req.userData.userId }).then(result => {
+  Post.deleteOne({ _id: req.params.id, authorId: req.userData.userId })
+    .then(result => {
+      if (result.n > 0) {
+        Comment.deleteMany({ postId: req.params.id }).exec();
 
-    if (result.n > 0) {
-      res.status(200).json({
-        message: `Post with id:${req.params.id} deleted successfully!`
+        res.status(200).json({
+          message: `Post with id:${req.params.id} deleted successfully!`
+        });
+      } else {
+        res.status(401).json({
+          message: 'Not Authorized to delete!!'
+        });
+      } 
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Failed to delete: " + error,
       });
-    } else {
-      res.status(401).json({
-        message: 'Not Authorized to delete!!'
-      });
-    }
-
-  }).catch(error => {
-    res.status(500).json({
-      message: "Failed to delete: " + error,
     });
-  });
-
 };
 
 exports.getPostsByDate = (req, res, next) => {
