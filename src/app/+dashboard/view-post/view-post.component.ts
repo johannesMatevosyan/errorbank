@@ -66,7 +66,6 @@ export class ViewPostComponent implements OnInit, OnDestroy {
           this.clonedTagsArray = this.post.tags;
           this.postInfo.postId = response._id;
           this.postInfo.authorId = response.author._id;
-          console.log('response._id ', response._id);
           this.countVotes(response.voteId);
 
         }

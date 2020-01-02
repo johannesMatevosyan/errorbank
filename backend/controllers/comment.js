@@ -27,12 +27,10 @@ exports.createComment = (req, res, next) => {
     })
     .then(comment => {
       commentObj = comment;
-      console.log('comment: postId', comment.postId);
       mongoose.set('debug', true);
       return UserInfo.find({ favourites: comment.postId });
     })
     .then(users => {
-      console.log('users', users);
       if (users.length) {
         const notifications = [];
         users.forEach(user => {
@@ -41,7 +39,7 @@ exports.createComment = (req, res, next) => {
             userId: user._id,
             commentId: commentObj._id
           });
-          notifications.push(notification);  
+          notifications.push(notification);
         });
         Promise.all(notifications);
       }

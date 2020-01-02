@@ -58,8 +58,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.searchPosts();
     this.searchByTagMethod();
     this.searchByTextMethod();
-
-    console.log('pageEvent ', this.pageEvent);
   }
 
   checkAuthenticationStatus() {
@@ -91,7 +89,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     }
 
     this.subscription = this.postsService.getPostUpdateListener().subscribe(response => {
-      console.log('postsSubject response ', response);
       if (response) {
         this.totalPosts = response.postCount;
         this.posts = response.posts;
@@ -155,7 +152,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
 
     this.postsService.getAll(this.query);
     this.subscription = this.postsService.postsSubject.subscribe(response => {
-      console.log('postsSubject ', response);
       if (response) {
         this.posts = response;
       }

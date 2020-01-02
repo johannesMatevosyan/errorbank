@@ -228,7 +228,6 @@ exports.voteForPost = (req, res, next) => {
     relatedTo: req.body.relatedTo,
     date: req.body.date
   };
-  console.log('req.body ', req.body);
   let model;
 
   Vote.findOneAndUpdate(query, query, { upsert: true, new: true })
