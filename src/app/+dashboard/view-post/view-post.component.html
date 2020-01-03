@@ -4,8 +4,8 @@
     <span class="date"> Date {{post?.created.split(' ')[0]}} </span>
 
     <div class="post-aux">
-      <span class="author">Author: {{ post?.author.name }}</span>
-      <div class="favourite">
+      <span class="author">Author: {{ post?.author.name || userIntegrity?.userName }}</span>
+      <div class="favourite" title="Subscribe to receive a notification when someone leaves a comment">
         <mat-icon *ngIf="favType" color="accent" (click)="favoritePost(post?._id, userIntegrity?.userId)">notification_important</mat-icon>
         <mat-icon *ngIf="!favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">notification_important</mat-icon>
       </div>
@@ -17,7 +17,9 @@
 
   <div class="post-content-box">
     <div class="post-img-box" *ngIf="post?.imagePath">
-      <img [src]="post?.imagePath" alt="{{ post?.title }}">
+      <a [href]="post?.imagePath" target="_blank">
+        <img [src]="post?.imagePath" [alt]="post?.title">
+      </a>
     </div>
 
     <div class="post-content" [innerHTML]="post?.content"></div>
@@ -45,7 +47,7 @@
 
 
     <div class="tag-list pl-2">
-      <h5 class="tag-list-title d-inline-block">tags</h5>
+      <h5 class="tag-list-title d-inline-block">tags: </h5>
       <ng-container *ngFor="let tag of clonedTagsArray">
         <app-tag
           [singleTag]="tag"

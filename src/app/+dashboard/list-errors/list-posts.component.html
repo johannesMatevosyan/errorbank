@@ -36,13 +36,14 @@
 
 </div>
 
-<ng-container *ngIf="posts?.length > 0">
+<ng-container *ngIf="posts?.length">
 
   <section class="post-box-wrapper">
     <ng-container *ngFor="let post of posts">
 
       <app-post
         [singlePost]="post"
+        [userIntegrity]="userIntegrity"
         (deletePostById)="onDeletePost($event)"
       ></app-post>
 
@@ -62,7 +63,7 @@
 
 </ng-container>
 
-<ng-container *ngIf="posts?.length === 0">
+<ng-container *ngIf="!posts?.length">
   <div class="no-result">
     <h2>No results!</h2>
   </div>

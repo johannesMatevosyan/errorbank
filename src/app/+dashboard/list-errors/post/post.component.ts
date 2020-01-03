@@ -11,6 +11,7 @@ import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 export class PostComponent implements OnInit, OnDestroy {
   @Input() singlePost;
   @Input() userIsAuthenticated;
+  @Input() userIntegrity;
   @Output() deletePostById = new EventEmitter<String>();
   postId: string;
   votes = 0;

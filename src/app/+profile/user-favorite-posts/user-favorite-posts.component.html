@@ -1,7 +1,9 @@
-<ng-container *ngIf="userFavouritePosts.length === 0">
-  <h2 class="accent-color text-center">User has no favourite posts</h2>
+<ng-container *ngIf="!userFavouritePosts.length">
+  <div class="no-result">
+    <h2 class="accent-color text-center">User has no favourite posts</h2>
+  </div>
 </ng-container>
-<ng-container *ngIf="userFavouritePosts.length > 0">
+<ng-container *ngIf="userFavouritePosts.length">
 
   <a [routerLink]="'/view/' + post?._id" class="post-box" *ngFor="let post of userFavouritePosts">
     <div class="user-post">

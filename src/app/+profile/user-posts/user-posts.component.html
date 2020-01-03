@@ -1,10 +1,10 @@
 
-<ng-container *ngIf="userPosts.length === 0">
+<ng-container *ngIf="!userPosts.length">
   <div class="no-result">
     <h2>User has no posts</h2>
   </div>
 </ng-container>
-<ng-container *ngIf="userPosts.length > 0">
+<ng-container *ngIf="userPosts.length">
 
   <a [routerLink]="'/view/' + post?._id" class="post-box" *ngFor="let post of userPosts">
     <div class="user-post">

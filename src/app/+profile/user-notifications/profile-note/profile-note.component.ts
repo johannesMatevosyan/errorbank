@@ -10,7 +10,6 @@ export class ProfileNoteComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('this.note ', this.note);
   }
 
 }

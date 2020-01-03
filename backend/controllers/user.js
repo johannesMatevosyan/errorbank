@@ -93,7 +93,7 @@ exports.saveUserInfo = (req, res, next) => {
     date: req.body.date,
   };
 
-  UserInfo.findOneAndUpdate(query, userInfo, { upsert: true }, (err, user) => {
+  UserInfo.findOneAndUpdate(query, userInfo, { upsert: true, new: true }, (err, user) => {
     if (err){
       return res.status(401).json({
         message: 'Cannot save user info!'
@@ -152,7 +152,7 @@ exports.saveUser = (req, res, next) => {
     name: req.body.name,
     login: req.body.login,
   };
-  User.findOneAndUpdate(query, user, { upsert: true }, (err, user) => {
+  User.findOneAndUpdate(query, user, { upsert: true, new: true }, (err, user) => {
     if (err){
       return res.status(401).json({
         message: 'Cannot save user: ' + err,
