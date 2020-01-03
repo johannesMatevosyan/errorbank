@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Subscription} from "rxjs/index";
-import {ActivatedRoute} from "@angular/router";
+import {Subscription} from 'rxjs/index';
+import { map } from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 import { ProfileService } from '../_services/profile.service';
 
 @Component({
@@ -17,7 +18,27 @@ export class UserPostsComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(paramsId => {
       let userId = paramsId['id'];
       this.profileService.getPostsUserById(userId);
-      this.subscribeUser = this.profileService.userPosts.subscribe(userPosts => {
+      this.subscribeUser = this.profileService
+        .userPosts
+        .pipe(
+          map(data => data && data.map(post => {
+            if (!post['voteObj'] || !post['voteObj']['votes']) {
+              post.computedVote = 0;
+              return post;
+            }
+            let votes = 0;
+            post['voteObj']['votes'].forEach(vote => {
+              if (vote.type === 'down') {
+                votes--;
+              } else {
+                votes++;
+              }
+            });
+            post.computedVote = votes;
+            return post;
+          }))
+        )
+        .subscribe(userPosts => {
         if (userPosts) {
           this.userPosts = userPosts.slice(0);
         }

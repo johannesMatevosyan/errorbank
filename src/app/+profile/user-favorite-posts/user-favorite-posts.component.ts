@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Subscription} from "rxjs/index";
-import {ActivatedRoute} from "@angular/router";
+import {Subscription} from 'rxjs/index';
+import { map } from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 import { ProfileService } from '../_services/profile.service';
 
 @Component({
@@ -21,11 +22,31 @@ export class UserFavoritePostsComponent implements OnInit, OnDestroy {
       .params
       .subscribe(params => {
         this.profileService.getFavPostsUserById(params.id);
-        this.subscribeUser = this.profileService.userFavorites.subscribe(userPosts => {
-          if (userPosts) {
-            this.userFavouritePosts = userPosts.slice(0);
-          }
-        });
+        this.subscribeUser = this.profileService
+          .userFavorites
+          .pipe(
+            map(data => data && data.map(post => {
+              if (!post['voteObj'] || !post['voteObj']['votes']) {
+                post.computedVote = 0;
+                return post;
+              }
+              let votes = 0;
+              post['voteObj']['votes'].forEach(vote => {
+                if (vote.type === 'down') {
+                  votes--;
+                } else {
+                  votes++;
+                }
+              });
+              post.computedVote = votes;
+              return post;
+            }))
+          )
+          .subscribe(userPosts => {
+            if (userPosts) {
+              this.userFavouritePosts = userPosts.slice(0);
+            }
+          });
       });
   }
 
