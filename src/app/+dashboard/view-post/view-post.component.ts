@@ -13,6 +13,7 @@ import {AlertComponent} from '@app/+shared/components/alert/alert.component';
 import {MatDialog} from '@angular/material';
 import {ProfileService} from '@app/+profile/_services/profile.service';
 import {ToastrService} from 'ngx-toastr';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-post',
@@ -94,11 +95,14 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
   onPostComment(comment) {
     this.commentService.saveComment(comment);
-    this.commentService.commentSubject.subscribe((commentResponse) => {
-      if (commentResponse) {
-        this.commentsArray.push(commentResponse);
-      }
-    });
+    this.commentService
+      .commentSubject
+      .pipe(take(1))
+      .subscribe((commentResponse) => {
+        if (commentResponse) {
+          this.commentsArray.push(commentResponse);
+        }
+      });
 
   }
 
