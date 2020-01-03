@@ -92,7 +92,7 @@ export class CommentBoxComponent implements OnInit {
         let vote = {
           type: status as ('up' | 'down'),
           docId: this.singleComment._id as string,
-          userId: userId,
+          userId: userId['userId'],
           relatedTo: relatedTo,
           date: cd.getCurrentDate()
         };

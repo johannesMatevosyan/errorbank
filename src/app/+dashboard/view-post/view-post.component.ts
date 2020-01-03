@@ -151,7 +151,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
         let vote = {
           type: status as ('up' | 'down'),
           docId: paramsId.id as string,
-          userId: userId,
+          userId: userId['userId'],
           relatedTo: relatedTo,
           date: cd.getCurrentDate()
         };
