@@ -214,10 +214,23 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   deletePost(id) {
-    this.postService.delete(id).subscribe(response => {
-      if (response) {
-        this.toastr.success('Post deleted successfully', '');
-        this.router.navigate(['/posts']);
+
+    const dialogRef = this.dialog.open(AlertComponent, {
+      width: '300px',
+      data: {
+        message: 'Are you sure you want to delete this comment?',
+        type: 'confirmDelete'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.response) {
+        this.postService.delete(id).subscribe(response => {
+          if (response) {
+            this.toastr.success('Post deleted successfully', '');
+            this.router.navigate(['/posts']);
+          }
+        });
       }
     });
   }
