@@ -12,7 +12,7 @@ export class PostComponent implements OnInit, OnDestroy {
   @Input() singlePost;
   @Input() userIsAuthenticated;
   @Input() userIntegrity;
-  @Output() deletePostById = new EventEmitter<String>();
+  // @Output() deletePostById = new EventEmitter<String>();
   postId: string;
   votes = 0;
   subscription: Subscription;
@@ -31,21 +31,21 @@ export class PostComponent implements OnInit, OnDestroy {
 
   }
 
-  deletePost(id) {
-    const dialogRef = this.dialog.open(AlertComponent, {
-      width: '300px',
-      data: {
-        message: 'Are you sure you want to delete this post?',
-        type: 'confirmDelete'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.response) {
-        this.deletePostById.emit(id);
-      }
-    });
-  }
+  // deletePost(id) {
+  //   const dialogRef = this.dialog.open(AlertComponent, {
+  //     width: '300px',
+  //     data: {
+  //       message: 'Are you sure you want to delete this post?',
+  //       type: 'confirmDelete'
+  //     }
+  //   });
+  //
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result && result.response) {
+  //       this.deletePostById.emit(id);
+  //     }
+  //   });
+  // }
 
   ngOnDestroy() {
     if (this.subscription) { // this if will detect undefined issue of timersub

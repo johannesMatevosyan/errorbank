@@ -135,14 +135,14 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDeletePost(id) {
-    this.postsService.delete(id).subscribe(response => {
-      if (response) {
-        this.toastr.success('Post deleted successfully', '');
-        this.getAllPosts();
-      }
-    });
-  }
+  // onDeletePost(id) {
+  //   this.postsService.delete(id).subscribe(response => {
+  //     if (response) {
+  //       this.toastr.success('Post deleted successfully', '');
+  //       this.getAllPosts();
+  //     }
+  //   });
+  // }
 
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;

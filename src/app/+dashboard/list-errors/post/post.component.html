@@ -7,7 +7,11 @@
   <h3 class="post-title">
     <a [routerLink]="'/view/' + singlePost?.id">{{ singlePost?.title }}</a>
   </h3>
-  <p class="post-content overflow-ellipsis" [innerHTML]="singlePost?.content"></p>
+  <p class="post-content overflow-ellipsis"
+     [innerHTML]="singlePost?.content ?
+        ((singlePost?.content.length > 305) ? (singlePost?.content | slice:0:305)+'... ' : (singlePost?.content) ) : ''">
+  </p>
+
   <div class="tag-list" *ngIf="singlePost.tags?.length > 0">
     <h3 class="tag-list-title d-inline-block">Tags</h3>
     <ng-container *ngFor="let tag of singlePost.tags">
@@ -27,11 +31,6 @@
         [numberOfViews]="singlePost?.viewed"
       ></app-post-info>
     </div>
-
-    <!--<div class="post-edit-box" *ngIf="userIsAuthenticated && userIntegrity.currentUserId === singlePost.author?._id">-->
-      <!--<a [routerLink]="'/edit/' + singlePost.id" mat-button color="primary" title="Edit"><i class="material-icons">edit</i></a>-->
-      <!--<a (click)="deletePost(singlePost.id)" mat-button color="accent" title="Delete"><i class="material-icons">close</i></a>-->
-    <!--</div>-->
 
   </div><!--.post-options -->
 

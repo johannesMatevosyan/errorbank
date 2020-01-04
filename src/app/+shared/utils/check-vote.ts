@@ -5,16 +5,17 @@ export class CheckVote {
     isUserVoted : ''
   };
   getCheckedVote(votesArray, userStatus) {
-    this.voteInfo.isUserVoted = votesArray.some((item)=> {
+
+    this.voteInfo.isUserVoted = votesArray.some((item) => {
       let checkVote;
-      if (item.userId === userStatus) {
+      if (item.userId === userStatus.userId) {
         checkVote = true;
         this.voteInfo.type = item.type;
       } else {
         checkVote = false;
         this.voteInfo.type = item.type;
       }
-      return checkVote
+      return checkVote;
     });
     return this.voteInfo;
   }

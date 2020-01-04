@@ -1,5 +1,5 @@
 <section class="post-box-view">
-{{post?.author | json }}
+
   <h5 class="sp mb-15">
     <span class="date"> Date {{post?.created.split(' ')[0]}} </span>
 
@@ -45,7 +45,6 @@
       </div>
     </div>
 
-
     <div class="tag-list pl-2">
       <h5 class="tag-list-title d-inline-block">tags: </h5>
       <ng-container *ngFor="let tag of clonedTagsArray">
@@ -57,12 +56,18 @@
 
   </div>
   <div class="text-right" *ngIf="userIsAuthenticated && userIntegrity.userId === post?.author?._id">
-    <a [routerLink]="'/edit/' + post?._id" mat-button color="primary" title="Edit"><i class="material-icons">edit</i></a>
-    <a (click)="deletePost(post?._id)" mat-button color="accent" title="Delete"><i class="material-icons">close</i></a>
+    <a [routerLink]="'/edit/' + post?._id" mat-button color="primary" title="Edit">
+      <i class="material-icons">edit</i>
+    </a>
+    <a (click)="deletePost(post?._id)" mat-button color="accent" title="Delete">
+      <i class="material-icons">close</i>
+    </a>
   </div>
 
 </section>
+
 <section class="comment-box-list">
+
   <ng-container *ngFor="let comment of commentsArray;">
     <app-comment-box
       (onRemoveComment)="removeComment($event)"

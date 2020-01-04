@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {Subscription} from "rxjs/index";
+import {Subscription} from 'rxjs/index';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UserModel} from "@models/user.model";
-import {ProfileService} from "@app/+profile/_services/profile.service";
+import {UserModel} from '@models/user.model';
+import {ProfileService} from '@app/+profile/_services/profile.service';
 import {isPlatformBrowser} from '@angular/common';
+import {AuthService} from '@services/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -15,22 +16,32 @@ export class ProfileComponent implements OnInit {
   subscribeUser: Subscription;
   selectedItem;
   userIdentity;
+  profileId;
+  userIntegrity = null;
   activeRoute = '';
   constructor(private profileService: ProfileService,
               private activatedRoute: ActivatedRoute,
+              public authService: AuthService,
               private router: Router,
               @Inject(PLATFORM_ID) private platformId: any) { }
 
   ngOnInit() {
 
     this.checkActiveRoute();
+    this.getUserId();
+    this.getProfileId();
     this.activatedRoute.params.subscribe(paramsId => {
+
       if (isPlatformBrowser(this.platformId)) {
         // localStorage will be available: we can use it.
-        this.userIdentity = paramsId['id'] !== undefined ? paramsId['id'] : localStorage.getItem("_id");
-        if (this.userIdentity) {
-          this.profileService.getUserInfoById(this.userIdentity);
-        }
+        // this.userIdentity = paramsId['id'] !== undefined ? paramsId['id'] : '';
+        // console.log('this.userIdentity ', this.userIdentity);
+        // let url = this.router.url;
+        // this.profileId = url.substring(url.lastIndexOf('/') + 1);
+        //
+        // if (this.userIdentity) {
+        //   this.profileService.getUserInfoById(this.userIdentity);
+        // }
 
         this.subscribeUser = this.profileService.userStorage.subscribe(user => {
           if (user) {
@@ -40,6 +51,19 @@ export class ProfileComponent implements OnInit {
       }
 
     });
+  }
+
+  getUserId() {
+    this.subscribeUser = this.authService.userIdentitySubject.subscribe(userData => {
+      if (userData) {
+        this.userIntegrity = userData;
+      }
+    });
+  }
+
+  getProfileId() {
+    let url = this.router.url;
+    this.profileId = url.substring(url.lastIndexOf('/') + 1);
   }
 
   checkActiveRoute() {

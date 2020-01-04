@@ -16,7 +16,7 @@ import {CommentService} from '@services/comment.service';
   styleUrls: ['./comment-box.component.css']
 })
 export class CommentBoxComponent implements OnInit {
-  @Output() onRemoveComment: EventEmitter<number>;
+  @Output() onRemoveComment: EventEmitter<string> = new EventEmitter<string>();
   @Input() singleComment;
   subscription: Subscription;
   userIntegrity;
@@ -107,10 +107,22 @@ export class CommentBoxComponent implements OnInit {
   }
 
   removeComment(id: string) {
-    this.commentService
-      .deleteComment(id)
-      .subscribe(() => {
-        this.onRemoveComment.emit(id);
+      const dialogRef = this.dialog.open(AlertComponent, {
+        width: '300px',
+        data: {
+          message: 'Are you sure you want to delete this comment?',
+          type: 'confirmDelete'
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result && result.response) {
+          this.commentService
+            .deleteComment(id)
+            .subscribe(() => {
+              this.onRemoveComment.emit(id);
+          });
+        }
       });
   }
 }

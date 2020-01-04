@@ -2,25 +2,25 @@
   <li>
     <a
       class="mat-primary"
-      [routerLink]="'/user/profile/' + userIdentity"
+      [routerLink]="'/user/profile/' + profile?._id"
       [ngClass]="{'active-tab': selectedItem == 'profile'}"
       (click)="onSetActiveClass('profile')">Profile </a>
   </li>
   <li>
     <a
       class="mat-primary"
-      [routerLink]="'/user/posts/' + userIdentity"
+      [routerLink]="'/user/posts/' + profile?._id"
       [ngClass]="{'active-tab': selectedItem == 'posts'}"
       (click)="onSetActiveClass('posts')">Posts</a>
   </li>
-  <li>
+  <li *ngIf="userIntegrity.userId === profile?._id">
     <a
       class="mat-primary"
       [routerLink]="'/user/favourites/' + profile?._id"
       [ngClass]="{'active-tab': selectedItem == 'favourites'}"
       (click)="onSetActiveClass('favourites')">Favourites</a>
   </li>
-  <li>
+  <li *ngIf="userIntegrity.userId === profile?._id">
     <a
       class="mat-primary"
       [routerLink]="'/user/notifications/' + profile?._id"
