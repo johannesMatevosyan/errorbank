@@ -32,4 +32,6 @@ router.get('/posts/:id', userController.getPostsByAuthorId);
 
 router.get('/notifications', checkAuth, notificationController.getNotifications);
 
+router.get('/notifications/read/:id', checkAuth, notificationController.markRead);
+
 module.exports = router;

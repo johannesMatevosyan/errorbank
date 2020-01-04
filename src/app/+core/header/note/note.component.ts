@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {NotificationService} from '@app/+profile/_services/notification.service';
 
 @Component({
   selector: 'app-note',
@@ -7,9 +8,15 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class NoteComponent implements OnInit {
   @Input() note;
-  constructor() { }
+  constructor(
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit() {
+  }
+
+  markNotificationRead(id) {
+    this.notificationService.markRead(id);
   }
 
 }

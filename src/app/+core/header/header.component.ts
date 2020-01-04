@@ -33,8 +33,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
 
     this.checkAuthenticationStatus();
+
     this.loadSearchForm();
-    this.getNotifications();
     this.authListenerSubs = this.authService.userInfoDataStorage.subscribe(userData =>  {
       if (userData) {
         this.profile = userData;
@@ -44,6 +44,20 @@ export class HeaderComponent implements OnInit {
     this.sfService.searchKey.subscribe(message => {
       this.message = message;
     });
+
+    if (this.userIsAuthenticated) {
+      this.notificationService.getNotifications();
+    }
+
+    this.notificationService
+      .notificationsList
+      .subscribe((res: NotificationModel[]) => {
+        this.notificationsArr = res;
+
+        this.unreadNotifications = this.notificationsArr.filter(item => {
+          return item.checked === false;
+        }).length;
+      });
   }
 
   checkAuthenticationStatus() {
@@ -76,14 +90,13 @@ export class HeaderComponent implements OnInit {
   }
 
   loadSearchForm() {
-
     this.searchForm = this.fb.group({
       searchItem: [''],
     });
   }
 
   hideDropdown() {
-      this.isOpen = false;
+    this.isOpen = false;
   }
 
   onSubmit() {
@@ -91,34 +104,21 @@ export class HeaderComponent implements OnInit {
   }
 
   redirectTo(uri: string) {
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
-      this.router.navigate([uri]));
+    this.router.navigateByUrl('/', { skipLocationChange: true })
+      .then(() =>
+        this.router.navigate([uri])
+      );
   }
 
   getNotifications() {
-    this.notificationService
-        .getNotifications()
-        .pipe(
-          map((res: { notifications: NotificationModel[] }) => res.notifications.map(notification => ({
-            userId: notification.userId,
-            postId: notification.postId['_id'],
-            postTitle: notification.postId['title'],
-            date: notification['createdAt'],
-            commentId: notification.commentId['text'],
-            type: 'comment',
-            checked: notification['read'],
-          })))
-        )
-        .subscribe((res: NotificationModel[]) => {
-          this.notificationsArr = res;
-          this.unreadNotifications = this.notificationsArr.filter(item => {
-            return item.checked === true;
-          }).length;
-        });
+    this.notificationService.getNotifications();
   }
 
   toggleNotifications() {
     this.isOpen = !this.isOpen;
+    if (this.isOpen) {
+      this.getNotifications();
+    }
   }
 
   onLogout() {

@@ -1,4 +1,4 @@
-<a class="note-link" [routerLink]="'/view/' + note?.postId" [ngClass]="!note?.checked ? 'not-checked' : ''">
+<a class="note-link" (click)="markRead(note)" [ngClass]="!note?.checked ? 'not-checked' : ''">
   <span class="note-date">{{note?.date}}</span>
   <span class="note-type text-left blue-color">New {{note?.type}} in post:</span>
   <h5 class="overflow-ellipsis accent-color text-left"> {{note?.postTitle}}</h5>

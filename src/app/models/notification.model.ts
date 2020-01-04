@@ -1,4 +1,5 @@
 export interface NotificationModel {
+  id: string;
   userId: string;
   postId: string;
   postTitle: string;

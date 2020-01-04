@@ -17,3 +17,7 @@ exports.getNotifications = (req, res) => {
             });
         });
 };
+
+exports.markRead = (req, res) => {
+    Notification.update({ _id: req.params.id }, { $set: { read: true } }).then(() => res.end());
+}
