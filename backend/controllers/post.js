@@ -52,7 +52,9 @@ exports.getAllPosts = (req, res, next) => {
   const currentPage = +req.body.pagination.page;
   const tags = req.body.filter.tags;
   const text = req.body.text.word;
-  const sortByDate = req.body.sortByDate;
+  const key = req.body.sortBy.key || 'created';
+  const value = req.body.sortBy.value;
+
   let filter = {};
 
   if (tags.length > 0) {
@@ -63,59 +65,69 @@ exports.getAllPosts = (req, res, next) => {
   if (text !== '') {
     // filter.text = {$text: {$search: text}}
   }
-  if (sortByDate !== '') {
-    console.log('sortByDate : ', sortByDate);
-  }
-
-  const postQuery = Post.find(filter)
-    .populate('authorId', 'name')
-    .populate('tags', 'label')
-    .populate('voteId', 'votes')
-    .skip(pageSize * (currentPage - 1))
-    .limit(pageSize);
 
   const countQuery = Post.count(filter);
-  let maxPosts;
-  let transformedPost;
-  let postWithComments = [];
 
-  Promise.all([postQuery, countQuery])
-    .then(([posts, total]) => {
-      maxPosts = total;
-      transformedPost = tranformPost.newPost(posts);
-      return transformedPost;
-    })
-    .then((postsArr) => {
-
-      return Post.aggregate([
+     const postQuery = Post.aggregate([
         {
           $lookup: {
-            from: "comments", localField: "_id", foreignField: "docId", as: "postComments"
+            from: "comments", localField: "_id", foreignField: "postId", as: "postComments"
+          },
+        },
+        {
+          $lookup: {
+            from: "userinfos", localField: "authorId", foreignField: "_id", as: "users"
+          },
+        },
+        {
+          $lookup: {
+            from: "tags", localField: "tags", foreignField: "_id", as: "tags"
+          },
+        },
+        {
+          $lookup: {
+            from: "votes", localField: "voteId", foreignField: "docId", as: "votes"
+          },
+        },
+        { $unwind : "$users" },
+        { $unwind : "$tags" },
+        {
+          $project: {
+            "title": 1,
+            "content": 1,
+            "numOfComments":{ $size: "$postComments" },
+            "users.login": 1,
+            "tags": 1,
+            "votes": 1,
+            "created": 1,
+            "updated": 1,
+            "imagePath": 1,
+            "viewed": 1,
           }
         },
         {
-          $project: {
-            "numOfComments":{ $size: "$postComments" }
-          }
+          $sort : { [key] : value }
+        },
+        {
+          $skip : pageSize * (currentPage - 1)
+        },
+        {
+          $limit : pageSize
         }
-      ]).exec((err, commentsArr) => {
-
-        postWithComments = mergeCommentNumber.addCommentCount(postsArr, commentsArr);
-
-        res.status(201).json({
-          message: 'Posts are fetched successfully!!!',
-          posts: postWithComments,
-          maxPosts: maxPosts
+      ]);
+      Promise.all([postQuery, countQuery])
+        .then(([posts, total]) => {
+            res.status(201).json({
+              message: 'Posts are fetched successfully!!!',
+              posts: posts,
+              maxPosts: total
+            });
+        })
+        .catch(err => {
+          res.status(500).json({
+            message: 'Failed to filter submitted tag ' + err,
+          });
         });
-
-      });
-
-    })
-    .catch(err => {
-      res.status(500).json({
-        message: 'Failed to filter submitted tag ' + err,
-      });
-    });
 
 };
 

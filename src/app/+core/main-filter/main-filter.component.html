@@ -47,10 +47,10 @@
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
-        <span (click)="sortPostsByLikes()" class="sort-item-title">
-          <span class="sort-text">Sort by likes</span>
-          <mat-icon class="sort-arrow" *ngIf="likeSort === 1">keyboard_arrow_up</mat-icon>
-          <mat-icon class="sort-arrow" *ngIf="likeSort === -1">keyboard_arrow_down</mat-icon>
+        <span (click)="sortPostsByViews()" class="sort-item-title">
+          <span class="sort-text">Sort by views</span>
+          <mat-icon class="sort-arrow" *ngIf="viewSort === 1">keyboard_arrow_up</mat-icon>
+          <mat-icon class="sort-arrow" *ngIf="viewSort === -1">keyboard_arrow_down</mat-icon>
         </span>
       </mat-list-item>
       <mat-divider></mat-divider>

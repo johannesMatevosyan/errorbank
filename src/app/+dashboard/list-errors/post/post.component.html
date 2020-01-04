@@ -1,8 +1,8 @@
 <div  class="post-box">
 
   <h5 class="sp mb-7">
-    <span class="date">Date {{singlePost.created.split(' ')[0]}} </span>
-    <span class="author">Author: {{ singlePost?.author.name || userIntegrity['currentUserName'] }}</span>
+    <span class="date">Date {{singlePost?.created.split(' ')[0]}} </span>
+    <!--<span class="author">Author: {{ singlePost?.author.name || userIntegrity['currentUserName'] }}</span>-->
   </h5>
   <h3 class="post-title">
     <a [routerLink]="'/view/' + singlePost?.id">{{ singlePost?.title }}</a>

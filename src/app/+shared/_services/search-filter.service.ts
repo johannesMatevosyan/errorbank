@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {PostModel} from "@models/post.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@env/environment";
+import {map} from 'rxjs/operators';
 
 const BACKEND_URL = environment.apiUrl + '/posts';
 
@@ -10,6 +11,8 @@ const BACKEND_URL = environment.apiUrl + '/posts';
   providedIn: 'root'
 })
 export class SearchFilterService {
+  posts = [];
+  postsUpdated = new Subject<any>();
   searchText: string = '';
   postsPerPage = 2;
   currentPage = 1;
@@ -25,15 +28,7 @@ export class SearchFilterService {
     text: {
       word: this.searchText
     },
-    sortByDate : {
-      date: 1
-    },
-    sortByLikes : {
-      likes: 1
-    },
-    sortByComments : {
-      comments: 1
-    }
+    sortBy : { key: 'created', value : 1}
   };
   searchData: any;
   tagList = new BehaviorSubject(this.searchData);
@@ -93,24 +88,118 @@ export class SearchFilterService {
   }
 
   sortByDate(sortOrder) {
-  //   this.query.sortByDate = sortOrder;
-  //   this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
-  //     console.log(' ***** sortByDate ***** ', sort);
-  //   });
+    this.query.sortBy['key'] = 'created';
+    this.query.sortBy['value'] = sortOrder;
+    this.query.pagination.page = 1;
+    this.http.post(BACKEND_URL, this.query)
+      .pipe(
+        map(postData => {
+          return {
+            posts: postData['posts'].map(post => {
+              return {
+                id: post._id,
+                title: post.title,
+                content: post.content,
+                imagePath: post.imagePath,
+                created: post.created,
+                updated: post.updated,
+                tags: post.tags,
+                author: post.author,
+                viewed: post.viewed,
+                voted: post.voteObj,
+                commented: post.numOfComments,
+              };
+            }),
+            maxPosts: postData['maxPosts']
+          };
+        })
+      )
+      .subscribe((sortResult) => {
+        console.log(' ***** sortByDate ***** ', sortResult);
+        this.posts = sortResult.posts;
+        this.postsUpdated.next({
+          posts: [...this.posts],
+          postCount: sortResult.maxPosts
+        });
+      });
   }
 
-  sortByLikes(sortOrder) {
-  //   this.query.sortByLikes = sortOrder;
-  //   this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
-  //     console.log(' ***** sortByLikes ***** ', sort);
-  //   });
+  sortByViews(sortOrder) {
+    this.query.sortBy['key'] = 'viewed';
+    this.query.sortBy['value'] = sortOrder;
+    this.query.pagination.page = 1;
+    this.http.post(BACKEND_URL, this.query)
+      .pipe(
+        map(postData => {
+          return {
+            posts: postData['posts'].map(post => {
+              return {
+                id: post._id,
+                title: post.title,
+                content: post.content,
+                imagePath: post.imagePath,
+                created: post.created,
+                updated: post.updated,
+                tags: post.tags,
+                author: post.author,
+                viewed: post.viewed,
+                voted: post.voteObj,
+                commented: post.numOfComments,
+              };
+            }),
+            maxPosts: postData['maxPosts']
+          };
+        })
+      )
+      .subscribe((sortResult) => {
+        console.log(' ***** sortByViews ***** ', sortResult);
+        this.posts = sortResult.posts;
+        this.postsUpdated.next({
+          posts: [...this.posts],
+          postCount: sortResult.maxPosts
+        });
+      });
   }
 
   sortByCommentCount(sortOrder) {
-    this.query.sortByComments = sortOrder;
-    this.http.post(BACKEND_URL, this.query).subscribe((sort) => {
-      console.log(' ***** sortByLikes ***** ', sort);
-    });
+    this.query.sortBy['key'] = 'numOfComments';
+    this.query.sortBy['value'] = sortOrder;
+    this.query.pagination.page = 1;
+    this.http.post(BACKEND_URL, this.query)
+      .pipe(
+        map(postData => {
+          return {
+            posts: postData['posts'].map(post => {
+              return {
+                id: post._id,
+                title: post.title,
+                content: post.content,
+                imagePath: post.imagePath,
+                created: post.created,
+                updated: post.updated,
+                tags: post.tags,
+                author: post.author,
+                viewed: post.viewed,
+                voted: post.voteObj,
+                commented: post.numOfComments,
+              };
+            }),
+            maxPosts: postData['maxPosts']
+          };
+        })
+      )
+      .subscribe((sortResult) => {
+        console.log(' ***** sortByComments ***** ', sortResult);
+        this.posts = sortResult.posts;
+        this.postsUpdated.next({
+          posts: [...this.posts],
+          postCount: sortResult.maxPosts
+        });
+      });
+  }
+
+  getPostUpdateListener() {
+    return this.postsUpdated.asObservable();
   }
 
 }

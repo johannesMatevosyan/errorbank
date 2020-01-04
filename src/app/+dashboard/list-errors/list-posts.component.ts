@@ -1,12 +1,11 @@
-import {Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { PostService } from '@app/+dashboard/_services/post.service';
-import { PageEvent } from '@angular/material';
+import {MatPaginator, PageEvent} from '@angular/material';
 import { PostModel } from '@models/post.model';
 import { Subscription } from 'rxjs/index';
 import { SearchFilterService } from '@app/+shared/_services/search-filter.service';
 import { AuthService } from '@app/+shared/_services/auth.service';
 import { TagModel } from '@models/tag.model';
-import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-dashboard',
@@ -14,6 +13,7 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./list-posts.component.css']
 })
 export class ListPostsComponent implements OnInit, OnDestroy {
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   selectedItem;
   totalPosts = 10;
   postsPerPage = 2;
@@ -40,7 +40,8 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     },
     text: {
       word: this.searchText
-    }
+    },
+    sortBy : { key: 'created', value : 1}
   };
   userIsAuthenticated = false;
   authStatusSub: Subscription;
@@ -49,8 +50,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   pageEvent: PageEvent;
   constructor(private postsService: PostService,
               public authService: AuthService,
-              private sfService: SearchFilterService,
-              private toastr: ToastrService) { }
+              private sfService: SearchFilterService) { }
 
   ngOnInit() {
     this.checkAuthenticationStatus();
@@ -58,6 +58,9 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     this.searchPosts();
     this.searchByTagMethod();
     this.searchByTextMethod();
+    this.getSortByCommentsNumber();
+    this.getSortByViewsNumber();
+    this.getSortByDate();
   }
 
   checkAuthenticationStatus() {
@@ -135,14 +138,41 @@ export class ListPostsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // onDeletePost(id) {
-  //   this.postsService.delete(id).subscribe(response => {
-  //     if (response) {
-  //       this.toastr.success('Post deleted successfully', '');
-  //       this.getAllPosts();
-  //     }
-  //   });
-  // }
+  getSortByCommentsNumber() {
+
+    this.subscription = this.sfService.getPostUpdateListener().subscribe(response => {
+      console.log('response *** ', response);
+      if (response) {
+        this.totalPosts = response.postCount;
+        this.posts = response.posts;
+        this.paginator.pageIndex = 0;
+      }
+    });
+  }
+
+  getSortByViewsNumber() {
+
+    this.subscription = this.sfService.getPostUpdateListener().subscribe(response => {
+      console.log('response *** ', response);
+      if (response) {
+        this.totalPosts = response.postCount;
+        this.posts = response.posts;
+        this.paginator.pageIndex = 0;
+      }
+    });
+  }
+
+  getSortByDate() {
+
+    this.subscription = this.sfService.getPostUpdateListener().subscribe(response => {
+      console.log('response *** ', response);
+      if (response) {
+        this.totalPosts = response.postCount;
+        this.posts = response.posts;
+        this.paginator.pageIndex = 0;
+      }
+    });
+  }
 
   onChangedPage(pageData: PageEvent) {
     this.currentPage = pageData.pageIndex + 1;

@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Router} from "@angular/router";
 import {environment} from "@env/environment";
+import {tap} from 'rxjs/internal/operators';
 
 const BACKEND_URL = environment.apiUrl + '/posts';
 
@@ -53,8 +54,6 @@ export class PostService {
           posts: [...this.posts],
           postCount: transformedPostData.maxPosts
         });
-        // this.posts = transformedPostData.posts.slice(0);
-        // this.postsSubject.next(transformedPostData.posts);
       });
   }
 

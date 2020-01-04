@@ -10,7 +10,7 @@ import {SearchFilterService} from "@app/+shared/_services/search-filter.service"
 })
 export class MainFilterComponent implements OnInit, OnDestroy {
   dateSort = 1;
-  likeSort = 1;
+  viewSort = 1;
   commentSort = 1;
   tagsArray;
   show = 5;
@@ -34,9 +34,9 @@ export class MainFilterComponent implements OnInit, OnDestroy {
     this.sfService.sortByDate(this.dateSort);
   }
 
-  sortPostsByLikes() {
-    this.likeSort = this.likeSort * (-1);
-    this.sfService.sortByLikes(this.likeSort);
+  sortPostsByViews() {
+    this.viewSort = this.viewSort * (-1);
+    this.sfService.sortByViews(this.viewSort);
   }
 
   sortPostsByCommentCount() {
