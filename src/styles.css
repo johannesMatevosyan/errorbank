@@ -274,6 +274,7 @@ mat-list.mat-list-base.list-horizontal .mat-list-item {
   font-size: 13px;
   font-weight: 400;
   padding: 5px;
+  margin-bottom: 5px;
 }
 
 /* style post image  */
