@@ -1,0 +1,31 @@
+<a [routerLink]="'/view/' + post?._id" class="post-box">
+  <div class="user-post">
+    <h5 class="sp mb-7">
+      <span class="date"> Created: {{post?.created?.split(' ')[0]}} </span>
+    </h5>
+    <h3 class="post-title">{{ post?.title }}</h3>
+  </div>
+  <div class="user-post-info">
+    <ul class="user-post-info-list">
+      <li>
+        <h5 class="user-post-stats-title">Votes</h5>
+        <div class="user-post-stats">
+          {{ post?.computedVote }}
+        </div>
+      </li>
+      <li>
+        <h5 class="user-post-stats-title">Commented</h5>
+        <div class="user-post-stats">
+          {{ post?.numOfComments }}
+        </div>
+      </li>
+      <li>
+        <h5 class="user-post-stats-title">Viewed</h5>
+        <div class="user-post-stats">
+          {{ post?.viewed }}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</a>

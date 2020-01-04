@@ -138,7 +138,7 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   onDeletePost(id) {
     this.postsService.delete(id).subscribe(response => {
       if (response) {
-        this.toastr.success('Success!', 'Post deleted successfully ');
+        this.toastr.success('Post deleted successfully', '');
         this.getAllPosts();
       }
     });

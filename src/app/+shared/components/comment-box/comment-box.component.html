@@ -1,6 +1,8 @@
 <ng-container *ngIf="singleComment">
-  <div class="comment-box">
-
+  <div class="comment-box" [id]="singleComment?._id">
+    <span class="remove-comment"
+          (click)="removeComment(singleComment?._id)"><mat-icon>close</mat-icon>
+    </span>
     <div class="comment-text-box">
       <p> {{ singleComment?.text }}</p>
     </div>
@@ -24,9 +26,9 @@
         </div>
       </div>
 
-      <h6 class="comment-box-author">
-        <a [routerLink]="'/user/profile/' + singleComment?.userData.userId">posted by: {{ singleComment?.userData.userName }}</a>
-      </h6>
+      <span class="comment-box-author">
+        posted by: <a [routerLink]="'/user/profile/' + singleComment?.userData.userId">{{ singleComment?.userData.userName }}</a>
+      </span>
     </div>
   </div>
 </ng-container>

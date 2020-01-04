@@ -28,4 +28,11 @@ export class CommentService {
         this.commentsSubject.next(responseData.comment);
       });
   }
+
+
+  deleteComment(id: string) {
+
+    this.http.delete(BACKEND_URL + 'delete/' + id)
+      .subscribe((responseData) => {});
+  }
 }

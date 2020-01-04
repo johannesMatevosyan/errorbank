@@ -8,7 +8,8 @@ import { UserPostsComponent } from '@app/+profile/user-posts/user-posts.componen
 import { UserFavoritePostsComponent } from '@app/+profile/user-favorite-posts/user-favorite-posts.component';
 import { UserProfileComponent } from '@app/+profile/user-profile/user-profile.component';
 import { UserNotificationsComponent } from './user-notifications/user-notifications.component';
-import { ProfileNoteComponent } from './user-notifications/profile-note/profile-note.component';
+import { ProfileNoteComponent } from '@app/+profile/user-notifications/profile-note/profile-note.component';
+import { UserPostComponent } from '@app/+profile/user-posts/user-post/user-post.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ProfileNoteComponent } from './user-notifications/profile-note/profile-
     UserFavoritePostsComponent,
     UserProfileComponent,
     UserNotificationsComponent,
-    ProfileNoteComponent
+    ProfileNoteComponent,
+    UserPostComponent
   ],
   imports: [
     CommonModule,

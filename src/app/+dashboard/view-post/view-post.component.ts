@@ -216,7 +216,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   deletePost(id) {
     this.postService.delete(id).subscribe(response => {
       if (response) {
-        this.toastr.success('Success!', 'Post deleted successfully ');
+        this.toastr.success('Post deleted successfully', '');
         this.router.navigate(['/posts']);
       }
     });

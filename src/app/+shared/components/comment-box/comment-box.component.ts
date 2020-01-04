@@ -8,6 +8,7 @@ import {CheckVote} from "@utils/check-vote";
 import {PostService} from "@app/+dashboard/_services/post.service";
 import {AlertComponent} from "@app/+shared/components/alert/alert.component";
 import {MatDialog} from "@angular/material";
+import {CommentService} from '@services/comment.service';
 
 @Component({
   selector: 'app-comment-box',
@@ -23,6 +24,7 @@ export class CommentBoxComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private postService: PostService,
               private postInfoService: PostInfoService,
+              private commentService: CommentService,
               public dialog: MatDialog,
               public authService: AuthService) { }
 
@@ -101,5 +103,9 @@ export class CommentBoxComponent implements OnInit {
       }
     });
 
+  }
+
+  removeComment(id: string) {
+    this.commentService.deleteComment(id);
   }
 }

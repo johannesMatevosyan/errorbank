@@ -177,7 +177,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       this.postService.updatePostById(postId, this.editPostForm.value);
       this.subscription = this.postService.isUpdated.subscribe((submission) => {
         if (submission) {
-          this.toastr.success('Success!', 'Post updated successfully ');
+          this.toastr.success('Post updated successfully', '');
           this.router.navigate(['/posts']);
         }
       });

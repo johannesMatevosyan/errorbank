@@ -11,7 +11,7 @@
       <a class="user-info-name"
          [routerLink]="'/user/profile/' + user?._id">{{ user?.name ? user?.name : user?.login }}</a>
       <h4 class="user-info-sub-text">{{user?.location ? user?.location : 'N/A'}}</h4>
-      <h4 class="user-info-sub-text">{{user?.bio ? user?.bio : 'N/A'}}</h4>
+      <h4 class="user-info-sub-text">{{user?.bio ? ((user?.bio.length > 15) ? (user?.bio | slice:0:15)+'...' : (user?.bio) ) : 'N/A'}}</h4>
     </div>
 
   </mat-card>

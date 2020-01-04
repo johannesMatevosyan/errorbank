@@ -4,11 +4,11 @@
   </div>
 </ng-container>
 <ng-container *ngIf="notificationsArr.length">
-  <mat-card>
+
     <ul>
       <li *ngFor="let singeNote of notificationsArr">
         <app-profile-note [note]="singeNote"></app-profile-note>
       </li>
     </ul>
-  </mat-card>
+
 </ng-container>

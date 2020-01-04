@@ -31,37 +31,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   options = new EditorSettings();
   editorConfig: AngularEditorConfig;
 
-  // editorConfig: AngularEditorConfig = {
-  //   editable: true,
-  //   spellcheck: true,
-  //   height: '600',
-  //   minHeight: '600',
-  //   maxHeight: 'auto',
-  //   width: 'auto',
-  //   minWidth: '0',
-  //   translate: 'yes',
-  //   enableToolbar: true,
-  //   showToolbar: true,
-  //   placeholder: 'Enter text here... ',
-  //   defaultParagraphSeparator: '',
-  //   defaultFontName: '',
-  //   defaultFontSize: '',
-  //   fonts: [
-  //     {class: 'Roboto', name: 'Roboto'},
-  //     {class: 'arial', name: 'Arial'},
-  //     {class: 'times-new-roman', name: 'Times New Roman'},
-  //   ],
-  //   customClasses: [],
-  //   uploadUrl: 'v1/image',
-  //   sanitize: true,
-  //   toolbarPosition: 'top',
-  //   toolbarHiddenButtons: [
-  //     ['bold', 'italic'],
-  //     ['fontSize'],
-  //     ['insertImage', 'insertVideo']
-  //   ]
-  // };
-
   constructor(private fb: FormBuilder, private postService: PostService,
       private router: Router, private toastr: ToastrService, public dialog: MatDialog) { }
 
@@ -164,7 +133,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       this.postService.create(this.createPostForm.value);
       this.subscription = this.postService.isSubmitted.subscribe((submission) => {
         if (submission) {
-          this.toastr.success('Success!', 'Post created successfully');
+          this.toastr.success('Post created successfully!', '');
           this.router.navigate(['/posts']);
         }
       });
@@ -173,7 +142,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.subscription){ // this if will detect undefined issue of timersub
+    if (this.subscription) { // this if will detect undefined issue of timersub
       this.subscription.unsubscribe();
     }
   }
