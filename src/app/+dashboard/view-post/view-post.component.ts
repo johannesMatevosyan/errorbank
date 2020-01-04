@@ -222,6 +222,11 @@ export class ViewPostComponent implements OnInit, OnDestroy {
     });
   }
 
+  removeComment(comm) {
+    console.log('comm', comm);
+    // const index = this.commentsArray.findIndex(comment => comm._id === );
+  }
+
   ngOnDestroy() {
     if (this.subscription) { // this if will detect undefined issue of timersub
       this.subscription.unsubscribe();

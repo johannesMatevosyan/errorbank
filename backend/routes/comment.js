@@ -4,6 +4,8 @@ const router = express.Router();
 
 router.post('/create', commentController.createComment);
 
+router.delete('/delete/:id', commentController.deleteComment);
+
 router.get('/get/:id', commentController.getCommentsByPostID);
 
 module.exports = router;

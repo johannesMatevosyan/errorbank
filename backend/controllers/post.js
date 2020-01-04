@@ -246,6 +246,7 @@ exports.voteForPost = (req, res, next) => {
         vote.votes.push(voteObj);
       }
       model = voteObj.relatedTo === 'post' && Post || Comment;
+
       return Promise.all([
         vote.save(),
         model.update(

@@ -65,6 +65,7 @@
 <section class="comment-box-list">
   <ng-container *ngFor="let comment of commentsArray;">
     <app-comment-box
+      (onRemoveComment)="removeComment($event)"
       [singleComment]="comment">
     </app-comment-box>
   </ng-container>

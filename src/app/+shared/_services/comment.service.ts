@@ -31,8 +31,6 @@ export class CommentService {
 
 
   deleteComment(id: string) {
-
-    this.http.delete(BACKEND_URL + 'delete/' + id)
-      .subscribe((responseData) => {});
+    return this.http.delete(BACKEND_URL + 'delete/' + id);
   }
 }

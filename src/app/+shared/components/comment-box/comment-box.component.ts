@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 import {CurrentDate} from "@utils/current-date";
 import {PostInfoService} from "@app/+dashboard/_services/post-info.service";
 import {ActivatedRoute} from "@angular/router";
@@ -16,6 +16,7 @@ import {CommentService} from '@services/comment.service';
   styleUrls: ['./comment-box.component.css']
 })
 export class CommentBoxComponent implements OnInit {
+  @Output() onRemoveComment: EventEmitter<number>;
   @Input() singleComment;
   subscription: Subscription;
   userIntegrity;
@@ -106,6 +107,10 @@ export class CommentBoxComponent implements OnInit {
   }
 
   removeComment(id: string) {
-    this.commentService.deleteComment(id);
+    this.commentService
+      .deleteComment(id)
+      .subscribe(() => {
+        this.onRemoveComment.emit(id);
+      });
   }
 }

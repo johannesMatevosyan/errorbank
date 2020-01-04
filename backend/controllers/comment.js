@@ -57,6 +57,20 @@ exports.createComment = (req, res, next) => {
     });
 };
 
+exports.deleteComment = (req, res, next) => {
+  const commentId = req.params.id;
+  Comment
+    .deleteOne({ _id: commentId })
+    .then(() => {
+      res.end();
+    })
+    .catch(err => {
+      return res.status(404).json({
+        message: 'Cannot add Comment : ' + err
+      });
+    })
+}
+
 exports.getCommentsByPostID = (req, res, next) => {
   const postQuery = Comment.find({ postId: req.params.id });
   let transformedComment;

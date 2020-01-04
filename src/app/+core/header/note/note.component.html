@@ -1,6 +1,6 @@
 <a class="note-link" [routerLink]="'/view/' + note?.postId" [ngClass]="!note?.checked ? 'not-checked' : ''">
   <span class="note-date">{{note?.date}}</span>
-  <span class="note-type text-left blue-color">{{note?.type}}</span>
+  <span class="note-type text-left blue-color">New comment in post:</span>
   <h5 class="overflow-ellipsis accent-color text-left">{{note?.postTitle}}</h5>
   <span class="d-block overflow-ellipsis text-left">{{note?.content}}</span>
 </a>
