@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationModel } from '@models/notification.model';
 import { NotificationService } from '../_services/notification.service' ;
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-notifications',
@@ -20,6 +20,7 @@ export class UserNotificationsComponent implements OnInit {
     this.notificationService
         .getNotifications()
         .pipe(
+          tap(res => console.log(res)),
           map((res: { notifications: NotificationModel[] }) => res.notifications.map(notification => ({
             userId: notification.userId,
             postId: notification.postId['_id'],
@@ -28,7 +29,8 @@ export class UserNotificationsComponent implements OnInit {
             commentId: notification.commentId['text'],
             type: 'comment',
             checked: notification['read'],
-          })))
+          }))),
+          tap(res => console.log(res)),
         )
         .subscribe((res: NotificationModel[]) => {
           this.notificationsArr = res;
