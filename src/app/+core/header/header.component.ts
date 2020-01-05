@@ -101,6 +101,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('this.searchForm.value ', this.searchForm.value);
     this.sfService.searchByText(this.searchForm.value);
   }
 

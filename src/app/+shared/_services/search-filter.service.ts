@@ -40,13 +40,39 @@ export class SearchFilterService {
 
   constructor(private http: HttpClient) { }
 
-  searchByText(text: {searchItem : string}) {
+  searchByText(text: {searchItem: string}) {
     let searchText = text.searchItem;
     this.query.text.word = searchText;
     this.http.post(BACKEND_URL, this.query)
+      .pipe(
+        map(postData => {
+          return {
+            posts: postData['posts'].map(post => {
+              return {
+                id: post._id,
+                title: post.title,
+                content: post.content,
+                imagePath: post.imagePath,
+                created: post.created,
+                updated: post.updated,
+                tags: post.tags,
+                author: post.author,
+                viewed: post.viewed,
+                voted: post.voteObj,
+                commented: post.numOfComments,
+              };
+            }),
+            maxPosts: postData['maxPosts']
+          };
+        })
+      )
       .subscribe((searchResponse: any) => {
+        this.posts = searchResponse.posts;
         this.textSource.next(searchText);
-        this.searchByTextResponse.next(searchResponse);
+        this.postsUpdated.next({
+          posts: [...this.posts],
+          postCount: searchResponse.maxPosts
+        });
       });
 
   }

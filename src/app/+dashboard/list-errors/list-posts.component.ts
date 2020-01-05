@@ -144,7 +144,9 @@ export class ListPostsComponent implements OnInit, OnDestroy {
       if (response) {
         this.totalPosts = response.postCount;
         this.posts = response.posts;
-        this.paginator.pageIndex = 0;
+        if (this.paginator) {
+          this.paginator.pageIndex = 0;
+        }
       }
     });
   }
@@ -155,7 +157,9 @@ export class ListPostsComponent implements OnInit, OnDestroy {
       if (response) {
         this.totalPosts = response.postCount;
         this.posts = response.posts;
-        this.paginator.pageIndex = 0;
+        if (this.paginator) {
+          this.paginator.pageIndex = 0;
+        }
       }
     });
   }
@@ -166,7 +170,9 @@ export class ListPostsComponent implements OnInit, OnDestroy {
       if (response) {
         this.totalPosts = response.postCount;
         this.posts = response.posts;
-        this.paginator.pageIndex = 0;
+        if (this.paginator) {
+          this.paginator.pageIndex = 0;
+        }
       }
     });
   }
