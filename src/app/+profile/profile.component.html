@@ -13,17 +13,17 @@
       [ngClass]="{'active-tab': selectedItem == 'posts'}"
       (click)="onSetActiveClass('posts')">Posts</a>
   </li>
-  <li *ngIf="userIntegrity.userId === profile?._id">
+  <li *ngIf="userIntegrity.userId === profileId">
     <a
       class="mat-primary"
-      [routerLink]="'/user/favourites/' + profile?._id"
+      [routerLink]="'/user/favourites/' + profileId"
       [ngClass]="{'active-tab': selectedItem == 'favourites'}"
       (click)="onSetActiveClass('favourites')">Favourites</a>
   </li>
-  <li *ngIf="userIntegrity.userId === profile?._id">
+  <li *ngIf="userIntegrity.userId === profileId">
     <a
       class="mat-primary"
-      [routerLink]="'/user/notifications/' + profile?._id"
+      [routerLink]="'/user/notifications/' + profileId"
       [ngClass]="{'active-tab': selectedItem == 'notifications'}"
       (click)="onSetActiveClass('notifications')">Notifications</a>
   </li>
