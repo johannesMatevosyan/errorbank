@@ -21,10 +21,10 @@ export class UsersService {
       });
   }
 
-  getAllUsers() {
-    this.http.get(BACKEND_URL + 'list-info')
-      .subscribe(response => {
-      });
-  }
+  // getAllUsers() {
+  //   this.http.get(BACKEND_URL + 'list-info')
+  //     .subscribe(response => {
+  //     });
+  // }
 
 }

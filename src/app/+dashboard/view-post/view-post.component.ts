@@ -21,7 +21,6 @@ import {take} from 'rxjs/operators';
   styleUrls: ['./view-post.component.css']
 })
 export class ViewPostComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
   userIntegrity = null;
   isUserVoted;
   voteInfo;
@@ -37,6 +36,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   };
   votesDiff;
   userIsAuthenticated = false;
+  subscription: Subscription;
   authStatusSub: Subscription;
   subscribeUser: Subscription;
   constructor(private postService: PostService,
@@ -129,7 +129,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   getUserId() {
-    this.subscription = this.authService.userIdentitySubject.subscribe(userData => {
+    this.subscription = this.authService.userIdentitySubject && this.authService.userIdentitySubject.subscribe(userData => {
       if (userData) {
         this.userIntegrity = userData;
       }
@@ -142,7 +142,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
       const dialogRef = this.dialog.open(AlertComponent, {
         width: '300px',
         data: {
-          message: 'Please login to vote',
+          message: 'Please login to vote.',
           type: 'notAuthorized'
         }
       });
@@ -180,7 +180,10 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   }
 
   getFavoritePosts() {
-    this.profileService.getUserInfoById(this.userIntegrity.userId);
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    if (this.userIsAuthenticated) {
+      this.profileService.getUserInfoById(this.userIntegrity.userId);
+    }
     this.subscribeUser = this.profileService.usersFavoritePostIds.subscribe(posts => {
       if (posts) {
         this.favPostsIdArray = posts.slice(0);
@@ -243,6 +246,8 @@ export class ViewPostComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) { // this if will detect undefined issue of timersub
       this.subscription.unsubscribe();
+      this.authStatusSub.unsubscribe();
+      this.subscribeUser.unsubscribe();
     }
   }
 }

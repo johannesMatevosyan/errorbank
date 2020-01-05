@@ -7,6 +7,7 @@ export interface PostModel {
   created: string;
   updated?: string;
   viewed?: string;
+  users?: { login: string};
   numOfComments?: string;
   tags?: Array<any>;
   author?: { _id: string, name: string};

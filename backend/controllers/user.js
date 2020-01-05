@@ -1,7 +1,7 @@
 const request = require('superagent');
 const jwt = require('jsonwebtoken');
 const UserInfo = require('../models/user-info');
-const User = require('../models/user');
+// const User = require('../models/_user');
 const Post = require('../models/post');
 const mongoose = require('mongoose')
 const transformPost = require('../utils/transform-post');
@@ -144,62 +144,6 @@ exports.getUserInfoById = (req, res, next) => {
   }
 };
 
-exports.saveUser = (req, res, next) => {
-  const query = { githubId: req.body.githubId };
-  let fetchedUser;
-  const user = {
-    githubId: req.body.githubId,
-    name: req.body.name,
-    login: req.body.login,
-  };
-  User.findOneAndUpdate(query, user, { upsert: true, new: true }, (err, user) => {
-    if (err){
-      return res.status(401).json({
-        message: 'Cannot save user: ' + err,
-      });
-    }else{
-      res.status(201).json({
-        message: 'User saved successfully',
-        user: user
-      });
-      fetchedUser = user;
-    }
-  });
-};
-
-exports.getAllUsers = (req, res, next) => {
-  User.find().then(documents => {
-    res.status(200).json({ // retrieve all posts from db
-      message: 'Users fetched successfully!',
-      users: documents
-    });
-  });
-};
-
-exports.getUserById = (req, res, next) => {
-  const userId = req.params.id;
-  if (userId !== 'undefined' && userId !== null) {
-    User.findOne({ _id: userId }).then(singleUser => {
-      if (!singleUser){
-        return res.status(401).json({
-          message: `Cannot find user by id: ${userId}`,
-        });
-      } else {
-        res.status(200).json({
-          message: `User with id:::${userId} fetched successfully! `,
-          user: singleUser
-        });
-      }
-    })
-    .catch(err => {
-      return res.status(401).json({
-        message: `Cannot find user with id: ${userId} - error:  ${err}`
-      });
-    });
-  }
-};
-
-
 /*** Get posts by User Id ***/
 
 exports.getPostsByAuthorId = (req, res, next) => {
@@ -253,8 +197,8 @@ exports.setFavoritePosts = (req, res, next) => {
   let push = { $push: { favourites: [postId] } };
   let pullQuery = UserInfo.updateOne({ _id: userId }, pull );
   let pushQuery = UserInfo.updateOne({ _id: userId }, push );
-  let user = UserInfo.exists({ _id: userId });
   let usersPost = UserInfo.findOne({ favourites: postId });
+  let user = UserInfo.exists({ _id: userId });
 
   user.then(isUserFound => {
 

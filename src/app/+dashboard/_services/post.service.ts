@@ -38,7 +38,7 @@ export class PostService {
                 created: post.created,
                 updated: post.updated,
                 tags: post.tags,
-                author: post.author,
+                author: post.users,
                 viewed: post.viewed,
                 voted: post.voteObj,
                 commented: post.numOfComments,

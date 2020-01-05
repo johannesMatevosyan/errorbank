@@ -131,7 +131,7 @@ exports.getAllPosts = (req, res, next) => {
 
 exports.getPostById = (req, res, next) => {
   const postQuery = Post.findOne({ _id: req.params.id })
-    .populate('authorId', 'name')
+    .populate('authorId', 'login')
     .populate('voteId', 'votes')
     .populate('tags', 'label');
 

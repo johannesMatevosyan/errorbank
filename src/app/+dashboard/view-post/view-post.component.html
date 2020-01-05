@@ -4,7 +4,7 @@
     <span class="date"> Date {{post?.created.split(' ')[0]}} </span>
 
     <div class="post-aux">
-      <span class="author">Author: <a [routerLink]="'/user/profile/' + post?.author._id">{{ post?.author.name || userIntegrity?.userName }}</a></span>
+      <span class="author">Author: <a [routerLink]="'/user/profile/' + post?.author._id">{{ post?.author.login }}</a></span>
       <div class="favourite" title="Subscribe to receive a notification when someone leaves a comment">
         <mat-icon *ngIf="favType" color="accent" (click)="favoritePost(post?._id, userIntegrity?.userId)">notification_important</mat-icon>
         <mat-icon *ngIf="!favType" (click)="favoritePost(post?._id, userIntegrity?.userId)">notification_important</mat-icon>

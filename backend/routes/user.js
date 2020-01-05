@@ -18,12 +18,6 @@ router.get('/list-info', userController.getAllUsersInfo);
 
 router.get('/info/:id', userController.getUserInfoById);
 
-router.post('/save-user', userController.saveUser);
-
-router.get('/list', userController.getAllUsers);
-
-router.get('/profile/:id', userController.getUserById);
-
 router.post('/posts/favourites/:id', userController.setFavoritePosts);
 
 router.get('/posts/favourites/:id', userController.getFavoritePosts);

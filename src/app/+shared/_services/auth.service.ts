@@ -1,11 +1,11 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Router } from "@angular/router";
-import { UserModel } from "@models/user.model";
-import { environment } from "@env/environment";
-import {CurrentDate} from "@utils/current-date";
-import {isPlatformBrowser, isPlatformServer} from "@angular/common";
+import { Router } from '@angular/router';
+import { UserModel } from '@models/user.model';
+import { environment } from '@env/environment';
+import {CurrentDate} from '@utils/current-date';
+import {isPlatformBrowser, isPlatformServer} from '@angular/common';
 
 const BACKEND_URL = environment.apiUrl;
 
@@ -86,11 +86,11 @@ export class AuthService {
             'login': user['login'],
           };
           this.saveUserInfo(userInfo);
-          this.saveUser(githubUser);
+          // this.saveUser(githubUser);
           this.getJwtToken(user['id'], user['login']);
           this.router.navigate(['posts']);
         } else {
-          console.error("Undefined user..");
+          console.error('Undefined user..');
         }
       });
   }
@@ -106,12 +106,12 @@ export class AuthService {
           if (isPlatformBrowser(this.platformId)) {
             // localStorage will be available: we can use it.
             console.log('Browser side');
-            localStorage.setItem("token", response['token']);
-            localStorage.setItem("_id", response['userData']['_id']);
-            localStorage.setItem("githubId", response['userData']['githubId']);
-            localStorage.setItem("name", response['userData']['name']);
-            localStorage.setItem("login", response['userData']['login']);
-            localStorage.setItem("date", response['userData']['date']);
+            localStorage.setItem('token', response['token']);
+            localStorage.setItem('_id', response['userData']['_id']);
+            localStorage.setItem('githubId', response['userData']['githubId']);
+            localStorage.setItem('name', response['userData']['name']);
+            localStorage.setItem('login', response['userData']['login']);
+            localStorage.setItem('date', response['userData']['date']);
           }
           if (isPlatformServer(this.platformId)) {
             // localStorage will be null.
@@ -140,6 +140,7 @@ export class AuthService {
       });
   }
 
+  /*
   saveUser(user) {
     this.http.post<{user: UserModel}>(BACKEND_URL + '/user/save-user', user)
       .subscribe(response => {
@@ -154,6 +155,7 @@ export class AuthService {
 
       });
   }
+  */
 
   autoAuthUser() {
     const authInformation = this.getAuthData();
@@ -179,10 +181,10 @@ export class AuthService {
 
     if (isPlatformBrowser(this.platformId)) {
       // localStorage will be available: we can use it.
-      tokenVal = localStorage.getItem("token");
-      expirationDate = localStorage.getItem("expiration");
-      id = localStorage.getItem("_id");
-      name = localStorage.getItem("login");
+      tokenVal = localStorage.getItem('token');
+      expirationDate = localStorage.getItem('expiration');
+      id = localStorage.getItem('_id');
+      name = localStorage.getItem('login');
       userData = {
         userId : id,
         userName : name,
