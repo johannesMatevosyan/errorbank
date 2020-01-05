@@ -115,7 +115,6 @@ export class SearchFilterService {
         })
       )
       .subscribe((sortResult) => {
-        console.log(' ***** sortByDate ***** ', sortResult);
         this.posts = sortResult.posts;
         this.postsUpdated.next({
           posts: [...this.posts],
@@ -152,7 +151,6 @@ export class SearchFilterService {
         })
       )
       .subscribe((sortResult) => {
-        console.log(' ***** sortByViews ***** ', sortResult);
         this.posts = sortResult.posts;
         this.postsUpdated.next({
           posts: [...this.posts],
@@ -189,7 +187,6 @@ export class SearchFilterService {
         })
       )
       .subscribe((sortResult) => {
-        console.log(' ***** sortByComments ***** ', sortResult);
         this.posts = sortResult.posts;
         this.postsUpdated.next({
           posts: [...this.posts],

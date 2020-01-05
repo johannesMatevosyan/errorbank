@@ -2,8 +2,6 @@ const Post = require('../models/post');
 const Tag = require('../models/tag');
 const Vote = require('../models/vote');
 const Comment = require('../models/comment');
-const tranformPost = require('../utils/transform-post');
-const mergeCommentNumber = require('../utils/merge-comment-number');
 
 exports.createPost = (req, res, next) => {
   const parseTagsArray = JSON.parse(req.body.tagsArray);

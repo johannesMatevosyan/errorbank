@@ -40,7 +40,6 @@ export class NotificationService {
   }
 
   markRead(note) {
-    console.log('note', note)
     return this.http
       .get(BACKEND_URL + `notifications/read/${note.id}`)
       .subscribe(() => {

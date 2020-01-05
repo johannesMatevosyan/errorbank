@@ -141,7 +141,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   getSortByCommentsNumber() {
 
     this.subscription = this.sfService.getPostUpdateListener().subscribe(response => {
-      console.log('response *** ', response);
       if (response) {
         this.totalPosts = response.postCount;
         this.posts = response.posts;
@@ -153,7 +152,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   getSortByViewsNumber() {
 
     this.subscription = this.sfService.getPostUpdateListener().subscribe(response => {
-      console.log('response *** ', response);
       if (response) {
         this.totalPosts = response.postCount;
         this.posts = response.posts;
@@ -165,7 +163,6 @@ export class ListPostsComponent implements OnInit, OnDestroy {
   getSortByDate() {
 
     this.subscription = this.sfService.getPostUpdateListener().subscribe(response => {
-      console.log('response *** ', response);
       if (response) {
         this.totalPosts = response.postCount;
         this.posts = response.posts;
