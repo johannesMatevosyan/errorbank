@@ -30,27 +30,19 @@ export class ProfileComponent implements OnInit {
     this.checkActiveRoute();
     this.getUserId();
     this.getProfileId();
-    this.activatedRoute.params.subscribe(paramsId => {
 
-      if (isPlatformBrowser(this.platformId)) {
-        // localStorage will be available: we can use it.
-        // this.userIdentity = paramsId['id'] !== undefined ? paramsId['id'] : '';
-        // console.log('this.userIdentity ', this.userIdentity);
-        // let url = this.router.url;
-        // this.profileId = url.substring(url.lastIndexOf('/') + 1);
-        //
-        // if (this.userIdentity) {
-        //   this.profileService.getUserInfoById(this.userIdentity);
-        // }
+    if (isPlatformBrowser(this.platformId)) {
 
-        this.subscribeUser = this.profileService.userStorage.subscribe(user => {
-          if (user) {
-            this.profile = user;
-          }
-        });
-      }
+      let url = this.router.url;
+      this.profileId = url.substring(url.lastIndexOf('/') + 1);
 
-    });
+      this.subscribeUser = this.profileService.userStorage.subscribe(user => {
+        if (user) {
+          this.profile = user;
+        }
+      });
+    }
+
   }
 
   getUserId() {

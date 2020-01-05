@@ -2,14 +2,14 @@
   <li>
     <a
       class="mat-primary"
-      [routerLink]="'/user/profile/' + profile?._id"
+      [routerLink]="'/user/profile/' + profileId"
       [ngClass]="{'active-tab': selectedItem == 'profile'}"
       (click)="onSetActiveClass('profile')">Profile </a>
   </li>
   <li>
     <a
       class="mat-primary"
-      [routerLink]="'/user/posts/' + profile?._id"
+      [routerLink]="'/user/posts/' + profileId"
       [ngClass]="{'active-tab': selectedItem == 'posts'}"
       (click)="onSetActiveClass('posts')">Posts</a>
   </li>
