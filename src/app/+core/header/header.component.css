@@ -6,10 +6,40 @@
   width: 40%;
 }
 .user-details {
+  position: relative;
   width: 35%;
   text-align: right;
 }
-
+.responsive-menu-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 5px;
+  width: 180px;
+  background-color: #fff;
+  z-index: 99;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+.responsive-menu-dropdown ul {
+  display: block;
+  width: 100%;
+}
+.responsive-menu-dropdown ul li {
+  display: block;
+}
+.responsive-menu-dropdown ul li:hover {
+  background-color: #dddddd;
+}
+.responsive-menu-dropdown ul li a {
+  display: block;
+  text-align: center;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 .logo .logo-link {
   color: #ffffff;
@@ -27,7 +57,6 @@
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
-  margin-right: 12px;
 }
 .profile-info-main-link {
   display: inline-flex;
@@ -38,6 +67,11 @@
 }
 .profile-info-main-link:hover {
   background: #363636;
+}
+.logout-desktop{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .sandwich-box {
   display: inline-flex;
@@ -57,10 +91,12 @@
 }
 .notifications-box{
   position: relative;
+  display: inline-block;
+  vertical-align: middle;
   width: 25px;
   height: 25px;
   margin-left: 7px;
-  margin-right: 5px;
+  margin-right: 22px;
 }
 .notifications-bell {
   cursor: pointer;
@@ -82,8 +118,8 @@
 }
 .notifications-window {
   position: absolute;
-  top: 22px;
-  right: -5px;
+  top: 28px;
+  right: -20px;
   background: #ffffff;
   width: 310px;
   max-height: 400px;
@@ -95,6 +131,9 @@
 }
 .notifications-window ul li {
   display: block;
+}
+.no-notifications{
+  font-size: 16px;
 }
 
 .profile-name-link {
@@ -116,9 +155,47 @@
   width: 100%;
 }
 
+.nav-box {
+  display: none;
+  height: 26px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.responsive-menu {
+  display: inline-block;
+  vertical-align: middle;
+  height: 26px;
+  cursor: pointer;
+}
+.responsive-menu mat-icon {
+  transform: scale(1.2);
+}
+
+.responsive-menu:hover {
+  color: #bbbbbb;
+}
+
+
+
 @media screen and (max-width: 992px) {
+  .logo {
+    padding-left: 0px;
+  }
   .profile-info {
     display: none;
+  }
+  .search-block {
+    width: 50%;
+  }
+  .user-details {
+    width: 25%;
+  }
+  .logout-desktop{
+    display: none;
+  }
+  .nav-box {
+    display: inline-block;
+    margin-right: 0px;
   }
 
 }

@@ -41,39 +41,57 @@
             </div>
 
           </a>
-          <div
-            class="notifications-box"
-            (clickOutside)="hideDropdown()"
-            appClickOutside>
 
-            <div class="notifications-bell" (click)="toggleNotifications()">
-              <span class="unread-notifications" *ngIf="unreadNotifications !== 0">{{ unreadNotifications }}</span>
-              <mat-icon *ngIf="notificationsArr.length" title="notifications">notifications</mat-icon>
-              <mat-icon *ngIf="!notificationsArr.length" title="notifications">notifications_none</mat-icon>
-            </div>
+        </div><!--.profile-info-->
 
-            <div
-              class="notifications-window"
-              *ngIf="isOpen">
-              <ng-container *ngIf="!notificationsArr.length">
-                <h2 class="accent-color text-center">No notifications</h2>
-              </ng-container>
-              <ng-container *ngIf="notificationsArr.length">
-                <ul>
-                  <li *ngFor="let singeNote of notificationsArr">
-                    <app-note [note]="singeNote"></app-note>
-                  </li>
-                </ul>
-              </ng-container>
+        <div class="notifications-box"
+          (clickOutside)="hideDropdown()"
+          appClickOutside>
 
-            </div>
+          <div class="notifications-bell" (click)="toggleNotifications()">
+            <span class="unread-notifications" *ngIf="unreadNotifications !== 0">{{ unreadNotifications }}</span>
+            <mat-icon *ngIf="notificationsArr.length" title="notifications">notifications</mat-icon>
+            <mat-icon *ngIf="!notificationsArr.length" title="notifications">notifications_none</mat-icon>
+          </div>
+
+          <div class="notifications-window"
+               *ngIf="isOpen">
+            <ng-container *ngIf="!notificationsArr.length">
+              <h4 class="accent-color text-center no-notifications">No notifications</h4>
+            </ng-container>
+            <ng-container *ngIf="notificationsArr.length">
+              <ul>
+                <li *ngFor="let singeNote of notificationsArr">
+                  <app-note [note]="singeNote"></app-note>
+                </li>
+              </ul>
+            </ng-container>
+
+          </div><!--.notifications-window-->
+        </div><!--.notifications-box-->
+
+        <div class="nav-box"
+             (clickOutside)="hideNavigation()"
+             appClickOutside>
+          <div class="responsive-menu" (click)="toggleDropdown()">
+            <mat-icon>menu</mat-icon>
+          </div>
+          <div class="responsive-menu-dropdown" *ngIf="isDropdownOpen">
+            <ul>
+              <li><a [routerLink]="'/user/profile/' + profile?._id">Profile</a></li>
+              <li><a (click)="onLogout()">Log out</a></li>
+            </ul>
           </div>
         </div>
+
         <a
            mat-raised-button
            (click)="onLogout()"
-           color="accent" title="Log Out"><mat-icon>power_off</mat-icon></a>
+           color="accent"
+           class="logout-desktop"
+           title="Log Out"><mat-icon>power_off</mat-icon></a>
       </ng-container>
+
 
     </div>
   </mat-toolbar>

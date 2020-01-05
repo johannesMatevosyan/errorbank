@@ -1,5 +1,6 @@
 
 footer {
+  position: relative;
   height: 50px;
   background-color: #ddd;
   border-top: 1px solid #bbb;
@@ -10,6 +11,8 @@ footer {
   display: flex;
   padding: 15px;
   justify-content: center;
+  width: 300px;
+  margin: auto;
 }
 .footer-nav li a {
   padding: 7px 15px;
@@ -22,16 +25,37 @@ footer {
   color: #c62828;
 }
 
+.github-link {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  color: #333333;
+  font-size: 13px;
+}
+.github-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
 @media screen and (max-width: 768px) {
 
   footer{
     height: auto;
+    padding-bottom: 30px;
   }
   .footer-nav {
     display: block;
+    padding: 15px 15px 5px 15px;
   }
   .footer-nav li {
     display: block;
     margin-bottom: 7px;
+  }
+  .github-link {
+    position: relative;
+    top: inherit;
+    right: inherit;
+    margin: 0 auto;
+    text-align: center;
   }
 }

@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
   notificationsArr: NotificationModel[] = [];
   unreadNotifications = 0;
   isOpen = false;
+  isDropdownOpen = false;
   constructor(private authService: AuthService,
               private router: Router,
               private fb: FormBuilder,
@@ -119,6 +120,14 @@ export class HeaderComponent implements OnInit {
     if (this.isOpen) {
       this.getNotifications();
     }
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  hideNavigation() {
+    this.isDropdownOpen = false;
   }
 
   onLogout() {

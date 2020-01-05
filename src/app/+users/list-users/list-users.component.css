@@ -46,3 +46,21 @@
 .user-info-sub-text {
   font-size: 10px;
 }
+
+
+@media screen and (max-width: 768px) {
+  .user-info-list[_ngcontent-serverApp-c15] {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+  }
+  .user-info-box{
+    width: 48%;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .user-info-list .user-info-box:first-child,
+  .user-info-list .user-info-box:nth-child(0) {
+    margin-left: 0;
+  }
+}
