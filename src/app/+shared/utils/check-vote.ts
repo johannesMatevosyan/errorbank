@@ -5,7 +5,6 @@ export class CheckVote {
     isUserVoted : ''
   };
   getCheckedVote(votesArray, userStatus) {
-
     this.voteInfo.isUserVoted = votesArray.some((item) => {
       let checkVote;
       if (item.userId === userStatus.userId) {

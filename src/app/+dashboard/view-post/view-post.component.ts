@@ -89,7 +89,7 @@ export class ViewPostComponent implements OnInit, OnDestroy {
 
     if (votesArr) {
       let cv = new CheckVote();
-      this.voteInfo = cv.getCheckedVote(votesArr.votes, this.userIntegrity.userId);
+      this.voteInfo = cv.getCheckedVote(votesArr.votes, this.userIntegrity);
     }
   }
 

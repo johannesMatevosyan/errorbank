@@ -26,12 +26,11 @@
   </div>
 
   <div class="post-options-box">
-
     <div class="post-vote-box">
       <div class="post-vote" (click)="vote('up', userIntegrity, 'post')">
         <mat-icon
           class="vote-arrow"
-          [ngClass]="userIntegrity !== null &&
+          [ngClass]="userIntegrity &&
             voteInfo?.isUserVoted &&
             voteInfo?.type === 'up' ? 'is-voted' : ''">thumb_up</mat-icon>
       </div>
@@ -39,7 +38,7 @@
       <div class="post-vote" (click)="vote('down', userIntegrity, 'post')">
         <mat-icon
           class="vote-arrow"
-          [ngClass]="userIntegrity !== null &&
+          [ngClass]="userIntegrity &&
             voteInfo?.isUserVoted &&
             voteInfo?.type === 'down' ? 'is-voted' : ''">thumb_down</mat-icon>
       </div>

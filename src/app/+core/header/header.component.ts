@@ -39,16 +39,16 @@ export class HeaderComponent implements OnInit {
     this.authListenerSubs = this.authService.userInfoDataStorage.subscribe(userData =>  {
       if (userData) {
         this.profile = userData;
+
+        if (this.userIsAuthenticated) {
+          this.notificationService.getNotifications();
+        }
       }
 
     });
     this.sfService.searchKey.subscribe(message => {
       this.message = message;
     });
-
-    if (this.userIsAuthenticated) {
-      this.notificationService.getNotifications();
-    }
 
     this.notificationService
       .notificationsList
